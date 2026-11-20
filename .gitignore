@@ -40,5 +40,22 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# claude code
+# agent harness: share the project surface, keep the personal part local
+.claude/*
+!.claude/commands/
+!.claude/skills/
+!.claude/settings.json
+!.claude/hooks/
+!.claude/hooks-local/
+!.claude/README.md
+!.claude/COMMANDS.md
+!.claude/project-profile.md
+.claude/skills/*-local/
+.claude/hooks-local/*
+!.claude/hooks-local/README.md
 .claude/settings.local.json
+.mcp.json
+
+# docs/local — personal space, except its README
+docs/local/*
+!docs/local/README.md

@@ -1,6 +1,31 @@
 {
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
   "enabledPlugins": {
     "mluk-bootstrap@mluk-agent-tools": true,
-    "mluk-repo@mluk-agent-tools": true
+    "mluk-repo@mluk-agent-tools": true,
+    "mluk-fe@mluk-agent-tools": true,
+    "mluk-design@mluk-agent-tools": true,
+    "mluk-deploy@mluk-agent-tools": true,
+    "mluk-ru@mluk-agent-tools": true,
+    "context7@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "mluk-agent-tools": {
+      "source": {
+        "source": "github",
+        "repo": "maximlukyanovich/agent-tools"
+      },
+      "autoUpdate": true
+    },
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    }
   }
 }

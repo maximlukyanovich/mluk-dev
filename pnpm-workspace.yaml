@@ -1,3 +1,7 @@
 allowBuilds:
+  # Prebuilt binaries come from the optional @img/sharp-<platform> packages;
+  # the image optimiser needs no local build.
   sharp: false
+  # Prebuilt binaries come from the optional @unrs/resolver-binding-<platform>
+  # packages (ESLint's import resolver); nothing to build.
   unrs-resolver: false

@@ -1,0 +1,7 @@
+pnpm-lock.yaml
+next-env.d.ts
+
+# Copied from mluk-bootstrap's start template; /mluk-bootstrap:audit compares them with the source
+scripts/agent-plugins.mjs
+scripts/lib/
+.claude/commands/my-start.md

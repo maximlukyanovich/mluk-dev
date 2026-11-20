@@ -1,0 +1,6 @@
+{
+  "enabledPlugins": {
+    "mluk-bootstrap@mluk-agent-tools": true,
+    "mluk-repo@mluk-agent-tools": true
+  }
+}

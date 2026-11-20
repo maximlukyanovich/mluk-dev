@@ -1,0 +1,20 @@
+---
+description: First command in a fresh clone or session — install the Claude Code plugins this repository declares when they are missing, then hand over to /mluk-repo:start.
+argument-hint: '[language]'
+---
+
+<!-- mluk-bootstrap start template v2 — copied by /mluk-bootstrap:setup; /mluk-bootstrap:audit compares the version -->
+
+# Start
+
+The workflow commands come from plugins declared in `.claude/settings.json`, and a plugin that is not installed has no commands — `/mluk-repo:start` cannot install itself. Trusting the folder registers the declared marketplaces but downloads no plugin. This command does that one step and hands over; the overview and the environment checks stay in the library and are never copied here.
+
+1. **Report.** Run `node scripts/agent-plugins.mjs` — read-only; it compares `enabledPlugins` with what Claude Code has installed for this checkout (an install made in the main checkout or any of its worktrees counts in all of them, as Claude Code reads it) and exits 1 when a plugin is missing.
+2. **Nothing missing** → run `/mluk-repo:start $ARGUMENTS` and stop here. A plugin turned off here is a personal switch — leave it; if it is `mluk-repo` itself, say so and stop.
+3. **Something missing** → show the list and ask whether to install. A plugin from a marketplace this machine does not know is not installed: one the settings declare is registered by starting Claude Code at the repository root and trusting the folder; one they do not declare goes under `extraKnownMarketplaces` first. Neither needs `claude plugin marketplace add`, and at two scopes it does harm: `--scope local` replaces the committed entry and drops its `autoUpdate`, `--scope project` rewrites the committed `settings.json`.
+   - Yes → run `node scripts/agent-plugins.mjs --install`, show its output, then give the developer `/reload-plugins` and this command, under the name it was run with, to run, in that order, each as a code block.
+   - No → point to `README.md` («Getting started», «Agent tooling») and `AGENTS.md`, and stop.
+4. **No `node` on PATH** (`node: command not found`) → the whole repository needs Node 24 (`.nvmrc`, `engines.node`) with pnpm via Corepack — the app, the gate and this report. Point to `README.md` «Getting started» and stop.
+5. **The report fails otherwise**, or Claude Code is not on PATH → show the output as it is; never install around it by hand.
+
+Updates need no command: the marketplace is declared with `autoUpdate`, so Claude Code refreshes it and the installed plugins up to ten minutes after an interactive session's first message; an open session applies them after `/reload-plugins`.

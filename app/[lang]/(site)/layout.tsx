@@ -9,7 +9,7 @@ export default async function SiteLayout({ children }: LayoutProps<"/[lang]">) {
   ]);
 
   return (
-    <div className="mx-auto max-w-(--container) px-4 pt-5 pb-16 sm:px-5">
+    <div className="mx-auto flex min-h-svh max-w-(--container) flex-col px-4 pt-5 pb-16 sm:px-5">
       <a
         href="#content"
         className="mk-btn mk-btn-primary sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50"
@@ -17,7 +17,7 @@ export default async function SiteLayout({ children }: LayoutProps<"/[lang]">) {
         {dictionary.site.skipLink}
       </a>
       <Header locale={locale} dictionary={dictionary} />
-      <main id="content" tabIndex={-1} className="outline-none">
+      <main id="content" tabIndex={-1} className="flex-1 outline-none">
         {children}
       </main>
       <Footer locale={locale} dictionary={dictionary} />

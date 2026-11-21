@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "siteName": "mluk.dev",
+    "description": "Maxim Lukyanovich — a personal site: writing, projects, CV and contact."
+  },
+  "notFound": {
+    "eyebrow": "Error 404",
+    "title": "Page not found",
+    "body": "There is no page at this address. It may have moved, or the link has a typo.",
+    "home": "Go to the home page"
+  }
+}

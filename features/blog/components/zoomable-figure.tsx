@@ -1,8 +1,10 @@
 "use client";
 
 import { Maximize2, X } from "lucide-react";
-import Image, { type StaticImageData } from "next/image";
+import type { StaticImageData } from "next/image";
 import { useRef } from "react";
+
+import { FadeImage } from "./fade-image";
 
 type ZoomableFigureProps = {
   src: StaticImageData;
@@ -40,7 +42,7 @@ export function ZoomableFigure({
           aria-label={labels.open}
           onClick={() => dialog.current?.showModal()}
         >
-          <Image src={src} alt={alt} sizes={inlineSizes} />
+          <FadeImage src={src} alt={alt} sizes={inlineSizes} />
           <span className="mk-figure-zoom-icon">
             <Maximize2 aria-hidden="true" />
           </span>
@@ -63,7 +65,7 @@ export function ZoomableFigure({
             not upscale, and the browser then reads a smaller natural size,
             which the kit's `width: auto` shows. Lazy in a closed dialog, so
             it loads when opened. */}
-        <Image src={src} alt={alt} unoptimized />
+        <FadeImage src={src} alt={alt} unoptimized />
         {caption && <p className="mk-lightbox-caption">{caption}</p>}
         <button
           type="button"

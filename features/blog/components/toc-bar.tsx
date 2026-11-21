@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, type KeyboardEvent } from "react";
+import { useEffect, useRef, type KeyboardEvent, type MouseEvent } from "react";
 
 import { cn } from "@/shared/lib/cn";
 
 import type { Heading } from "../lib/types";
+import { animateHeight } from "./animate-height";
 import { sectionNumber, TocList } from "./toc-list";
 import { useActiveHeading } from "./use-active-heading";
 
@@ -19,14 +20,21 @@ type TocBarProps = {
 
 /**
  * The kit's Toc as a sticky bar, below 1440px: closed, it shows the current
- * section; open, the list. Picking a section closes it and moves focus to
- * the heading; Escape closes it back onto the summary; it also closes when
- * the window grows past 1440px, where it is hidden.
+ * section; open, the list. The list opens and closes smoothly, as the kit's
+ * `.mk-drop` — height and opacity over 200ms (owner, 2026-11-21); without
+ * scripts the native `<details>` toggles at once. Picking a section closes
+ * it and moves focus to the heading; Escape closes it back onto the
+ * summary; it also closes when the window grows past 1440px, where it is
+ * hidden.
  */
 export function TocBar({ headings, title, className }: TocBarProps) {
   const active = useActiveHeading(headings.map((heading) => heading.id));
   const details = useRef<HTMLDetailsElement>(null);
   const summary = useRef<HTMLElement>(null);
+  const panel = useRef<HTMLElement>(null);
+  // The latest open or close: a close that finishes after a newer open
+  // must not shut the bar.
+  const motion = useRef(0);
   const index = headings.findIndex((heading) => heading.id === active);
 
   useEffect(() => {
@@ -38,16 +46,37 @@ export function TocBar({ headings, title, className }: TocBarProps) {
     return () => wide.removeEventListener("change", close);
   }, []);
 
+  const setOpen = (open: boolean) => {
+    const bar = details.current;
+    const list = panel.current;
+    if (!bar || !list) return;
+    const turn = ++motion.current;
+    if (open) {
+      bar.open = true;
+      animateHeight(list, 0, list.getBoundingClientRect().height, true);
+      return;
+    }
+    const height = list.getBoundingClientRect().height;
+    animateHeight(list, height, 0, true).then(() => {
+      if (turn === motion.current) bar.open = false;
+    });
+  };
+
+  const onToggleClick = (event: MouseEvent) => {
+    event.preventDefault();
+    setOpen(!details.current?.open);
+  };
+
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key !== "Escape" || !details.current?.open) return;
-    details.current.open = false;
+    setOpen(false);
     summary.current?.focus();
   };
 
   // The link still navigates to its anchor; focus follows without a second
   // scroll, so the next Tab continues from the section.
   const onPick = (id: string) => {
-    if (details.current) details.current.open = false;
+    setOpen(false);
     document.getElementById(id)?.focus({ preventScroll: true });
   };
 
@@ -57,7 +86,7 @@ export function TocBar({ headings, title, className }: TocBarProps) {
       className={cn("mk-toc-bar mk-glass", className)}
       onKeyDown={onKeyDown}
     >
-      <summary ref={summary}>
+      <summary ref={summary} onClick={onToggleClick}>
         <span className="mk-toc-current">
           {index >= 0 && (
             <>
@@ -73,8 +102,14 @@ export function TocBar({ headings, title, className }: TocBarProps) {
           </span>
         </span>
       </summary>
-      {/* The kit's preview takes the panel's 20px padding down to 0 6px here. */}
-      <nav className="mk-toc px-1.5 py-0" aria-label={title}>
+      {/* The kit's preview takes the panel's 20px padding down to 0 6px here;
+          flow-root keeps the list's margins inside, so the measured height
+          is the one that moves. */}
+      <nav
+        ref={panel}
+        className="mk-toc flow-root px-1.5 py-0"
+        aria-label={title}
+      >
         <TocList headings={headings} active={active} onPick={onPick} />
       </nav>
     </details>

@@ -72,3 +72,16 @@
     scroll-behavior: smooth;
   }
 }
+
+/* web-only: a picture in a post fades in once it has loaded (owner,
+   2026-11-21) — opacity only, over duration-base. Scripts mark it loaded
+   (features/blog FadeImage), so without them, and under reduced motion,
+   pictures show as they arrive. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .mk-fade-in {
+    transition: opacity var(--duration-base) ease;
+  }
+  .mk-fade-in:not([data-loaded]) {
+    opacity: 0;
+  }
+}

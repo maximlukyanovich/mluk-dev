@@ -1,10 +1,11 @@
-import Image, { type StaticImageData } from "next/image";
+import type { StaticImageData } from "next/image";
 import type { ComponentProps, ReactNode } from "react";
 
 import type { Dictionary } from "@/shared/i18n/dictionaries";
 
 import { videoUrls, type VideoService } from "../lib/embed";
 import { EmbedPlayer } from "./embed-player";
+import { FadeImage } from "./fade-image";
 import { ZoomableFigure } from "./zoomable-figure";
 
 type Copy = Dictionary["media"];
@@ -60,7 +61,7 @@ export function mediaComponents(copy: Copy) {
       return (
         <figure className="mk-embed">
           <div className="mk-embed-frame">
-            {poster && <Image src={poster} alt="" fill sizes="740px" />}
+            {poster && <FadeImage src={poster} alt="" fill sizes="740px" />}
             <EmbedPlayer
               src={player}
               title={title}

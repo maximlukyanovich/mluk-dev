@@ -3,6 +3,7 @@
 import { useId, useRef, useState, type ReactNode } from "react";
 import { flushSync } from "react-dom";
 
+import { animateHeight } from "./animate-height";
 import { CopyButton } from "./copy-button";
 
 type CodeFrameProps = {
@@ -53,8 +54,14 @@ export function CodeFrame({
   const figure = useRef<HTMLElement>(null);
   const id = useId();
 
+  // The block grows to its full length or shrinks back to 14 lines over the
+  // kit's 200ms instead of jumping (owner, 2026-11-21): the state flips
+  // first, then the code area travels from its old height to its new one.
   const toggle = () => {
+    const pre = figure.current?.querySelector("pre");
+    const from = pre?.getBoundingClientRect().height ?? 0;
     flushSync(() => setCollapsed(!collapsed));
+    if (pre) animateHeight(pre, from, pre.getBoundingClientRect().height);
     if (collapsed) return;
     // Collapsing from far below leaves the block's top above the window:
     // bring it back, clear of the sticky table of contents (scroll-mt-22),

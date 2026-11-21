@@ -1,4 +1,10 @@
 export { Article } from "./components/article";
+export {
+  BlogIndex,
+  writingListMetadata,
+  type WritingQuery,
+} from "./components/blog-index";
+export { PostList } from "./components/post-list";
 export { coverMeta, coverPath } from "./lib/cover";
 export { writingFallbacks, type WritingFallbacks } from "./lib/fallbacks";
 export {

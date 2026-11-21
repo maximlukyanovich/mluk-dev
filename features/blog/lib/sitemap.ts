@@ -54,3 +54,9 @@ export function getWritingPages(): SitemapPage[] {
   ) as Record<Locale, Post[]>;
   return writingPages(postsByLocale);
 }
+
+/** The locales a blog page exists in, for its `hreflang` links. */
+export function writingPageLocales(path: string): Locale[] {
+  const page = getWritingPages().find((entry) => entry.path === path);
+  return page ? page.versions.map(({ locale }) => locale) : [];
+}

@@ -89,6 +89,12 @@
   --text-display-section--line-height: 1.1;
   --text-display-section--font-weight: 600;
   --text-display-section--letter-spacing: -0.02em;
+  /* The section style at a smaller clamp: the title of the latest post's
+     card on Writing (canvas, Blog-B3). */
+  --text-display-latest: clamp(24px, 2.6vw, 34px);
+  --text-display-latest--line-height: 1.1;
+  --text-display-latest--font-weight: 600;
+  --text-display-latest--letter-spacing: -0.02em;
   --text-display-h2: 26px;
   --text-display-h2--line-height: 1.2;
   --text-display-h2--font-weight: 600;

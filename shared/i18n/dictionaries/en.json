@@ -52,6 +52,31 @@
     "openToWork": "Open to work",
     "photoPlaceholder": "[Photo 1:1]"
   },
+  "writing": {
+    "title": "Writing",
+    "lead": "Notes on building for the web — Next.js, CSS, i18n and the decisions behind this site.",
+    "pageTitle": "{title} · page {n}",
+    "tagTitle": "#{tag} · {title}",
+    "latest": "Latest",
+    "readPost": "Read the post",
+    "rssFeed": "RSS feed",
+    "tags": "Tags",
+    "all": "All",
+    "allPosts": "All posts",
+    "tagButton": "Tag",
+    "empty": "No posts yet. Subscribe to the {rss} to get the first one.",
+    "emptyRss": "RSS feed"
+  },
+  "pager": {
+    "label": "Pagination",
+    "info": "Page {page} of {pages}",
+    "total": {
+      "one": "{n} post",
+      "other": "{n} posts"
+    },
+    "newer": "Newer",
+    "older": "Older"
+  },
   "article": {
     "breadcrumbs": "Breadcrumb",
     "home": "Home",

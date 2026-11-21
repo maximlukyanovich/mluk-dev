@@ -6,10 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   createContext,
   use,
-  useEffect,
   useId,
-  useRef,
-  useState,
   type ReactNode,
   type RefObject,
 } from "react";
@@ -17,11 +14,9 @@ import {
 import { cn } from "@/shared/lib/cn";
 import type { Locale } from "@/shared/i18n/locales";
 import { localePath } from "@/shared/i18n/locales";
+import { useDrop } from "@/shared/ui/use-drop";
 
 import { isInSection, sections } from "./sections";
-
-/** The kit's phone breakpoint: above it the header shows the nav inline. */
-const PHONE = "(max-width: 640px)";
 
 type MenuState = {
   open: boolean;
@@ -40,51 +35,14 @@ function useMenu(): MenuState {
 }
 
 /**
- * The phone menu's state, shared by its button (in the header tools) and its
- * panel (the header's last row). The menu is open on the path it was opened
- * on, so any navigation closes it without an effect. Escape closes it and
- * returns focus to the button; widening the window past the phone breakpoint,
- * where the panel is hidden, closes it too.
+ * The phone menu's state (`useDrop`), shared by its button (in the header
+ * tools) and its panel (the header's last row).
  */
 export function HeaderMenu({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
-  const [openOn, setOpenOn] = useState<string | null>(null);
-  const open = openOn === pathname;
+  const drop = useDrop();
   const panelId = useId();
-  const buttonRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    if (!open) return;
-    const phone = window.matchMedia(PHONE);
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
-      setOpenOn(null);
-      buttonRef.current?.focus();
-    };
-    const onResize = () => {
-      if (!phone.matches) setOpenOn(null);
-    };
-    document.addEventListener("keydown", onKey);
-    phone.addEventListener("change", onResize);
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      phone.removeEventListener("change", onResize);
-    };
-  }, [open]);
-
-  return (
-    <MenuContext
-      value={{
-        open,
-        panelId,
-        buttonRef,
-        toggle: () => setOpenOn(open ? null : pathname),
-        close: () => setOpenOn(null),
-      }}
-    >
-      {children}
-    </MenuContext>
-  );
+  return <MenuContext value={{ ...drop, panelId }}>{children}</MenuContext>;
 }
 
 type MenuButtonProps = {

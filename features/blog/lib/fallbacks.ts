@@ -1,4 +1,5 @@
 import { locales, type Locale } from "@/shared/i18n/locales";
+import type { PathFallbacks } from "@/shared/i18n/switch-href";
 
 import { pageCount } from "./paginate";
 import { countTags, getPosts } from "./posts";
@@ -9,7 +10,7 @@ import type { Post } from "./types";
  * version in the target locale: target → { locale-less path → fallback }.
  * A path that exists in the target is absent and keeps its own URL.
  */
-export type WritingFallbacks = Partial<Record<Locale, Record<string, string>>>;
+export type WritingFallbacks = PathFallbacks;
 
 const list = "/writing";
 
@@ -19,7 +20,7 @@ export function buildFallbacks(
   locale: Locale,
 ): WritingFallbacks {
   const from = postsByLocale[locale];
-  const fallbacks: WritingFallbacks = {};
+  const fallbacks: Partial<Record<Locale, Record<string, string>>> = {};
 
   for (const target of locales) {
     if (target === locale) continue;

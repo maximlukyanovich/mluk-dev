@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { Fragment } from "react";
 
 import { locales, type Locale } from "@/shared/i18n/locales";
-import { switchHref } from "@/shared/i18n/switch-href";
+import { switchHrefIn, type PathFallbacks } from "@/shared/i18n/switch-href";
 
 import { footerLink } from "./footer-link";
 
@@ -13,6 +13,8 @@ type FooterLanguagesProps = {
   label: string;
   /** Each locale's name in its own language (`English`, `Русский`). */
   names: Record<Locale, string>;
+  /** Where a page missing in the other locale sends the visitor instead. */
+  fallbacks?: PathFallbacks;
 };
 
 /** «English / Русский»: the current locale as text, the other as a link. */
@@ -20,6 +22,7 @@ export function FooterLanguages({
   locale,
   label,
   names,
+  fallbacks,
 }: FooterLanguagesProps) {
   const pathname = usePathname();
 
@@ -33,7 +36,7 @@ export function FooterLanguages({
           ) : (
             <a
               className={footerLink}
-              href={switchHref(pathname, target)}
+              href={switchHrefIn(pathname, target, fallbacks)}
               hrefLang={target}
               lang={target}
             >

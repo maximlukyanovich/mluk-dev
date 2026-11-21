@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { switchHref } from "@/shared/i18n/switch-href";
+import { switchHrefIn } from "@/shared/i18n/switch-href";
 
 import { buildFallbacks } from "./fallbacks";
 import { testPost, testPosts } from "./test-posts";
@@ -72,12 +72,9 @@ describe("buildFallbacks", () => {
       { en: [testPost("only-en", "en")], ru: [] },
       "en",
     );
-    const path = "/en/writing/only-en";
-    expect(switchHref(path, "ru", fallbacks.ru?.["/writing/only-en"])).toBe(
+    expect(switchHrefIn("/en/writing/only-en", "ru", fallbacks)).toBe(
       "/ru/writing",
     );
-    expect(switchHref("/en/writing", "ru", fallbacks.ru?.["/writing"])).toBe(
-      "/ru/writing",
-    );
+    expect(switchHrefIn("/en/writing", "ru", fallbacks)).toBe("/ru/writing");
   });
 });

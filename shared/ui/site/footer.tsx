@@ -1,5 +1,6 @@
 import type { Dictionary } from "@/shared/i18n/dictionaries";
 import type { Locale } from "@/shared/i18n/locales";
+import type { PathFallbacks } from "@/shared/i18n/switch-href";
 
 import { FooterLanguages } from "./footer-languages";
 import { footerLink } from "./footer-link";
@@ -7,10 +8,12 @@ import { footerLink } from "./footer-link";
 type FooterProps = {
   locale: Locale;
   dictionary: Dictionary;
+  /** Passed to the language switch: pages missing in the other locale. */
+  fallbacks?: PathFallbacks;
 };
 
 /** Copyright on the left; languages, RSS and the sitemap on the right. */
-export function Footer({ locale, dictionary }: FooterProps) {
+export function Footer({ locale, dictionary, fallbacks }: FooterProps) {
   const { footer } = dictionary.site;
   const { locales } = dictionary;
 
@@ -22,6 +25,7 @@ export function Footer({ locale, dictionary }: FooterProps) {
           locale={locale}
           label={footer.languagesLabel}
           names={{ en: locales.en.name, ru: locales.ru.name }}
+          fallbacks={fallbacks}
         />
         {" · "}
         <a className={footerLink} href={`/${locale}/feed.xml`}>

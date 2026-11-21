@@ -135,3 +135,12 @@
   --text-label--line-height: 1.4;
   --text-label--font-weight: 500;
 }
+
+/*
+ * The kit's `container-wide` (1440px) as a breakpoint: from it the article
+ * puts its table of contents beside the text (Toc README, Article-W).
+ * In rem, as Tailwind's own breakpoints are, so they sort together.
+ */
+@theme {
+  --breakpoint-wide: 90rem;
+}

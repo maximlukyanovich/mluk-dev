@@ -1,3 +1,4 @@
+export { Article } from "./components/article";
 export { writingFallbacks, type WritingFallbacks } from "./lib/fallbacks";
 export {
   generateListPageParams,

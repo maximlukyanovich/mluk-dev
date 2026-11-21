@@ -3,13 +3,15 @@
 import { usePathname } from "next/navigation";
 
 import { locales, type Locale } from "@/shared/i18n/locales";
-import { switchHref } from "@/shared/i18n/switch-href";
+import { switchHrefIn, type PathFallbacks } from "@/shared/i18n/switch-href";
 
 type LangSwitchProps = {
   locale: Locale;
   label: string;
   /** The short name of each locale (`EN`, `RU`). */
   names: Record<Locale, string>;
+  /** Where a page missing in the other locale sends the visitor instead. */
+  fallbacks?: PathFallbacks;
 };
 
 /**
@@ -17,7 +19,12 @@ type LangSwitchProps = {
  * page there. A plain anchor: the other locale has another root layout, so
  * the navigation is a full page load anyway.
  */
-export function LangSwitch({ locale, label, names }: LangSwitchProps) {
+export function LangSwitch({
+  locale,
+  label,
+  names,
+  fallbacks,
+}: LangSwitchProps) {
   const pathname = usePathname();
 
   return (
@@ -30,7 +37,7 @@ export function LangSwitch({ locale, label, names }: LangSwitchProps) {
         ) : (
           <a
             key={target}
-            href={switchHref(pathname, target)}
+            href={switchHrefIn(pathname, target, fallbacks)}
             hrefLang={target}
             lang={target}
           >

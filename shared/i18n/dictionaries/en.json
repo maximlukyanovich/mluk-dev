@@ -50,7 +50,30 @@
     "photoPlaceholder": "[Photo 1:1]"
   },
   "article": {
+    "breadcrumbs": "Breadcrumb",
+    "home": "Home",
+    "published": "Published",
+    "updated": "Updated",
+    "readingTime": "{n} min",
+    "onThisPage": "On this page",
+    "tags": "Tags",
+    "morePosts": "More posts",
+    "previous": "Previous",
+    "next": "Next",
+    "aboutAuthor": "About the author",
+    "authorLine": "{role} in {city}",
+    "aboutMe": "About me",
+    "rss": "RSS",
     "footnotes": "Footnotes",
     "backToReference": "Back to reference {n}"
+  },
+  "code": {
+    "copy": "Copy code",
+    "copied": "Copied",
+    "showAll": {
+      "one": "Show all {n} line",
+      "other": "Show all {n} lines"
+    },
+    "collapse": "Collapse"
   }
 }

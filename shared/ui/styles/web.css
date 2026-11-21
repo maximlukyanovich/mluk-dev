@@ -44,3 +44,10 @@
     animation: none !important;
   }
 }
+
+/* web-only: a code block in article text. Prose spaces paragraphs, quotes and
+   callouts but has no rule for .mk-code, whose own margin is 0, so a block
+   would touch the paragraph above; 22px as on Article-W / Article-B. */
+.mk-prose .mk-code {
+  margin-top: 22px;
+}

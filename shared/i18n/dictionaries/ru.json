@@ -50,7 +50,32 @@
     "photoPlaceholder": "[Фото 1:1]"
   },
   "article": {
+    "breadcrumbs": "Путь к странице",
+    "home": "Главная",
+    "published": "Опубликовано",
+    "updated": "Обновлено",
+    "readingTime": "{n} мин",
+    "onThisPage": "Содержание",
+    "tags": "Теги",
+    "morePosts": "Другие публикации",
+    "previous": "Предыдущая",
+    "next": "Следующая",
+    "aboutAuthor": "Об авторе",
+    "authorLine": "{role}, {city}",
+    "aboutMe": "Обо мне",
+    "rss": "RSS",
     "footnotes": "Сноски",
     "backToReference": "Вернуться к сноске {n}"
+  },
+  "code": {
+    "copy": "Копировать код",
+    "copied": "Скопировано",
+    "showAll": {
+      "one": "Показать все {n} строку",
+      "few": "Показать все {n} строки",
+      "many": "Показать все {n} строк",
+      "other": "Показать все {n} строки"
+    },
+    "collapse": "Свернуть"
   }
 }

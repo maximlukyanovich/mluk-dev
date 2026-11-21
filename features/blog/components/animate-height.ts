@@ -3,7 +3,7 @@
  * motion: a block that opens or closes in place moves for that long, as the
  * kit's `.mk-drop` does.
  */
-function baseDuration(): number {
+export function baseDuration(): number {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return 0;
   // The browser may hand the token back normalised: `200ms` reads `.2s`.
   const token = getComputedStyle(document.documentElement)

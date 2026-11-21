@@ -76,6 +76,8 @@ import shot from "./shot.png";
   the tests. Diagrams are pictures too.
 - **`Note`** — a callout with a lime outline.
 - **`YouTube`, `Vimeo`** — the id from the video's address, not the URL. The
-  page loads nothing from the service until the reader presses play; a
-  `poster={image}` of your own may replace the plain frame. The caption always
+  facade shows the service's preview picture, looked up when the site is
+  built and served through the site's own image optimiser, so the page loads
+  nothing from the service until the reader presses play. A `poster={image}`
+  of your own, imported beside the post, replaces it. The caption always
   ends with a link to the video on its service.

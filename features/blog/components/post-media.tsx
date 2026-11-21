@@ -4,6 +4,7 @@ import type { ComponentProps, ReactNode } from "react";
 import type { Dictionary } from "@/shared/i18n/dictionaries";
 
 import { videoUrls, type VideoService } from "../lib/embed";
+import { videoPoster } from "../lib/video-poster";
 import { EmbedPlayer } from "./embed-player";
 import { FadeImage } from "./fade-image";
 import { ZoomableFigure } from "./zoomable-figure";
@@ -22,7 +23,10 @@ export type VideoProps = {
   id: string;
   title: string;
   caption?: string;
-  /** A picture of the author's own, imported beside the post. */
+  /**
+   * A picture of the author's own, imported beside the post; without one
+   * the service's preview is shown.
+   */
   poster?: StaticImageData;
 };
 
@@ -56,12 +60,22 @@ export function mediaComponents(copy: Copy) {
   }
 
   function video(service: VideoService, watch: string) {
-    return function Video({ id, title, caption, poster }: VideoProps) {
+    return async function Video({ id, title, caption, poster }: VideoProps) {
       const { player, page } = videoUrls(service, id);
+      const picture = poster ?? (await videoPoster(service, id));
       return (
         <figure className="mk-embed">
           <div className="mk-embed-frame">
-            {poster && <FadeImage src={poster} alt="" fill sizes="740px" />}
+            {/* The service's preview comes through the site's image
+                optimiser, never straight from YouTube or Vimeo. */}
+            {picture && (
+              <FadeImage
+                src={picture}
+                alt=""
+                fill
+                sizes="(min-width: 790px) 740px, 100vw"
+              />
+            )}
             <EmbedPlayer
               src={player}
               title={title}

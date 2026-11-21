@@ -29,3 +29,26 @@ export function videoUrls(
         page: `https://vimeo.com/${id}`,
       };
 }
+
+/**
+ * YouTube's preview: the 1280px picture when the video has one, else the
+ * 480px one every video has — 4:3 with black bands, which the 16:9 frame
+ * crops away (`object-fit: cover`).
+ */
+export function youtubePoster(id: string, hasMaxres: boolean): string {
+  const name = hasMaxres ? "maxresdefault" : "hqdefault";
+  return `https://i.ytimg.com/vi/${id}/${name}.jpg`;
+}
+
+/**
+ * Vimeo's preview from its oEmbed answer, or null when the answer has none.
+ * The query string (`?region=us`) is dropped: the picture does not need it,
+ * and the allowed image paths in next.config.ts name no query.
+ */
+export function vimeoPoster(oembed: unknown): string | null {
+  if (typeof oembed !== "object" || oembed === null) return null;
+  const { thumbnail_url } = oembed as { thumbnail_url?: unknown };
+  if (typeof thumbnail_url !== "string") return null;
+  const url = new URL(thumbnail_url);
+  return url.hostname === "i.vimeocdn.com" ? url.origin + url.pathname : null;
+}

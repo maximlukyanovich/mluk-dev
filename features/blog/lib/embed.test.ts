@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { videoUrls } from "./embed";
+import { videoUrls, vimeoPoster, youtubePoster } from "./embed";
 
 describe("videoUrls", () => {
   it("plays YouTube from the no-cookie domain", () => {
@@ -24,5 +24,35 @@ describe("videoUrls", () => {
     ["vimeo", "1084537?h=x"],
   ] as const)("rejects the %s id %j", (service, id) => {
     expect(() => videoUrls(service, id)).toThrow(/video id/);
+  });
+});
+
+describe("youtubePoster", () => {
+  it("takes the 1280px picture when it exists, else the 480px one", () => {
+    expect(youtubePoster("aqz-KE-bpKQ", true)).toBe(
+      "https://i.ytimg.com/vi/aqz-KE-bpKQ/maxresdefault.jpg",
+    );
+    expect(youtubePoster("aqz-KE-bpKQ", false)).toBe(
+      "https://i.ytimg.com/vi/aqz-KE-bpKQ/hqdefault.jpg",
+    );
+  });
+});
+
+describe("vimeoPoster", () => {
+  it("reads the picture from the oEmbed answer, without its query", () => {
+    expect(
+      vimeoPoster({
+        thumbnail_url:
+          "https://i.vimeocdn.com/video/20963649-abc-d_960?region=us",
+      }),
+    ).toBe("https://i.vimeocdn.com/video/20963649-abc-d_960");
+  });
+
+  it.each([
+    ["no answer", null],
+    ["no picture", { title: "x" }],
+    ["another host", { thumbnail_url: "https://example.com/x.jpg" }],
+  ])("has none for %s", (_, answer) => {
+    expect(vimeoPoster(answer)).toBeNull();
   });
 });

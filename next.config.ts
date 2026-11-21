@@ -33,6 +33,14 @@ const nextConfig: NextConfig = {
     };
   },
   partialPrefetching: true,
+  // Video previews in posts (features/blog/lib/video-poster.ts), served
+  // through the image optimiser so the reader never calls the service.
+  images: {
+    remotePatterns: [
+      new URL("https://i.ytimg.com/vi/**"),
+      new URL("https://i.vimeocdn.com/video/**"),
+    ],
+  },
   turbopack: {
     rules: {
       "*.css": {

@@ -1,11 +1,12 @@
 # Documentation
 
-| Document                                                         | What it covers                                                           |
-| ---------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| [`../README.md`](../README.md)                                   | What the site is, how to run it                                          |
-| [`../AGENTS.md`](../AGENTS.md)                                   | Project rules: commands, architecture, conventions, working agreements   |
-| [`../.claude/project-profile.md`](../.claude/project-profile.md) | The harness's decisions: branch chain, gate, sources of truth, languages |
-| [`local/README.md`](local/README.md)                             | The personal space — gitignored, except its README                       |
+| Document                                                         | What it covers                                                               |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [`../README.md`](../README.md)                                   | What the site is, how to run it                                              |
+| [`../AGENTS.md`](../AGENTS.md)                                   | Project rules: commands, architecture, conventions, working agreements       |
+| [`../.claude/project-profile.md`](../.claude/project-profile.md) | The harness's decisions: branch chain, gate, sources of truth, languages     |
+| [`writing-posts.md`](writing-posts.md)                           | How to write a post: files, frontmatter, code blocks, pictures, notes, video |
+| [`local/README.md`](local/README.md)                             | The personal space — gitignored, except its README                           |
 
 ## Conventions
 

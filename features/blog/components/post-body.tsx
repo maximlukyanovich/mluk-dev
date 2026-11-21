@@ -5,6 +5,7 @@ import type { Dictionary } from "@/shared/i18n/dictionaries";
 import type { Locale } from "@/shared/i18n/locales";
 
 import { codeFigure } from "./code-block";
+import { mediaComponents } from "./post-media";
 
 /**
  * What a post's elements render as. Handed to the MDX content as a prop, so
@@ -12,6 +13,7 @@ import { codeFigure } from "./code-block";
  */
 function postComponents(locale: Locale, dictionary: Dictionary): MDXComponents {
   return {
+    ...mediaComponents(dictionary.media),
     figure: codeFigure(locale, dictionary.code),
     // A table of contents moves focus to the section it jumps to.
     h2: (props: ComponentProps<"h2">) => <h2 {...props} tabIndex={-1} />,

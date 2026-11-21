@@ -80,5 +80,13 @@
       "other": "Показать все {n} строки"
     },
     "collapse": "Свернуть"
+  },
+  "media": {
+    "openFull": "Открыть в полный размер: {alt}",
+    "close": "Закрыть",
+    "play": "Смотреть: {title}",
+    "watchYouTube": "Смотреть на YouTube",
+    "watchVimeo": "Смотреть на Vimeo",
+    "table": "Таблица"
   }
 }

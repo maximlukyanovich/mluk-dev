@@ -78,5 +78,13 @@
       "other": "Show all {n} lines"
     },
     "collapse": "Collapse"
+  },
+  "media": {
+    "openFull": "Open full size: {alt}",
+    "close": "Close",
+    "play": "Play: {title}",
+    "watchYouTube": "Watch on YouTube",
+    "watchVimeo": "Watch on Vimeo",
+    "table": "Table"
   }
 }

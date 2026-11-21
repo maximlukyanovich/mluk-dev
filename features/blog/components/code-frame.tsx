@@ -57,14 +57,11 @@ export function CodeFrame({
     flushSync(() => setCollapsed(!collapsed));
     if (collapsed) return;
     // Collapsing from far below leaves the block's top above the window:
-    // bring it back, clear of the sticky table of contents (scroll-mt-22).
+    // bring it back, clear of the sticky table of contents (scroll-mt-22),
+    // smoothly or at once as the page's scroll-behavior says (web.css).
     const block = figure.current;
     if (block && block.getBoundingClientRect().top < 0) {
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-      block.scrollIntoView({
-        block: "start",
-        behavior: reduce.matches ? "auto" : "smooth",
-      });
+      block.scrollIntoView({ block: "start" });
     }
   };
 

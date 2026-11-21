@@ -68,3 +68,14 @@
     display: none;
   }
 }
+
+/* web-only: in-page jumps scroll smoothly — the table of contents, footnotes
+   and their back links, the skip link (owner, 2026-11-21); the kit's Motion
+   has no rule for scrolling yet. Off under reduced motion. A route change
+   still lands at the top at once: `data-scroll-behavior="smooth"` on <html>
+   tells Next to switch this off while it navigates. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

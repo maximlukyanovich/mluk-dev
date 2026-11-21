@@ -35,7 +35,13 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
 
   return (
     // next-themes sets data-theme on <html> before hydration.
-    <html lang={locale} className={fontVariables} suppressHydrationWarning>
+    <html
+      lang={locale}
+      className={fontVariables}
+      // Next turns web.css's smooth scrolling off during a route change.
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
       <body className="mk-ground min-h-svh">
         {/* The kit's buttons and tags have 150ms transitions; without
             disableTransitionOnChange a theme switch would ripple through them. */}

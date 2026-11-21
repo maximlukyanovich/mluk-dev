@@ -1,0 +1,133 @@
+/*
+ * The kit's tokens as Tailwind utilities.
+ *
+ * Colours keep their kit names (bg-bg, text-fg, text-muted, border-line, bg-ph…)
+ * and read the custom properties of tokens.css. shadcn/ui's semantic names point
+ * at the same tokens, so a component added with `shadcn add` starts in the
+ * kit's colours. One name clashes: the kit's `muted` is a text colour, shadcn's
+ * `muted` a fill — the kit wins, and a shadcn component's `bg-muted` is
+ * rewritten to `bg-ph` when it is added.
+ */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-grid: var(--grid);
+  --color-glass: var(--glass);
+  --color-line: var(--line);
+  --color-line-field: var(--line-field);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-lime: var(--lime);
+  --color-on-lime: var(--on-lime);
+  --color-peri: var(--peri);
+  --color-ph: var(--ph);
+  --color-tint: var(--tint);
+  --color-code: var(--code);
+  --color-danger: var(--danger);
+
+  /* shadcn/ui semantic names */
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-card: var(--glass);
+  --color-card-foreground: var(--fg);
+  --color-popover: var(--bg);
+  --color-popover-foreground: var(--fg);
+  --color-primary: var(--lime);
+  --color-primary-foreground: var(--on-lime);
+  --color-secondary: var(--glass);
+  --color-secondary-foreground: var(--fg);
+  --color-muted-foreground: var(--muted);
+  --color-accent: var(--ph);
+  --color-accent-foreground: var(--fg);
+  --color-destructive: var(--danger);
+  --color-border: var(--line);
+  --color-input: var(--line-field);
+  --color-ring: var(--lime);
+}
+
+/*
+ * Kit tokens whose names fall in Tailwind's namespaces. `static` emits every
+ * one of them on :root, used by a utility or not, because kit.css reads them
+ * as plain custom properties. The kit's radius-xs (6px) replaces Tailwind's
+ * rounded-xs; font-sans and font-mono become the kit's families.
+ */
+@theme static {
+  --font-display: var(--font-unbounded), system-ui, sans-serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-mono:
+    var(--font-geist-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --radius-pill: 999px;
+  --radius-panel: 28px;
+  --radius-card: 24px;
+  --radius-media: 18px;
+  --radius-inner: 14px;
+  --radius-xs: 6px;
+
+  --blur-glass: 16px;
+}
+
+/*
+ * The kit's type styles (tokens.json → type.groups): size, line height,
+ * weight and tracking in one utility, e.g. `font-display text-display-title`.
+ * The family is set apart with font-display / font-sans / font-mono. The
+ * `code` style is left out: its name would clash with the `code` colour, and
+ * code blocks take their type from .mk-code.
+ */
+@theme {
+  --text-display-hero: clamp(40px, 6.5vw, 88px);
+  --text-display-hero--line-height: 0.98;
+  --text-display-hero--font-weight: 600;
+  --text-display-hero--letter-spacing: -0.035em;
+  --text-display-title: clamp(34px, 5vw, 64px);
+  --text-display-title--line-height: 1.05;
+  --text-display-title--font-weight: 600;
+  --text-display-title--letter-spacing: -0.035em;
+  --text-display-section: clamp(26px, 3vw, 38px);
+  --text-display-section--line-height: 1.1;
+  --text-display-section--font-weight: 600;
+  --text-display-section--letter-spacing: -0.02em;
+  --text-display-h2: 26px;
+  --text-display-h2--line-height: 1.2;
+  --text-display-h2--font-weight: 600;
+  --text-display-h2--letter-spacing: -0.02em;
+  --text-display-card: 18px;
+  --text-display-card--line-height: 1.3;
+  --text-display-card--font-weight: 600;
+  --text-display-card--letter-spacing: -0.01em;
+
+  --text-lead: 20px;
+  --text-lead--line-height: 1.5;
+  --text-lead--font-weight: 400;
+  --text-body-article: 18px;
+  --text-body-article--line-height: 1.75;
+  --text-body-article--font-weight: 400;
+  --text-body: 16px;
+  --text-body--line-height: 1.6;
+  --text-body--font-weight: 400;
+  --text-post-title: 19px;
+  --text-post-title--line-height: 1.35;
+  --text-post-title--font-weight: 700;
+  --text-excerpt: 15px;
+  --text-excerpt--line-height: 1.6;
+  --text-excerpt--font-weight: 400;
+  --text-ui: 14px;
+  --text-ui--line-height: 1.4;
+  --text-ui--font-weight: 600;
+  --text-button: 16px;
+  --text-button--line-height: 1;
+  --text-button--font-weight: 700;
+
+  --text-wordmark: 14px;
+  --text-wordmark--line-height: 1;
+  --text-wordmark--font-weight: 500;
+  --text-wordmark--letter-spacing: -0.01em;
+  --text-meta: 13px;
+  --text-meta--line-height: 1.5;
+  --text-meta--font-weight: 400;
+  --text-label: 12px;
+  --text-label--line-height: 1.4;
+  --text-label--font-weight: 500;
+}

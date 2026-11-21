@@ -5,3 +5,6 @@ next-env.d.ts
 scripts/agent-plugins.mjs
 scripts/lib/
 .claude/commands/my-start.md
+
+# The kit stylesheet, kept verbatim so it diffs against the Design System artifact
+shared/ui/styles/kit.css

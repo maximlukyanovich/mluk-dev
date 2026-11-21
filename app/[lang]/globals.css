@@ -1,0 +1,6 @@
+/* The root stylesheet is an import list only; each file says what it holds. */
+@import "tailwindcss";
+@import "../../shared/ui/styles/theme.css";
+@import "../../shared/ui/styles/tokens.css";
+/* In the components layer, so a utility on a kit element wins over the kit class. */
+@import "../../shared/ui/styles/kit.css" layer(components);

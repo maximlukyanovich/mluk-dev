@@ -1,0 +1,86 @@
+/*
+ * mluk.dev tokens — the kit's project/tokens.json (version 4), one custom
+ * property per token under the kit's own name, which is what kit.css reads.
+ * Radii, fonts and blur sit in Tailwind's namespaces and live in theme.css.
+ *
+ * Themes: every colour is light-dark(light, dark) and the theme is chosen by
+ * color-scheme — dark by default, the OS preference while no theme is stored
+ * (JavaScript off included), then data-theme from next-themes. The attribute
+ * works on any element, so a wrapper can pin a theme for its subtree.
+ */
+
+:root {
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+  }
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+/*
+ * Declared again on every [data-theme] element: the production build
+ * (LightningCSS) turns light-dark() into custom properties that resolve where
+ * a token is declared, so a token declared on :root alone would reach a
+ * themed wrapper already in the page's theme.
+ */
+:root,
+[data-theme] {
+  --bg: light-dark(#f1f3f7, #080a10);
+  --grid: light-dark(rgba(40, 60, 140, 0.06), rgba(150, 170, 255, 0.06));
+  --glass: light-dark(rgba(255, 255, 255, 0.74), rgba(20, 23, 36, 0.62));
+  --line: light-dark(#d5dae6, #232838);
+  --line-field: light-dark(#7a809c, #5d6389);
+  --fg: light-dark(#10131f, #eceefe);
+  --muted: light-dark(#515873, #9a9fbd);
+  --lime: light-dark(#3b7300, #b8f25a);
+  --on-lime: light-dark(#ffffff, #0b1200);
+  --peri: light-dark(#3d4fd6, #8ea2ff);
+  --ph: light-dark(#e2e6f0, #151a2a);
+  --tint: light-dark(rgba(61, 79, 214, 0.08), rgba(142, 162, 255, 0.12));
+  --code: light-dark(#ffffff, #0c0e18);
+  --danger: light-dark(#b4232f, #ff8f8f);
+  --syntax-keyword: light-dark(#6b3fd4, #c4a7ff);
+  --syntax-string: var(--lime);
+  --syntax-function: light-dark(#1f5fbf, #8ec5ff);
+  --syntax-tag: light-dark(#b3246a, #ff9ec4);
+  --syntax-attr: light-dark(#8a5300, #ffd38a);
+  --syntax-comment: light-dark(#666b8a, #7d84a8);
+  --syntax-plain: light-dark(#2a2e4a, #c9cde6);
+}
+
+:root {
+  /* Spacing — a 4px step, the same as Tailwind's spacing scale (p-6 = space-6) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-14: 56px;
+  --space-18: 72px;
+
+  /* Layout */
+  --container: 1200px;
+  --measure: 740px;
+  --grid-cell: 48px;
+  --container-wide: 1440px;
+
+  /* Duration */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-reveal: 320ms;
+  --stagger-step: 40ms;
+}

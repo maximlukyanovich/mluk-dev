@@ -64,7 +64,7 @@
     "authorLine": "{role}, {city}",
     "aboutMe": "Обо мне",
     "rss": "RSS",
-    "footnotes": "Сноски",
+    "footnotes": "Примечания",
     "backToReference": "Вернуться к сноске {n}"
   },
   "code": {

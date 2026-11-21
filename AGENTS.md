@@ -28,16 +28,16 @@ written now.
 Run from the repository root. Node 24 (`.nvmrc`), pnpm 11 through Corepack
 (`packageManager`).
 
-| What       | Command                                                                                                               |
-| ---------- | --------------------------------------------------------------------------------------------------------------------- |
-| Install    | `pnpm install`                                                                                                        |
-| Dev server | `pnpm dev` — http://localhost:3000                                                                                    |
-| Lint       | `pnpm lint` (ESLint, `eslint-config-next`)                                                                            |
-| Format     | `pnpm format` / `pnpm format:check` (Prettier)                                                                        |
-| Type-check | `pnpm typecheck` — `next typegen && tsc --noEmit`; a bare `tsc` on a clean clone fails on the generated `LayoutProps` |
-| Tests      | `pnpm test` — `node --test` over `scripts/**/*.test.mjs`; the app's test runner arrives with its first test           |
-| Build      | `pnpm build`                                                                                                          |
-| Full gate  | `pnpm validate` — format check, lint, type-check, tests, build                                                        |
+| What       | Command                                                                                                                                         |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Install    | `pnpm install`                                                                                                                                  |
+| Dev server | `pnpm dev` — http://localhost:3000                                                                                                              |
+| Lint       | `pnpm lint` (ESLint, `eslint-config-next`)                                                                                                      |
+| Format     | `pnpm format` / `pnpm format:check` (Prettier)                                                                                                  |
+| Type-check | `pnpm typecheck` — `next typegen && tsc --noEmit`; a bare `tsc` on a clean clone fails on the generated `LayoutProps`                           |
+| Tests      | `pnpm test` — Vitest over `{app,features,shared}/**/*.test.ts(x)` and `proxy.test.ts`, then `pnpm test:scripts` (`node --test` over `scripts/`) |
+| Build      | `pnpm build`                                                                                                                                    |
+| Full gate  | `pnpm validate` — format check, lint, type-check, tests, build                                                                                  |
 
 **Adding a dependency.** pnpm 11 refuses a dependency with a build script —
 direct or transitive — that has no `allowBuilds` entry in
@@ -51,18 +51,22 @@ dependency with `pnpm install --frozen-lockfile` in a fresh clone.
 App Router at the root (no `src/`), import alias `@/*` → the root. Paths
 marked _planned_ are decided and not yet in the code.
 
-| Path                                                                   | Responsibility                                                                    | May import                                       |
-| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------ |
-| `app/[lang]/` _(planned)_                                              | Routes, layouts, metadata — thin: read params, call a feature, render it          | `features/*` through their `index.ts`, `shared/` |
-| `features/<module>/` _(planned)_ — `blog`, `cv`, `projects`, `contact` | A section's components, data loading and logic; its public API is `index.ts` only | `shared/`, `content/` — never another feature    |
-| `shared/` _(planned)_                                                  | `ui/` (shadcn/ui components), `lib/`, `i18n/` (locales, dictionaries, helpers)    | itself only — never `features/` or `app/`        |
-| `content/` _(planned)_                                                 | MDX posts and pages in git, one file per locale                                   | —                                                |
-| `public/`                                                              | Static assets; images go through `next/image`                                     | —                                                |
-| `scripts/`                                                             | Repository tooling (the agent-plugin report)                                      | Node built-ins                                   |
+| Path                                                                                 | Responsibility                                                                                                                                                                  | May import                                       |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| `app/[lang]/`                                                                        | The root layout (locale, fonts, theme), routes, metadata — thin: read the locale, call a feature, render it. `(site)` has the header and footer; `(print)` _(planned)_ has none | `features/*` through their `index.ts`, `shared/` |
+| `app/sitemap.ts`, `app/robots.ts`                                                    | Metadata routes outside the locale                                                                                                                                              | `shared/`                                        |
+| `proxy.ts`                                                                           | Locale routing: applies `shared/i18n/decide-locale.ts`, nothing else                                                                                                            | `shared/`                                        |
+| `features/<module>/` — `cv`; `blog`, `projects`, `contact`, `how-i-work` _(planned)_ | A section's components, data loading and logic; its public API is `index.ts` only                                                                                               | `shared/`, `content/` — never another feature    |
+| `shared/`                                                                            | `ui/` (kit components, `site/` header and footer, `styles/`), `lib/`, `i18n/` (locales, dictionaries, `decideLocale`, `switchHref`, `alternates`)                               | itself only — never `features/` or `app/`        |
+| `content/`                                                                           | Site content in git, one file per locale: `cv/<locale>.json`; MDX posts _(planned)_                                                                                             | —                                                |
+| `assets/fonts/`                                                                      | Static TTFs for `next/og` (Satori takes no woff2) with their OFL licences                                                                                                       | —                                                |
+| `public/` _(planned)_                                                                | Static assets; images go through `next/image`                                                                                                                                   | —                                                |
+| `scripts/`                                                                           | Repository tooling (the agent-plugin report)                                                                                                                                    | Node built-ins                                   |
 
-Decided stack for the planned parts: MDX content, no database; Tailwind 4 with
-shadcn/ui and `next-themes` (light/dark); i18n by `app/[lang]` + dictionaries +
-`next/root-params`, no library; Vercel hosting with Cloudflare DNS.
+Stack: Tailwind 4 with the design kit's CSS and shadcn/ui conventions,
+`next-themes` (light/dark, `data-theme`); i18n by `app/[lang]`, dictionaries
+and `next/root-params`, no library; content in JSON now, MDX posts planned,
+no database; Vercel hosting with Cloudflare DNS.
 
 ## 4. Conventions
 
@@ -77,6 +81,8 @@ shadcn/ui and `next-themes` (light/dark); i18n by `app/[lang]` + dictionaries +
   is not argued with in prose.
 - **Styling** — Tailwind utilities and shadcn/ui tokens; no CSS modules, no
   inline style objects for what a utility expresses.
+- **Icons** — from `lucide-react` when it has the needed one, otherwise the
+  kit's SVG (owner, 2026-11-21).
 
 ## 5. Sources of truth
 
@@ -89,8 +95,18 @@ conflict between two sources, show it to the owner — never pick one silently.
   `proxy`. With Cache Components `await params` is runtime data: the locale
   comes from `next/root-params` (`await lang()`), not from `params`, and every
   root parameter has at least one value in `generateStaticParams`, or the
-  build fails. Read the guide in `node_modules/next/dist/docs/` before using an
-  API, as the block above says.
+  build fails. Route handlers under `[lang]` (`opengraph-image`, `feed.xml`)
+  are the exception: `lang()` throws there, so they read `params` and export
+  their own `generateStaticParams`. A 404 under a locale is `notFound()`
+  caught by `app/[lang]/(site)/not-found.tsx`; its HTML is an error shell the
+  client fills from the RSC payload (Next 16.4). The proxy skips a path
+  whose last segment has a dot, so one under a non-locale first segment
+  (`/feed.xml`, `/wp-admin/install.php`) would reach the root layout with
+  that segment as a locale, and its `notFound()` gets Next's unlocalized
+  page — `app/global-not-found` does not catch it. An `afterFiles` rewrite in
+  `next.config.ts` serves such a path from the default locale instead. Read
+  the guide in `node_modules/next/dist/docs/` before using an API, as the
+  block above says.
 - **Library docs before memory** — Context7 for Next.js, React, Tailwind,
   shadcn/ui, MDX.
 - **A UI change is checked live** — Playwright against the dev server, both
@@ -131,7 +147,7 @@ conflict between two sources, show it to the owner — never pick one silently.
   - _CI_ — the gate runs locally. Add a workflow when a second contributor
     arrives or a red `main` reaches Vercel.
   - _Gate fingerprinting and the heavy-run lock_ — each part of the gate reads
-    nearly the whole tree, and no test suite takes every core. Revisit with the
-    app's test runner.
+    nearly the whole tree, and Vitest runs the app's suite in under a second.
+    Revisit when the suite takes longer than the build.
   - _MCP example and `.env.example`_ — no server or secret yet; they come with
     Upstash and Giscus.

@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "siteName": "mluk.dev",
+    "description": "Maxim Lukyanovich — a personal site: writing, projects, CV and contact.",
+    "ogTitle": "Maxim Lukyanovich — writing, projects and CV"
+  },
+  "notFound": {
+    "eyebrow": "Error 404",
+    "title": "Page not found",
+    "body": "There is no page at this address. It may have moved, or the link has a typo.",
+    "home": "Go to the home page"
+  },
+  "site": {
+    "skipLink": "Skip to content",
+    "navLabel": "Main",
+    "nav": {
+      "writing": "Writing",
+      "projects": "Projects",
+      "cv": "CV",
+      "howIWork": "How I work",
+      "contact": "Contact"
+    },
+    "langLabel": "Language",
+    "theme": {
+      "toLight": "Switch to light theme",
+      "toDark": "Switch to dark theme"
+    },
+    "footer": {
+      "copyright": "© 2026 Maxim Lukyanovich",
+      "languagesLabel": "Languages",
+      "rss": "RSS",
+      "sitemap": "Sitemap"
+    }
+  },
+  "locales": {
+    "en": {
+      "short": "EN",
+      "name": "English"
+    },
+    "ru": {
+      "short": "RU",
+      "name": "Русский"
+    }
+  },
+  "home": {
+    "readBlog": "Read the blog",
+    "cvPdf": "CV · PDF",
+    "profile": "Profile",
+    "openToWork": "Open to work",
+    "photoPlaceholder": "[Photo 1:1]"
+  }
+}

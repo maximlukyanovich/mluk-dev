@@ -1,0 +1,46 @@
+/*
+ * Web additions to the kit — rules the site needs that kit.css does not have
+ * yet. Each is marked web-only and is proposed to the kit; once the kit takes
+ * it, it moves to kit.css and leaves this file.
+ */
+
+/* web-only: page transition (owner, 2026-11-21) — the old page leaves with a
+   fade and an 8px shift left, the new one enters from 8px right. The kit's
+   README describes it under Motion; the ::view-transition rules are the
+   site's, since the kit has no navigation. */
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+}
+::view-transition-old(.page) {
+  animation: page-out var(--duration-fast) ease both;
+}
+::view-transition-new(.page) {
+  animation: page-in var(--duration-base) ease both;
+}
+/* The rest of the page — header, footer, ground — swaps without the
+   browser's default cross-fade, so the footer does not ghost when the page
+   height changes. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+/* Clicks during a transition reach the live page instead of the overlay. */
+::view-transition {
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

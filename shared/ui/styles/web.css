@@ -45,13 +45,6 @@
   }
 }
 
-/* web-only: a code block in article text. Prose spaces paragraphs, quotes and
-   callouts but has no rule for .mk-code, whose own margin is 0, so a block
-   would touch the paragraph above; 22px as on Article-W / Article-B. */
-.mk-prose .mk-code {
-  margin-top: 22px;
-}
-
 /* web-only: the phone header without JavaScript. The menu button needs a
    script, so with none the kit's inline nav comes back as a second line,
    spread across, and the button goes. Proposed to the kit with the phone

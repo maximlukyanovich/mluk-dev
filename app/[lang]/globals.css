@@ -4,3 +4,5 @@
 @import "../../shared/ui/styles/tokens.css";
 /* In the components layer, so a utility on a kit element wins over the kit class. */
 @import "../../shared/ui/styles/kit.css" layer(components);
+/* Web additions the kit does not have yet, each marked web-only. */
+@import "../../shared/ui/styles/web.css" layer(components);

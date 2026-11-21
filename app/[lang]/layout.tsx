@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 
 import { getDictionary, getLocale } from "@/shared/i18n/get-dictionary";
 import { locales } from "@/shared/i18n/locales";
+import { siteUrl } from "@/shared/lib/site";
 import { fontVariables } from "@/shared/ui/fonts";
+import { ThemeProvider } from "@/shared/ui/theme-provider";
 
 import "./globals.css";
 
@@ -13,8 +15,10 @@ export function generateStaticParams() {
 export async function generateMetadata(): Promise<Metadata> {
   const { meta } = await getDictionary();
   return {
+    metadataBase: new URL(siteUrl),
     title: { default: meta.siteName, template: `%s · ${meta.siteName}` },
     description: meta.description,
+    openGraph: { siteName: meta.siteName, type: "website" },
   };
 }
 
@@ -23,8 +27,19 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   const locale = await getLocale();
 
   return (
-    <html lang={locale} className={fontVariables}>
-      <body className="mk-ground min-h-svh">{children}</body>
+    // next-themes sets data-theme on <html> before hydration.
+    <html lang={locale} className={fontVariables} suppressHydrationWarning>
+      <body className="mk-ground min-h-svh">
+        {/* The kit's buttons and tags have 150ms transitions; without
+            disableTransitionOnChange a theme switch would ripple through them. */}
+        <ThemeProvider
+          attribute="data-theme"
+          defaultTheme="system"
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

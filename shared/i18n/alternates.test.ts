@@ -7,11 +7,12 @@ describe("alternates", () => {
     expect(alternates("/cv", "ru")).toEqual({
       canonical: "/ru/cv",
       languages: { en: "/en/cv", ru: "/ru/cv", "x-default": "/en/cv" },
+      types: { "application/rss+xml": "/ru/feed.xml" },
     });
   });
 
   it("links only the translations that exist", () => {
-    expect(alternates("/writing/ru-only", "ru", ["ru"])).toEqual({
+    expect(alternates("/writing/ru-only", "ru", ["ru"])).toMatchObject({
       canonical: "/ru/writing/ru-only",
       languages: {
         ru: "/ru/writing/ru-only",

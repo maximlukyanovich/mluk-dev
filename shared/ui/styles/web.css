@@ -85,3 +85,22 @@
     opacity: 0;
   }
 }
+
+/* web-only: list markers in article text. Tailwind's preflight sets
+   list-style: none on every ol and ul; the kit, written without it, relies
+   on the browser's bullets and numbers — the post's lists and its numbered
+   footnotes lost them in the port. */
+.mk-prose ul {
+  list-style: disc;
+}
+.mk-prose ol {
+  list-style: decimal;
+}
+
+/* web-only: a larger play triangle in the video facade (owner, 2026-11-21);
+   the kit draws it at 24px in the 64px circle. */
+.mk-embed-icon svg {
+  width: 30px;
+  height: 30px;
+  margin-left: 4px;
+}

@@ -68,10 +68,12 @@ export function mediaComponents(copy: Copy) {
               label={copy.play.replace("{title}", title)}
             />
           </div>
-          {/* The way to the video without scripts, and the service's name. */}
-          <figcaption>
-            {caption && `${caption} · `}
-            <a href={page}>
+          {/* The way to the video without scripts and the service's name,
+              on the right; the caption, if any, on the left (owner,
+              2026-11-21: no separating dot). */}
+          <figcaption className="flex flex-wrap justify-between gap-x-4">
+            {caption && <span>{caption}</span>}
+            <a href={page} className="ml-auto">
               {watch} <span aria-hidden="true">↗</span>
             </a>
           </figcaption>

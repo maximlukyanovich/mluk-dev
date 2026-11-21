@@ -104,28 +104,3 @@
   height: 30px;
   margin-left: 4px;
 }
-
-/* web-only: the pager's "…" between page numbers. The kit's README asks for
-   it with many pages, but `.mk-pages > *` draws every child as a pill; the
-   gap is text in the same 40px slot, without the border. */
-.mk-pages > .mk-pages-gap {
-  min-width: 24px;
-  padding: 0;
-  border-color: transparent;
-  color: var(--muted);
-}
-
-/* web-only: the filter's list on a phone lies over the content below it
-   instead of pushing it down (owner, 2026-11-21); the kit opens it in
-   place. It spans the nearest positioned box — the filter itself, or the
-   row it is laid into when the filter is `display: contents`. */
-.mk-filter {
-  position: relative;
-}
-.mk-filter > .mk-drop {
-  position: absolute;
-  top: calc(100% + 4px);
-  right: 0;
-  left: 0;
-  z-index: 10;
-}

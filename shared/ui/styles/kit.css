@@ -1,6 +1,6 @@
 /*
  * kit.css — the kit's project/components/bundle.css, verbatim from its line 2
- * on (version 1795279947-80c0, 2026-11-21). Line 1, the Google Fonts @import,
+ * on (version 1795289201-f0cf, 2026-11-21). Line 1, the Google Fonts @import,
  * is dropped: next/font serves the same families (shared/ui/fonts.ts).
  * Prettier skips this file so it stays diffable against the kit:
  *   diff <(tail -n +2 bundle.css) <(tail -n +9 kit.css)
@@ -396,6 +396,8 @@ html:has(dialog.mk-lightbox[open]) { overflow: hidden; scrollbar-gutter: stable;
 .mk-pages > * { box-sizing: border-box; min-width: 40px; min-height: 40px; display: inline-flex; align-items: center; justify-content: center; padding: 0 10px; border: 1px solid var(--line); border-radius: var(--radius-pill); color: var(--fg); text-decoration: none; transition: border-color var(--duration-fast, 150ms) ease, color var(--duration-fast, 150ms) ease; }
 .mk-pages > a:hover { border-color: var(--peri); }
 .mk-pages > [aria-current] { background: var(--lime); border-color: var(--lime); color: var(--on-lime); font-weight: 600; }
+/* The "…" between page numbers with many pages: text in the same slot, no pill. */
+.mk-pages > .mk-pages-gap { min-width: 24px; padding: 0; border-color: transparent; color: var(--muted); }
 .mk-pager-nav { display: flex; gap: 8px; }
 /* Phone (owner, 2026-11-21 · decision 4 Б): one line — "← Newer", "Page 2 of 5", "Older →"; no numbers, no first / last. */
 .mk-pager.is-compact { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; text-align: center; }
@@ -467,7 +469,9 @@ a.mk-pill:hover { border-color: var(--peri); }
 .mk-filter-value { font-weight: 600; color: var(--lime); }
 .mk-filter-btn svg { width: 16px; height: 16px; transition: transform var(--duration-base, 200ms) ease; }
 .mk-filter-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
-.mk-filter > .mk-drop { flex: 1 1 100%; }
+/* The list lies over the content below the button instead of pushing it down (owner, 2026-11-21); it spans the nearest positioned box. */
+.mk-filter { position: relative; }
+.mk-filter > .mk-drop { position: absolute; top: calc(100% + 4px); right: 0; left: 0; z-index: 10; }
 .mk-filter-list { list-style: none; margin: 0; padding: 6px; border-radius: var(--radius-card); }
 .mk-filter-list :is(a, button) { box-sizing: border-box; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; padding: 0 14px; border: 0; border-radius: var(--radius-media); background: transparent; color: var(--fg); font-family: var(--font-mono); font-size: 14px; text-align: left; text-decoration: none; cursor: pointer; transition: background-color var(--duration-fast, 150ms) ease; }
 .mk-filter-list :is(a, button):hover, .mk-filter-list [aria-current="page"], .mk-filter-list [aria-pressed="true"] { background: var(--ph); }

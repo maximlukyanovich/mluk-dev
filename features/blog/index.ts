@@ -4,7 +4,7 @@ export {
   writingListMetadata,
   type WritingQuery,
 } from "./components/blog-index";
-export { PostList } from "./components/post-list";
+export { RecentPosts } from "./components/recent-posts";
 export { coverMeta, coverPath } from "./lib/cover";
 export { writingFallbacks, type WritingFallbacks } from "./lib/fallbacks";
 export {

@@ -1,6 +1,7 @@
 # Writing a post
 
-A post is a folder under `content/posts/` with one MDX file per locale. The
+A post is a folder under `content/posts/` with one MDX file per locale. Start
+one by copying `content/posts/_template/` to `content/posts/<slug>/`. The
 reference post `content/posts/post-elements/` uses every element below; copy
 from its source.
 
@@ -15,6 +16,9 @@ content/posts/<slug>/
 
 - The folder name is the slug in the URL (`/en/writing/<slug>`): lowercase
   Latin letters, digits and hyphens. `page` and `tag` are reserved.
+- A folder whose name starts with `_` is not a post. `_template` stays in the
+  repository even when no post exists: the build needs one `.mdx` under
+  `content/posts/` to compile the blog's import of a post.
 - A post without a translation is fine: the language switch on it leads to the
   other locale's blog, and the post shows no «Русский ↗» / «English ↗» pill.
 - Both locales of a post change in the same commit, like the dictionaries.

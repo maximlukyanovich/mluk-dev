@@ -15,6 +15,14 @@ import type { Post, TagCount } from "./types";
 /** `content/posts/<slug>/<locale>.mdx`, images beside them. */
 export const postsDir = path.join(process.cwd(), "content", "posts");
 
+/**
+ * The starting point for a new post, copied to `content/posts/<slug>/`. It
+ * is not a post, and it keeps the blog's `import()` of a post file
+ * resolvable when no post exists: Turbopack fails the build on an import
+ * template with no file to match.
+ */
+export const templateDir = path.join(postsDir, "_template");
+
 /** Slugs that would shadow a route under `/writing/` (`page/2`, `tag/x`). */
 export const reservedSlugs: readonly string[] = ["page", "tag"];
 
@@ -29,13 +37,14 @@ export type PostSource = {
 /**
  * Every post file under `dir`. A folder is a slug and must look like a tag
  * (`tagPattern`) and not be reserved; an `.mdx` in it is named after a
- * locale. Anything else in a folder (images) is left alone.
+ * locale. Anything else in a folder (images) is left alone, and so is a
+ * folder whose name starts with `_` (`_template`).
  */
 export function readPostSources(dir: string): PostSource[] {
   if (!existsSync(dir)) return [];
   const sources: PostSource[] = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (!entry.isDirectory()) continue;
+    if (!entry.isDirectory() || entry.name.startsWith("_")) continue;
     const slug = entry.name;
     const folder = path.join(dir, slug);
     if (!tagPattern.test(slug)) {

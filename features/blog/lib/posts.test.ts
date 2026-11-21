@@ -2,6 +2,7 @@ import {
   mkdirSync,
   mkdtempSync,
   readdirSync,
+  readFileSync,
   rmSync,
   statSync,
   writeFileSync,
@@ -11,11 +12,14 @@ import path from "node:path";
 
 import { afterEach, describe, expect, it } from "vitest";
 
+import { locales } from "@/shared/i18n/locales";
+
 import {
   buildPosts,
   countTags,
   postsDir,
   readPostSources,
+  templateDir,
   type PostSource,
 } from "./posts";
 import { testPost } from "./test-posts";
@@ -41,12 +45,13 @@ afterEach(() => {
 });
 
 describe("readPostSources", () => {
-  it("reads each locale file of each post folder, leaving images alone", () => {
+  it("reads each locale file of each post folder, leaving images and `_` folders alone", () => {
     const root = tree({
       "hello/en.mdx": frontmatter("Hello"),
       "hello/ru.mdx": frontmatter("Привет"),
       "hello/shot.png": "png",
       "README.txt": "not a post",
+      "_template/en.mdx": frontmatter("Template"),
     });
     const sources = readPostSources(root);
     expect(
@@ -154,6 +159,19 @@ describe("countTags", () => {
 describe("content/posts", () => {
   it("parses: every post in the repository is valid", () => {
     expect(() => buildPosts(readPostSources(postsDir))).not.toThrow();
+  });
+
+  it("keeps a valid template in every locale", () => {
+    const sources = locales.map((locale) => {
+      const file = path.join(templateDir, `${locale}.mdx`);
+      return {
+        slug: "template",
+        locale,
+        file,
+        source: readFileSync(file, "utf8"),
+      };
+    });
+    expect(() => buildPosts(sources)).not.toThrow();
   });
 
   it("keeps every image at 1 MB or less", () => {

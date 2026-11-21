@@ -70,17 +70,27 @@ Shared configuration (`package.json`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`,
 
 - i18n: a visitor-facing string outside the en/ru dictionaries, or a key present in one dictionary only — `major`
 - boundaries: a feature importing another feature, or `shared/` importing `features/` or `app/` (`AGENTS.md` §3) — `major`
-- Cache Components: the locale read from `params` instead of `next/root-params`, or a root parameter with no `generateStaticParams` value — `major`
-- design source: the Design System artifact in Claude Design — to be created; until then shadcn/ui defaults
+- Cache Components: the locale read from `params` instead of `next/root-params` in a page, a layout or `generateMetadata`, or a root parameter with no `generateStaticParams` value — `major`. Route handlers (`route.ts`, `opengraph-image`, `sitemap`) are the exception: `next/root-params` throws there, so they read `params` and export their own `generateStaticParams`
+- design source: the kit (`## Sources of truth`, item 2) — a class, token or markup that departs from it, or from the chosen page artboard, without the owner's recorded agreement — `major`
 
 ## Sources of truth
 
 1. The code and its config.
-2. Design: a Design System artifact (the kit) and a separate Design artifact
-   with canvases of page variants, both in Claude Design — to be created; their
-   URLs go here when they exist, with which canvas state means ready. Until
-   then shadcn/ui defaults and the owner's word, quoted with its date in the
-   plan.
+2. Design, in Claude Design:
+   - **the kit** — the Design System artifact
+     https://claude.ai/artifact/1mZUKFY6YW32tagwyFiFXh: tokens
+     (`project/tokens.json`), component classes (`project/components/bundle.css`,
+     `mk-*`) and their guidelines (`project/README.md`,
+     `project/components/<Name>/README.md`). It wins over a canvas for the look
+     of a component.
+   - **the page canvas** — the Design artifact
+     https://claude.ai/artifact/6VXXkACDuXmhmFUNbQ8LfH: three or more variants
+     per page, one canvas page per section. **Ready** means the frame's title
+     ends in «✓ выбрано»; a frame without it is a variant kept for comparison
+     and is never ported. The canvas's sticky notes record what was decided.
+   - Read both at write time with the Artifact tool, never from memory or a
+     summary. A screen with no chosen frame waits for the owner's word, quoted
+     with its date in the plan.
 3. Library docs through Context7, before memory.
 
 On conflict: show the owner both sides, never pick one silently.

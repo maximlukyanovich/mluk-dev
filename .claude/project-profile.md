@@ -23,17 +23,17 @@ both.
 
 ### Targeted checks
 
-| Path class                                          | Command                                                                            |
-| --------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| `*.ts`, `*.tsx`, `*.mjs`, `*.js` outside `scripts/` | `pnpm exec prettier --check <files> && pnpm exec eslint <files> && pnpm typecheck` |
-| `scripts/**`                                        | `pnpm exec prettier --check <files> && pnpm exec eslint <files> && pnpm test`      |
-| `*.md` outside `content/`, `.claude/**`             | `pnpm exec prettier --check <files>` — `pnpm format:check` reads them              |
+| Path class                                          | Command                                                                                                                      |
+| --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `*.ts`, `*.tsx`, `*.mjs`, `*.js` outside `scripts/` | `pnpm exec prettier --check <files> && pnpm exec eslint <files> && pnpm typecheck && pnpm exec vitest related --run <files>` |
+| `scripts/**`                                        | `pnpm exec prettier --check <files> && pnpm exec eslint <files> && pnpm test`                                                |
+| `*.md` outside `content/`, `.claude/**`             | `pnpm exec prettier --check <files>` — `pnpm format:check` reads them                                                        |
 
 Shared configuration (`package.json`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`,
 `next.config.ts`, `tsconfig.json`, `eslint.config.mjs`, Prettier's config),
 `*.css`, `content/**` and `public/**` have no row: they run `pnpm validate`.
 
-- hub files: none yet — no app test suite
+- hub files: `shared/i18n/locales.ts`, `shared/i18n/dictionaries/*.json` — every page reads them; a change runs the whole suite (`pnpm exec vitest run`)
 
 ## Docs
 

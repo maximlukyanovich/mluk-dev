@@ -51,22 +51,23 @@ dependency with `pnpm install --frozen-lockfile` in a fresh clone.
 App Router at the root (no `src/`), import alias `@/*` → the root. Paths
 marked _planned_ are decided and not yet in the code.
 
-| Path                                                                                 | Responsibility                                                                                                                                                                  | May import                                                        |
-| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| `app/[lang]/`                                                                        | The root layout (locale, fonts, theme), routes, metadata — thin: read the locale, call a feature, render it. `(site)` has the header and footer; `(print)` _(planned)_ has none | `features/*` through their `index.ts`, `shared/`                  |
-| `app/sitemap.ts`, `app/robots.ts`                                                    | Metadata routes outside the locale; the sitemap takes each section's pages from its feature                                                                                     | `shared/`; the sitemap also `features/*` through their `index.ts` |
-| `proxy.ts`                                                                           | Locale routing: applies `shared/i18n/decide-locale.ts`, nothing else                                                                                                            | `shared/`                                                         |
-| `features/<module>/` — `cv`; `blog`, `projects`, `contact`, `how-i-work` _(planned)_ | A section's components, data loading and logic; its public API is `index.ts` only                                                                                               | `shared/`, `content/` — never another feature                     |
-| `shared/`                                                                            | `ui/` (kit components, `site/` header and footer, `styles/`), `lib/`, `i18n/` (locales, dictionaries, `decideLocale`, `switchHref`, `alternates`)                               | itself only — never `features/` or `app/`                         |
-| `content/`                                                                           | Site content in git, one file per locale: `cv/<locale>.json`; MDX posts _(planned)_                                                                                             | —                                                                 |
-| `assets/fonts/`                                                                      | Static TTFs for `next/og` (Satori takes no woff2) with their OFL licences                                                                                                       | —                                                                 |
-| `public/` _(planned)_                                                                | Static assets; images go through `next/image`                                                                                                                                   | —                                                                 |
-| `scripts/`                                                                           | Repository tooling (the agent-plugin report)                                                                                                                                    | Node built-ins                                                    |
+| Path                                                                                 | Responsibility                                                                                                                                                                                         | May import                                                        |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
+| `app/[lang]/`                                                                        | The root layout (locale, fonts, theme), routes, metadata — thin: read the locale, call a feature, render it. `(site)` has the header and footer; `(print)` _(planned)_ has none                        | `features/*` through their `index.ts`, `shared/`                  |
+| `app/sitemap.ts`, `app/robots.ts`                                                    | Metadata routes outside the locale; the sitemap takes each section's pages from its feature                                                                                                            | `shared/`; the sitemap also `features/*` through their `index.ts` |
+| `proxy.ts`                                                                           | Locale routing: applies `shared/i18n/decide-locale.ts`, nothing else                                                                                                                                   | `shared/`                                                         |
+| `features/<module>/` — `cv`, `blog`; `projects`, `contact`, `how-i-work` _(planned)_ | A section's components, data loading and logic; its public API is `index.ts` only. `blog/mdx/*.mjs` — the MDX plugin list and the project's own plugins, plain JS that Node loads for `next.config.ts` | `shared/`, `content/` — never another feature                     |
+| `shared/`                                                                            | `ui/` (kit components, `site/` header and footer, `styles/`), `lib/`, `i18n/` (locales, dictionaries, `decideLocale`, `switchHref`, `alternates`)                                                      | itself only — never `features/` or `app/`                         |
+| `content/`                                                                           | Site content in git, one file per locale: `cv/<locale>.json`, `posts/<slug>/<locale>.mdx` with its pictures beside it; `posts/_template/` is not a post and keeps the build whole when no post exists  | —                                                                 |
+| `mdx-components.tsx`                                                                 | Required by `@next/mdx`; a pass-through — a post's components come from `features/blog` as a prop                                                                                                      | —                                                                 |
+| `assets/fonts/`                                                                      | Static TTFs for `next/og` (Satori takes no woff2) with their OFL licences                                                                                                                              | —                                                                 |
+| `public/` _(planned)_                                                                | Static assets; images go through `next/image`                                                                                                                                                          | —                                                                 |
+| `scripts/`                                                                           | Repository tooling (the agent-plugin report)                                                                                                                                                           | Node built-ins                                                    |
 
 Stack: Tailwind 4 with the design kit's CSS and shadcn/ui conventions,
 `next-themes` (light/dark, `data-theme`); i18n by `app/[lang]`, dictionaries
-and `next/root-params`, no library; content in JSON now, MDX posts planned,
-no database; Vercel hosting with Cloudflare DNS.
+and `next/root-params`, no library; content in JSON and MDX (`@next/mdx`), no
+database; Vercel hosting with Cloudflare DNS.
 
 ## 4. Conventions
 
@@ -107,6 +108,28 @@ conflict between two sources, show it to the owner — never pick one silently.
   `next.config.ts` serves such a path from the default locale instead. Read
   the guide in `node_modules/next/dist/docs/` before using an API, as the
   block above says.
+- **Content routes** (`/writing/**`). They export `instant = false` and read
+  `params` outside Suspense: the post is whole in the prerendered HTML.
+  Suspense around `params` put the text in a `<div hidden>` until the script
+  ran, in production too. Every `generateStaticParams` over content returns
+  a `__none__` placeholder when a locale has nothing, and its page calls
+  `notFound()` — an empty list fails the build. An unknown slug, tag or page
+  gets the localized 404 page with `noindex` under HTTP 200: the shell is
+  sent before the check. After a client navigation Next keeps the previous
+  page hidden in the DOM, so an `id` can appear twice; the visible page comes
+  first.
+- **Route handlers that prerender.** A handler that `await`s a file read is
+  dynamic under Cache Components; synchronous I/O (`readFileSync`) is
+  prerendered. An Open Graph image under a dynamic segment is a route handler
+  of its own (`[slug]/cover.png`), not `opengraph-image`: the file convention
+  hashes that URL, and the page cannot link to it.
+- **MDX under Turbopack.** Plugins are strings in
+  `features/blog/mdx/options.mjs` — `next.config.ts` and the tests read the
+  same list. `@next/mdx` resolves a string from the directory of the `.mdx`
+  being compiled, so the project's own plugins are named by an absolute path
+  from `import.meta.url`. The dev server does not reload `options.mjs`:
+  restart it, or touch `next.config.ts`. The post `import()` needs one `.mdx`
+  under `content/posts/` to match, or the build fails — hence `_template`.
 - **Library docs before memory** — Context7 for Next.js, React, Tailwind,
   shadcn/ui, MDX.
 - **A UI change is checked live** — Playwright against the dev server, both

@@ -86,5 +86,9 @@
     "watchYouTube": "Watch on YouTube",
     "watchVimeo": "Watch on Vimeo",
     "table": "Table"
+  },
+  "feed": {
+    "title": "mluk.dev · Writing",
+    "description": "Posts by Maxim Lukyanovich."
   }
 }

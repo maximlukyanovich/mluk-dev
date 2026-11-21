@@ -42,6 +42,6 @@ export default async function Image({
       title={meta.ogTitle}
       meta={`${meta.siteName} · ${dictionaryFor(locale).locales[locale].short}`}
     />,
-    { ...ogSize, fonts: await ogFonts() },
+    { ...ogSize, fonts: ogFonts() },
   );
 }

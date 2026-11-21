@@ -88,5 +88,9 @@
     "watchYouTube": "Смотреть на YouTube",
     "watchVimeo": "Смотреть на Vimeo",
     "table": "Таблица"
+  },
+  "feed": {
+    "title": "mluk.dev · Блог",
+    "description": "Публикации Максима Лукьяновича."
   }
 }

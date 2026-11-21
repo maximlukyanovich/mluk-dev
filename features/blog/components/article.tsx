@@ -1,6 +1,10 @@
 import type { Dictionary } from "@/shared/i18n/dictionaries";
 import { localePath, type Locale } from "@/shared/i18n/locales";
+import { ogSize } from "@/shared/ui/og-cover";
 
+import Image from "next/image";
+
+import { coverPath } from "../lib/cover";
 import { getPosts, postLocales } from "../lib/posts";
 import type { Post } from "../lib/types";
 import { AuthorBox, type Author } from "./author-box";
@@ -98,6 +102,19 @@ export async function Article({
 
         <div className="mt-9 wide:col-start-2 wide:row-start-2 wide:mt-10">
           <div className="mk-prose mk-prose-numbered">
+            {/* The cover is the post's Open Graph picture (kit Figure, OgCover):
+                at the top, eager, since it is the first screen's image. */}
+            <figure className="mk-figure mk-figure-cover">
+              <Image
+                src={coverPath(locale, post.slug)}
+                alt={post.title}
+                width={ogSize.width}
+                height={ogSize.height}
+                sizes="(min-width: 790px) 740px, 100vw"
+                loading="eager"
+                fetchPriority="high"
+              />
+            </figure>
             <PostBody
               slug={post.slug}
               locale={locale}

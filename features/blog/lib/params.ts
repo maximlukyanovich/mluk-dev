@@ -1,4 +1,4 @@
-import { hasLocale } from "@/shared/i18n/locales";
+import { hasLocale, locales } from "@/shared/i18n/locales";
 
 import { pageCount } from "./paginate";
 import { countTags, getPosts } from "./posts";
@@ -56,3 +56,17 @@ export const generateTagParams = ({ params }: Parent) =>
 
 export const generateTagPageParams = ({ params }: Parent<{ tag: string }>) =>
   tagPageParams(postsOf(params.lang), params.tag);
+
+/**
+ * `{ lang, slug }` for a post's cover, a route handler that lists its own
+ * locales (next/root-params throws there). Called with the parent's `lang`
+ * it keeps to that locale.
+ */
+export const generatePostCoverParams = ({
+  params,
+}: { params?: { lang?: string } } = {}) =>
+  locales
+    .filter((locale) => !params?.lang || params.lang === locale)
+    .flatMap((lang) =>
+      slugParams(postsOf(lang)).map(({ slug }) => ({ lang, slug })),
+    );

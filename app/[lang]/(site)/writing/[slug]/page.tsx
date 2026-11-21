@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import {
   Article,
+  coverPath,
   generatePostParams,
   getPost,
   postLocales,
@@ -11,6 +12,7 @@ import { getProfile } from "@/features/cv";
 import { alternates } from "@/shared/i18n/alternates";
 import { getDictionary, getLocale } from "@/shared/i18n/get-dictionary";
 import { localePath, ogLocale } from "@/shared/i18n/locales";
+import { ogSize } from "@/shared/ui/og-cover";
 
 // Every post of the parent locale; none → a placeholder that is a 404.
 export const generateStaticParams = generatePostParams;
@@ -58,6 +60,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       publishedTime: post.date,
       modifiedTime: post.updated ?? post.date,
       tags: post.tags,
+      // Replacing openGraph drops the layout's image; the post's cover
+      // takes its place.
+      images: [
+        {
+          url: coverPath(locale, post.slug),
+          ...ogSize,
+          alt: post.title,
+        },
+      ],
     },
   };
 }

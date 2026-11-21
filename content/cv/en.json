@@ -1,0 +1,28 @@
+{
+  "profile": {
+    "name": {
+      "first": "Maxim",
+      "last": "Lukyanovich"
+    },
+    "role": "[Role]",
+    "city": "[City]",
+    "lead": "I build interfaces for the web and write down what I learn on the way.",
+    "openToWork": true,
+    "photo": null,
+    "languages": "EN · RU",
+    "facts": [
+      {
+        "term": "Based in",
+        "value": "[City]"
+      },
+      {
+        "term": "Focus",
+        "value": "[topics]"
+      },
+      {
+        "term": "Open to",
+        "value": "[kind of work]"
+      }
+    ]
+  }
+}

@@ -41,5 +41,12 @@
       "short": "RU",
       "name": "Русский"
     }
+  },
+  "home": {
+    "readBlog": "Read the blog",
+    "cvPdf": "CV · PDF",
+    "profile": "Profile",
+    "openToWork": "Open to work",
+    "photoPlaceholder": "[Photo 1:1]"
   }
 }

@@ -1,0 +1,91 @@
+---
+title: "Everything a post can hold"
+description: "A reference post with every element the blog supports."
+date: 2026-11-21
+tags: [writing, mdx]
+---
+
+This post shows every element a post can use.
+
+## Text and code
+
+Inline `code`, a [link](https://mluk.dev) and a footnote.[^1]
+
+```tsx title="features/blog/greeting.tsx" {2} /name/
+export function Greeting({ name }: { name: string }) {
+  return <p className="mk-lead">Hello, {name}</p>;
+}
+```
+
+## Diff
+
+```ts
+const theme = "light"; // [!code --]
+const theme = "dark"; // [!code ++]
+```
+
+## Tables and long code
+
+| A   | B   |
+| --- | --- |
+| 1   | 2   |
+
+```js
+const config = {
+  step1: "value 1",
+  step2: "value 2",
+  step3: "value 3",
+  step4: "value 4",
+  step5: "value 5",
+  step6: "value 6",
+  step7: "value 7",
+  step8: "value 8",
+  step9: "value 9",
+  step10: "value 10",
+  step11: "value 11",
+  step12: "value 12",
+  step13: "value 13",
+  step14: "value 14",
+  step15: "value 15",
+  step16: "value 16",
+  step17: "value 17",
+  step18: "value 18",
+  step19: "value 19",
+  step20: "value 20",
+  step21: "value 21",
+  step22: "value 22",
+  step23: "value 23",
+  step24: "value 24",
+};
+```
+
+```js nocollapse
+const config = {
+  step1: "value 1",
+  step2: "value 2",
+  step3: "value 3",
+  step4: "value 4",
+  step5: "value 5",
+  step6: "value 6",
+  step7: "value 7",
+  step8: "value 8",
+  step9: "value 9",
+  step10: "value 10",
+  step11: "value 11",
+  step12: "value 12",
+  step13: "value 13",
+  step14: "value 14",
+  step15: "value 15",
+  step16: "value 16",
+  step17: "value 17",
+  step18: "value 18",
+  step19: "value 19",
+  step20: "value 20",
+  step21: "value 21",
+  step22: "value 22",
+  step23: "value 23",
+  step24: "value 24",
+};
+```
+
+[^1]: A footnote.

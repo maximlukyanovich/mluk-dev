@@ -48,5 +48,9 @@
     "profile": "Profile",
     "openToWork": "Open to work",
     "photoPlaceholder": "[Photo 1:1]"
+  },
+  "article": {
+    "footnotes": "Footnotes",
+    "backToReference": "Back to reference {n}"
   }
 }

@@ -48,5 +48,9 @@
     "profile": "Профиль",
     "openToWork": "Открыт к предложениям",
     "photoPlaceholder": "[Фото 1:1]"
+  },
+  "article": {
+    "footnotes": "Сноски",
+    "backToReference": "Вернуться к сноске {n}"
   }
 }

@@ -4,32 +4,10 @@
  * it, it moves to kit.css and leaves this file.
  */
 
-/* web-only: the current nav item carries a 6px lime dot, as on the page
-   artboards (the kit's Header has only the ph fill). */
-.mk-nav a {
-  gap: 8px;
-}
-.mk-nav a[aria-current="page"]::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--lime);
-}
-
-/* web-only: the theme toggle follows the OS while no theme is set
-   (JavaScript off), as tokens.css does for the colours. */
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) .mk-theme-toggle :is(.mk-i-sun, .mk-tip-dark) {
-    display: inline;
-  }
-  :root:not([data-theme]) .mk-theme-toggle :is(.mk-i-moon, .mk-tip-light) {
-    display: none;
-  }
-}
-
 /* web-only: page transition (owner, 2026-11-21) — the old page leaves with a
-   fade and an 8px shift left, the new one enters from 8px right. */
+   fade and an 8px shift left, the new one enters from 8px right. The kit's
+   README describes it under Motion; the ::view-transition rules are the
+   site's, since the kit has no navigation. */
 @keyframes page-out {
   to {
     opacity: 0;

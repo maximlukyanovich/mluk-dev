@@ -20,6 +20,10 @@
       "howIWork": "Как я работаю",
       "contact": "Контакты"
     },
+    "menu": {
+      "open": "Открыть меню",
+      "close": "Закрыть меню"
+    },
     "langLabel": "Язык",
     "theme": {
       "toLight": "Включить светлую тему",
@@ -27,7 +31,6 @@
     },
     "footer": {
       "copyright": "© 2026 Максим Лукьянович",
-      "languagesLabel": "Языки",
       "rss": "RSS",
       "sitemap": "Карта сайта"
     }

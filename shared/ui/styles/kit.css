@@ -1,6 +1,6 @@
 /*
  * kit.css — the kit's project/components/bundle.css, verbatim from its line 2
- * on (version 1795274387-d93d, 2026-11-21). Line 1, the Google Fonts @import,
+ * on (version 1795278257-731b, 2026-11-21). Line 1, the Google Fonts @import,
  * is dropped: next/font serves the same families (shared/ui/fonts.ts).
  * Prettier skips this file so it stays diffable against the kit:
  *   diff <(tail -n +2 bundle.css) <(tail -n +9 kit.css)
@@ -20,6 +20,20 @@ body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--fo
 .mk-eyebrow { display: flex; align-items: center; gap: 10px; margin: 0; font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 .mk-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--lime); flex-shrink: 0; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+/* Scrollbar (owner, 2026-11-21 · А): a 4px thumb in line-field inside a 12px gutter, muted on hover and drag, no track. Phones draw their own overlay bar. */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-thumb { background-color: var(--line-field); border: 4px solid transparent; background-clip: padding-box; border-radius: var(--radius-pill); }
+::-webkit-scrollbar-thumb:hover, ::-webkit-scrollbar-thumb:active { background-color: var(--muted); }
+@supports (-moz-appearance: none) { * { scrollbar-width: thin; scrollbar-color: var(--line-field) transparent; } }
+
+/* ── Drop: a panel that opens in place — the phone menu, a filter list (owner, 2026-11-21) ── */
+/* Height and opacity over 200ms, the content 4px down into place; closing runs back. The only animated layout in the kit. */
+.mk-drop { display: grid; grid-template-rows: 0fr; opacity: 0; visibility: hidden; transition: grid-template-rows var(--duration-base, 200ms) ease, opacity var(--duration-base, 200ms) ease, visibility 0s linear var(--duration-base, 200ms); }
+.mk-drop.is-open { grid-template-rows: 1fr; opacity: 1; visibility: visible; transition: grid-template-rows var(--duration-base, 200ms) ease, opacity var(--duration-base, 200ms) ease, visibility 0s linear 0s; }
+.mk-drop > * { min-height: 0; overflow: hidden; }
+.mk-drop > * > * { transform: translateY(-4px); transition: transform var(--duration-base, 200ms) ease; }
+.mk-drop.is-open > * > * { transform: none; }
 
 /* Preview scaffolding (cards only) */
 .mk-demo { box-sizing: border-box; padding: var(--space-6) var(--space-6); display: flex; flex-direction: column; gap: var(--space-5); min-height: 100vh; }
@@ -81,15 +95,31 @@ body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--fo
 .mk-header-tools { display: flex; align-items: center; gap: 8px; }
 .mk-search { flex: 1 1 200px; max-width: 360px; box-sizing: border-box; min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 8px 0 16px; background: transparent; border: 1px solid var(--line); border-radius: var(--radius-pill); color: var(--muted); font-family: var(--font-mono); font-size: 13px; cursor: pointer; }
 .mk-search kbd { padding: 4px 10px; border-radius: var(--radius-pill); background: var(--ph); font-family: var(--font-mono); font-size: 11px; }
-/* Phone: the wordmark and the tools share the first line, the nav takes the second. */
-.mk-header.is-compact { border-radius: var(--radius-panel); }
-.mk-header.is-compact .mk-nav { order: 3; width: 100%; margin-left: 0; justify-content: space-between; }
+/* Phone (≤640px, owner 2026-11-21 · decision 1 В): one line — the wordmark, the language, the theme and a menu button; the sections open in a panel inside the header (.mk-drop). */
+.mk-menu-btn { display: none; }
+.mk-menu-icon { position: relative; display: inline-flex; width: 20px; height: 20px; }
+.mk-menu-icon > svg { position: absolute; inset: 0; width: 20px; height: 20px; transition: opacity var(--duration-fast, 150ms) ease; }
+.mk-menu-icon .mk-i-close, .mk-menu-btn[aria-expanded="true"] .mk-i-menu { opacity: 0; }
+.mk-menu-btn[aria-expanded="true"] .mk-i-close { opacity: 1; }
+.mk-header > .mk-drop { flex: 1 1 100%; }
+.mk-menu ol { list-style: none; margin: 8px 0 0; padding: 8px 0 2px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 2px; }
+.mk-menu a { display: flex; align-items: center; gap: 14px; min-height: 52px; padding: 0 14px; border-radius: 20px; color: var(--fg); font-size: 17px; font-weight: 600; line-height: 1.2; text-decoration: none; -webkit-tap-highlight-color: transparent; transition: background-color var(--duration-fast, 150ms) ease, transform var(--duration-fast, 150ms) ease; }
+.mk-menu a:hover, .mk-menu a[aria-current="page"] { background: var(--ph); }
+.mk-menu a:is(:active, .is-pressed) { background: var(--line); transform: translateY(1px); }
+.mk-menu a:focus-visible { outline-offset: -2px; }
+.mk-menu-no { width: 20px; font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--lime); }
+.mk-menu a[aria-current="page"]::after { content: ""; margin-left: auto; width: 6px; height: 6px; border-radius: 50%; background: var(--lime); }
+.mk-header.is-compact { row-gap: 0; padding-left: 16px; border-radius: var(--radius-panel); }
+.mk-header.is-compact .mk-nav { display: none; }
 .mk-header.is-compact .mk-header-tools { margin-left: auto; }
+.mk-header.is-compact .mk-menu-btn { display: inline-flex; }
 @media (max-width: 640px) {
-  .mk-header { border-radius: var(--radius-panel); }
-  .mk-header .mk-nav { order: 3; width: 100%; margin-left: 0; justify-content: space-between; }
+  .mk-header { row-gap: 0; padding-left: 16px; border-radius: var(--radius-panel); }
+  .mk-header .mk-nav { display: none; }
   .mk-header .mk-header-tools { margin-left: auto; }
+  .mk-menu-btn { display: inline-flex; }
 }
+@media (min-width: 641px) { .mk-header:not(.is-compact) > .mk-drop { display: none; } }
 
 /* ── Breadcrumbs ──────────────────────────────────────── */
 .mk-crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; line-height: 1.4; }
@@ -109,6 +139,8 @@ a.mk-tag:hover { border-color: var(--peri); }
 .mk-hash { color: var(--peri); transition: color var(--duration-fast, 150ms) ease; }
 .mk-chip { box-sizing: border-box; display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: transparent; color: var(--fg); font-family: var(--font-mono); font-size: 13px; font-weight: 500; cursor: pointer; transition: background-color var(--duration-fast, 150ms) ease, border-color var(--duration-fast, 150ms) ease, color var(--duration-fast, 150ms) ease; }
 a.mk-chip { text-decoration: none; }
+.mk-chip { position: relative; }
+.mk-chip::after { content: ""; position: absolute; inset: -4px 0; }
 .mk-chip:hover { border-color: var(--peri); }
 /* Selected: aria-pressed on a filter button, aria-current="page" on a link to the tag's page (owner, 2026-11-21). */
 .mk-chip[aria-pressed="true"], .mk-chip[aria-current="page"] { background: var(--lime); border-color: var(--lime); color: var(--on-lime); }
@@ -309,6 +341,23 @@ html:has(dialog.mk-lightbox[open]) { overflow: hidden; scrollbar-gutter: stable;
 .mk-card-row { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 28px; padding: 14px; }
 .mk-card-row > .mk-card-media { flex: 0 1 440px; }
 .mk-card-body { flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 10px 14px; }
+/* Rows on a phone (owner, 2026-11-21 · decision 5 В): a compact list — a 104px screenshot, number, title and stack; the description, facts and buttons stay on wider screens. */
+.mk-card-row.is-compact { flex-wrap: nowrap; gap: 14px; padding: 10px 14px 10px 10px; border-radius: var(--radius-card); }
+.mk-card-row.is-compact > .mk-card-media { flex: 0 0 104px; border-radius: var(--radius-inner); font-size: 9px; }
+.mk-card-row.is-compact .mk-card-body { flex: 1 1 auto; gap: 4px; padding: 0; }
+.mk-card-row.is-compact .mk-card-meta { padding: 0; letter-spacing: 0.08em; }
+.mk-card-row.is-compact .mk-card-title { padding: 0; font-size: 18px; }
+.mk-card-row.is-compact .mk-card-stack { padding: 0; }
+.mk-card-row.is-compact :is(.mk-card-text, .mk-facts, .mk-card-above, .mk-feat) { display: none; }
+@media (max-width: 640px) {
+  .mk-card-row { flex-wrap: nowrap; gap: 14px; padding: 10px 14px 10px 10px; border-radius: var(--radius-card); }
+  .mk-card-row > .mk-card-media { flex: 0 0 104px; border-radius: var(--radius-inner); font-size: 9px; }
+  .mk-card-row .mk-card-body { flex: 1 1 auto; gap: 4px; padding: 0; }
+  .mk-card-row .mk-card-meta { padding: 0; letter-spacing: 0.08em; }
+  .mk-card-row .mk-card-title { padding: 0; font-size: 18px; }
+  .mk-card-row .mk-card-stack { padding: 0; }
+  .mk-card-row :is(.mk-card-text, .mk-facts, .mk-card-above, .mk-feat) { display: none; }
+}
 .mk-stretch { color: inherit; text-decoration: none; }
 .mk-stretch::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
 .mk-card-above { position: relative; z-index: 1; }
@@ -346,6 +395,23 @@ html:has(dialog.mk-lightbox[open]) { overflow: hidden; scrollbar-gutter: stable;
 .mk-pages > a:hover { border-color: var(--peri); }
 .mk-pages > [aria-current] { background: var(--lime); border-color: var(--lime); color: var(--on-lime); font-weight: 600; }
 .mk-pager-nav { display: flex; gap: 8px; }
+/* Phone (owner, 2026-11-21 · decision 4 Б): one line — "← Newer", "Page 2 of 5", "Older →"; no numbers, no first / last. */
+.mk-pager.is-compact { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; text-align: center; }
+.mk-pager.is-compact :is(.mk-pages, .mk-pager-total) { display: none; }
+.mk-pager.is-compact .mk-pager-nav { display: contents; }
+.mk-pager.is-compact .mk-pager-nav > :first-child { order: 1; }
+.mk-pager.is-compact .mk-pager-info { order: 2; }
+.mk-pager.is-compact .mk-pager-nav > :last-child { order: 3; }
+.mk-pager.is-compact .mk-btn { min-height: 44px; }
+@media (max-width: 640px) {
+  .mk-pager { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; text-align: center; }
+  .mk-pager :is(.mk-pages, .mk-pager-total) { display: none; }
+  .mk-pager-nav { display: contents; }
+  .mk-pager-nav > :first-child { order: 1; }
+  .mk-pager-info { order: 2; }
+  .mk-pager-nav > :last-child { order: 3; }
+  .mk-pager .mk-btn { min-height: 44px; }
+}
 
 /* ── Table of contents: side panel and sticky bar ── */
 .mk-toc { padding: 20px; border-radius: var(--radius-card); line-height: 1.5; }
@@ -390,3 +456,36 @@ a.mk-pill:hover { border-color: var(--peri); }
 .mk-pn-next { align-items: flex-end; text-align: right; }
 .mk-pn-dir { font-family: var(--font-mono); font-size: 12px; color: var(--lime); }
 .mk-pn-title { font-family: var(--font-display); font-size: 18px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
+
+/* ── Filter: on a phone the chips become a button with the current value and a list under it (owner, 2026-11-21 · decision 3 В) ── */
+.mk-filter { display: none; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.mk-filter-btn { box-sizing: border-box; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 14px 0 16px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: transparent; color: var(--fg); font-family: var(--font-mono); font-size: 13px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: border-color var(--duration-fast, 150ms) ease, background-color var(--duration-fast, 150ms) ease, transform var(--duration-fast, 150ms) ease; }
+.mk-filter-btn:hover { border-color: var(--peri); }
+.mk-filter-btn:is(:active, .is-pressed) { background: var(--ph); transform: translateY(1px); }
+.mk-filter-value { font-weight: 600; color: var(--lime); }
+.mk-filter-btn svg { width: 16px; height: 16px; transition: transform var(--duration-base, 200ms) ease; }
+.mk-filter-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+.mk-filter > .mk-drop { flex: 1 1 100%; }
+.mk-filter-list { list-style: none; margin: 0; padding: 6px; border-radius: var(--radius-card); }
+.mk-filter-list :is(a, button) { box-sizing: border-box; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; padding: 0 14px; border: 0; border-radius: var(--radius-media); background: transparent; color: var(--fg); font-family: var(--font-mono); font-size: 14px; text-align: left; text-decoration: none; cursor: pointer; transition: background-color var(--duration-fast, 150ms) ease; }
+.mk-filter-list :is(a, button):hover, .mk-filter-list [aria-current="page"], .mk-filter-list [aria-pressed="true"] { background: var(--ph); }
+.mk-filter-list :is(a, button):focus-visible { outline-offset: -2px; }
+.mk-filter-count { font-size: 12px; color: var(--muted); }
+.mk-filter-check { width: 16px; height: 16px; color: var(--lime); opacity: 0; }
+.mk-filter-list [aria-current="page"] .mk-filter-check, .mk-filter-list [aria-pressed="true"] .mk-filter-check { opacity: 1; }
+.mk-filter.is-compact { display: flex; }
+@media (max-width: 640px) { .mk-filter { display: flex; } .mk-filter-chips { display: none; } }
+
+/* ── Footer ── */
+/* Copyright on the left; languages, RSS and the sitemap on the right, joined by " / " and " · ". Phone (owner, 2026-11-21 · decision 2 В): centred, the links above the copyright, each link 44px tall. */
+.mk-footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0 12px; margin-top: 48px; padding: 0 8px; font-family: var(--font-mono); font-size: 12px; line-height: 1.5; color: var(--muted); }
+.mk-footer p { margin: 0; }
+.mk-footer a { color: var(--peri); text-decoration: underline; text-underline-offset: 2px; transition: color var(--duration-fast, 150ms) ease; }
+.mk-footer a:hover { color: var(--fg); }
+.mk-footer [aria-current] { color: var(--fg); }
+.mk-footer.is-compact { flex-direction: column-reverse; justify-content: center; text-align: center; }
+.mk-footer.is-compact .mk-footer-links > :is(a, span) { display: inline-flex; align-items: center; min-height: 44px; }
+@media (max-width: 640px) {
+  .mk-footer { flex-direction: column-reverse; justify-content: center; text-align: center; }
+  .mk-footer-links > :is(a, span) { display: inline-flex; align-items: center; min-height: 44px; }
+}

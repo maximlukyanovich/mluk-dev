@@ -51,3 +51,20 @@
 .mk-prose .mk-code {
   margin-top: 22px;
 }
+
+/* web-only: the phone header without JavaScript. The menu button needs a
+   script, so with none the kit's inline nav comes back as a second line,
+   spread across, and the button goes. Proposed to the kit with the phone
+   header (2026-11-21). */
+@media (scripting: none) and (max-width: 640px) {
+  .mk-header .mk-nav {
+    display: flex;
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+  }
+  .mk-header .mk-menu-btn {
+    display: none;
+  }
+}

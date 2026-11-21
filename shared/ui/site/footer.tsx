@@ -3,7 +3,6 @@ import type { Locale } from "@/shared/i18n/locales";
 import type { PathFallbacks } from "@/shared/i18n/switch-href";
 
 import { FooterLanguages } from "./footer-languages";
-import { footerLink } from "./footer-link";
 
 type FooterProps = {
   locale: Locale;
@@ -12,30 +11,29 @@ type FooterProps = {
   fallbacks?: PathFallbacks;
 };
 
-/** Copyright on the left; languages, RSS and the sitemap on the right. */
+/**
+ * The kit's Footer: the copyright and, joined by " / " and " · ", the
+ * languages, RSS and the sitemap. On a phone kit.css centres it with the
+ * links on top, each 44px tall.
+ */
 export function Footer({ locale, dictionary, fallbacks }: FooterProps) {
   const { footer } = dictionary.site;
   const { locales } = dictionary;
 
   return (
-    <footer className="mt-12 flex flex-wrap justify-between gap-3 px-2 font-mono text-xs/normal text-muted">
-      <span>{footer.copyright}</span>
-      <span>
+    <footer className="mk-footer">
+      <p>{footer.copyright}</p>
+      <p className="mk-footer-links">
         <FooterLanguages
           locale={locale}
-          label={footer.languagesLabel}
           names={{ en: locales.en.name, ru: locales.ru.name }}
           fallbacks={fallbacks}
         />
         {" · "}
-        <a className={footerLink} href={`/${locale}/feed.xml`}>
-          {footer.rss}
-        </a>
+        <a href={`/${locale}/feed.xml`}>{footer.rss}</a>
         {" · "}
-        <a className={footerLink} href="/sitemap.xml">
-          {footer.sitemap}
-        </a>
-      </span>
+        <a href="/sitemap.xml">{footer.sitemap}</a>
+      </p>
     </footer>
   );
 }

@@ -20,6 +20,10 @@
       "howIWork": "How I work",
       "contact": "Contact"
     },
+    "menu": {
+      "open": "Open menu",
+      "close": "Close menu"
+    },
     "langLabel": "Language",
     "theme": {
       "toLight": "Switch to light theme",
@@ -27,7 +31,6 @@
     },
     "footer": {
       "copyright": "© 2026 Maxim Lukyanovich",
-      "languagesLabel": "Languages",
       "rss": "RSS",
       "sitemap": "Sitemap"
     }

@@ -9,6 +9,6 @@ export default defineConfig({
   test: {
     environment: "node",
     // scripts/ keeps its own node:test suite (`pnpm test:scripts`).
-    include: ["{app,features,shared}/**/*.test.{ts,tsx}"],
+    include: ["{app,features,shared}/**/*.test.{ts,tsx}", "proxy.test.ts"],
   },
 });

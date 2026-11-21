@@ -25,7 +25,7 @@ export function Intro({ locale, profile, copy }: IntroProps) {
         <br />
         {profile.name.last}
       </h1>
-      <p className="mt-5.5 max-w-[540px] text-lead text-muted">
+      <p className="mt-5.5 max-w-[540px] text-lead-hero text-muted">
         {profile.lead}
       </p>
       <div className="mt-7 flex flex-wrap gap-2.5">

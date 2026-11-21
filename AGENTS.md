@@ -28,16 +28,16 @@ written now.
 Run from the repository root. Node 24 (`.nvmrc`), pnpm 11 through Corepack
 (`packageManager`).
 
-| What       | Command                                                                                                                     |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------- |
-| Install    | `pnpm install`                                                                                                              |
-| Dev server | `pnpm dev` — http://localhost:3000                                                                                          |
-| Lint       | `pnpm lint` (ESLint, `eslint-config-next`)                                                                                  |
-| Format     | `pnpm format` / `pnpm format:check` (Prettier)                                                                              |
-| Type-check | `pnpm typecheck` — `next typegen && tsc --noEmit`; a bare `tsc` on a clean clone fails on the generated `LayoutProps`       |
-| Tests      | `pnpm test` — Vitest over `{app,features,shared}/**/*.test.ts(x)`, then `pnpm test:scripts` (`node --test` over `scripts/`) |
-| Build      | `pnpm build`                                                                                                                |
-| Full gate  | `pnpm validate` — format check, lint, type-check, tests, build                                                              |
+| What       | Command                                                                                                                                         |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Install    | `pnpm install`                                                                                                                                  |
+| Dev server | `pnpm dev` — http://localhost:3000                                                                                                              |
+| Lint       | `pnpm lint` (ESLint, `eslint-config-next`)                                                                                                      |
+| Format     | `pnpm format` / `pnpm format:check` (Prettier)                                                                                                  |
+| Type-check | `pnpm typecheck` — `next typegen && tsc --noEmit`; a bare `tsc` on a clean clone fails on the generated `LayoutProps`                           |
+| Tests      | `pnpm test` — Vitest over `{app,features,shared}/**/*.test.ts(x)` and `proxy.test.ts`, then `pnpm test:scripts` (`node --test` over `scripts/`) |
+| Build      | `pnpm build`                                                                                                                                    |
+| Full gate  | `pnpm validate` — format check, lint, type-check, tests, build                                                                                  |
 
 **Adding a dependency.** pnpm 11 refuses a dependency with a build script —
 direct or transitive — that has no `allowBuilds` entry in
@@ -60,7 +60,7 @@ marked _planned_ are decided and not yet in the code.
 | `shared/`                                                                            | `ui/` (kit components, `site/` header and footer, `styles/`), `lib/`, `i18n/` (locales, dictionaries, `decideLocale`, `switchHref`, `alternates`)                               | itself only — never `features/` or `app/`        |
 | `content/`                                                                           | Site content in git, one file per locale: `cv/<locale>.json`; MDX posts _(planned)_                                                                                             | —                                                |
 | `assets/fonts/`                                                                      | Static TTFs for `next/og` (Satori takes no woff2) with their OFL licences                                                                                                       | —                                                |
-| `public/`                                                                            | Static assets; images go through `next/image`                                                                                                                                   | —                                                |
+| `public/` _(planned)_                                                                | Static assets; images go through `next/image`                                                                                                                                   | —                                                |
 | `scripts/`                                                                           | Repository tooling (the agent-plugin report)                                                                                                                                    | Node built-ins                                   |
 
 Stack: Tailwind 4 with the design kit's CSS and shadcn/ui conventions,
@@ -81,6 +81,8 @@ no database; Vercel hosting with Cloudflare DNS.
   is not argued with in prose.
 - **Styling** — Tailwind utilities and shadcn/ui tokens; no CSS modules, no
   inline style objects for what a utility expresses.
+- **Icons** — from `lucide-react` when it has the needed one, otherwise the
+  kit's SVG (owner, 2026-11-21).
 
 ## 5. Sources of truth
 
@@ -93,13 +95,18 @@ conflict between two sources, show it to the owner — never pick one silently.
   `proxy`. With Cache Components `await params` is runtime data: the locale
   comes from `next/root-params` (`await lang()`), not from `params`, and every
   root parameter has at least one value in `generateStaticParams`, or the
-  build fails. Route handlers (`opengraph-image`, `feed.xml`, `sitemap`) are
-  the exception: `lang()` throws there, so they read `params` and export
+  build fails. Route handlers under `[lang]` (`opengraph-image`, `feed.xml`)
+  are the exception: `lang()` throws there, so they read `params` and export
   their own `generateStaticParams`. A 404 under a locale is `notFound()`
   caught by `app/[lang]/(site)/not-found.tsx`; its HTML is an error shell the
-  client fills from the RSC payload (Next 16.4), and `app/global-not-found`
-  is never reached — `[lang]` matches any first segment. Read the guide in
-  `node_modules/next/dist/docs/` before using an API, as the block above says.
+  client fills from the RSC payload (Next 16.4). The proxy skips a path
+  whose last segment has a dot, so one under a non-locale first segment
+  (`/feed.xml`, `/wp-admin/install.php`) would reach the root layout with
+  that segment as a locale, and its `notFound()` gets Next's unlocalized
+  page — `app/global-not-found` does not catch it. An `afterFiles` rewrite in
+  `next.config.ts` serves such a path from the default locale instead. Read
+  the guide in `node_modules/next/dist/docs/` before using an API, as the
+  block above says.
 - **Library docs before memory** — Context7 for Next.js, React, Tailwind,
   shadcn/ui, MDX.
 - **A UI change is checked live** — Playwright against the dev server, both

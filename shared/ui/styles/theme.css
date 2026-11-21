@@ -101,6 +101,10 @@
   --text-lead: 20px;
   --text-lead--line-height: 1.5;
   --text-lead--font-weight: 400;
+  /* The kit's lead "19px on the home hero". */
+  --text-lead-hero: 19px;
+  --text-lead-hero--line-height: 1.5;
+  --text-lead-hero--font-weight: 400;
   --text-body-article: 18px;
   --text-body-article--line-height: 1.75;
   --text-body-article--font-weight: 400;

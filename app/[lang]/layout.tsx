@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { getDictionary, getLocale } from "@/shared/i18n/get-dictionary";
-import { locales } from "@/shared/i18n/locales";
+import { locales, ogLocale } from "@/shared/i18n/locales";
 import { siteUrl } from "@/shared/lib/site";
 import { fontVariables } from "@/shared/ui/fonts";
 import { ThemeProvider } from "@/shared/ui/theme-provider";
@@ -13,12 +13,19 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { meta } = await getDictionary();
+  const [locale, { meta }] = await Promise.all([getLocale(), getDictionary()]);
   return {
     metadataBase: new URL(siteUrl),
     title: { default: meta.siteName, template: `%s · ${meta.siteName}` },
     description: meta.description,
-    openGraph: { siteName: meta.siteName, type: "website" },
+    openGraph: {
+      siteName: meta.siteName,
+      type: "website",
+      locale: ogLocale[locale],
+      alternateLocale: locales
+        .filter((other) => other !== locale)
+        .map((other) => ogLocale[other]),
+    },
   };
 }
 

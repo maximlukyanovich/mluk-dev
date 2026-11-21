@@ -11,8 +11,8 @@ const dictionaries: Record<Locale, Dictionary> = { en, ru };
 
 /**
  * The dictionary of an explicit locale — for code that has no root
- * parameter to read (`global-not-found`, route handlers, tests). Pages and
- * layouts call `getDictionary()` instead.
+ * parameter to read (route handlers, tests). Pages and layouts call
+ * `getDictionary()` instead.
  */
 export function dictionaryFor(locale: Locale): Dictionary {
   return dictionaries[locale];

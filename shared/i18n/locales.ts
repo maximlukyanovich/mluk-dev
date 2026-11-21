@@ -6,6 +6,9 @@ export type Locale = (typeof locales)[number];
 /** The locale for a visitor who expressed no preference we support. */
 export const defaultLocale: Locale = "en";
 
+/** Each locale as Open Graph names it (`og:locale`, language_TERRITORY). */
+export const ogLocale: Record<Locale, string> = { en: "en_US", ru: "ru_RU" };
+
 /** The cookie that remembers the last locale a visitor chose. */
 export const localeCookie = "locale";
 

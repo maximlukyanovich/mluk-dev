@@ -70,7 +70,7 @@ Shared configuration (`package.json`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`,
 
 - i18n: a visitor-facing string outside the en/ru dictionaries, or a key present in one dictionary only — `major`
 - boundaries: a feature importing another feature, or `shared/` importing `features/` or `app/` (`AGENTS.md` §3) — `major`
-- Cache Components: the locale read from `params` instead of `next/root-params` in a page, a layout or `generateMetadata`, or a root parameter with no `generateStaticParams` value — `major`. Route handlers (`route.ts`, `opengraph-image`, `sitemap`) are the exception: `next/root-params` throws there, so they read `params` and export their own `generateStaticParams`
+- Cache Components: the locale read from `params` instead of `next/root-params` in a page, a layout or `generateMetadata`, or a root parameter with no `generateStaticParams` value — `major`. Route handlers under `[lang]` (`route.ts`, `opengraph-image`) are the exception: `next/root-params` throws there, so they read `params` and export their own `generateStaticParams`
 - design source: the kit (`## Sources of truth`, item 2) — a class, token or markup that departs from it, or from the chosen page artboard, without the owner's recorded agreement — `major`
 
 ## Sources of truth

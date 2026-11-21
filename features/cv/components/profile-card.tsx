@@ -32,7 +32,7 @@ export function ProfileCard({ profile, copy }: ProfileCardProps) {
               width={196}
               height={196}
               sizes="196px"
-              priority
+              preload
             />
           ) : (
             <div className="mk-photo-img">{copy.photoPlaceholder}</div>

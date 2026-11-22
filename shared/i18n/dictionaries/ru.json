@@ -70,7 +70,9 @@
     "education": "Образование",
     "languages": "Языки",
     "now": "н. в.",
-    "updated": "Обновлено"
+    "updated": "Обновлено",
+    "fullCv": "Полное резюме",
+    "pdf": "PDF"
   },
   "writing": {
     "title": "Блог",

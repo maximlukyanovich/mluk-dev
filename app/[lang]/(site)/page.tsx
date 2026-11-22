@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 
 import { RecentPosts } from "@/features/blog";
-import { getProfile, Intro, personJsonLd, ProfileCard } from "@/features/cv";
+import {
+  ExperienceStrip,
+  getCv,
+  Intro,
+  personJsonLd,
+  ProfileCard,
+} from "@/features/cv";
 import { alternates } from "@/shared/i18n/alternates";
 import { getDictionary, getLocale } from "@/shared/i18n/get-dictionary";
 import { localePath } from "@/shared/i18n/locales";
@@ -17,7 +23,8 @@ export default async function Home() {
     getLocale(),
     getDictionary(),
   ]);
-  const profile = getProfile(locale);
+  const cv = getCv(locale);
+  const { profile } = cv;
   const url = siteUrl + localePath(locale, "/");
 
   // Person and WebSite for search engines.
@@ -44,6 +51,11 @@ export default async function Home() {
         </div>
       </section>
       <RecentPosts locale={locale} dictionary={dictionary} />
+      <ExperienceStrip
+        locale={locale}
+        experience={cv.experience}
+        copy={dictionary.cv}
+      />
     </>
   );
 }

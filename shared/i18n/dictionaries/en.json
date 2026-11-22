@@ -70,7 +70,9 @@
     "education": "Education",
     "languages": "Languages",
     "now": "NOW",
-    "updated": "Updated"
+    "updated": "Updated",
+    "fullCv": "Full CV",
+    "pdf": "PDF"
   },
   "writing": {
     "title": "Writing",

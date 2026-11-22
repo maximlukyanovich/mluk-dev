@@ -59,6 +59,17 @@
     "openToWork": "Open to work",
     "photoPlaceholder": "[Photo 1:1]"
   },
+  "cv": {
+    "title": "CV",
+    "description": "Maxim Lukyanovich's CV: experience, skills, education and languages, with a PDF to download.",
+    "downloadPdf": "Download PDF",
+    "contact": "Contact",
+    "experience": "Experience",
+    "skills": "Skills",
+    "education": "Education",
+    "languages": "Languages",
+    "now": "NOW"
+  },
   "writing": {
     "title": "Writing",
     "lead": "Notes on building for the web — Next.js, CSS, i18n and the decisions behind this site.",

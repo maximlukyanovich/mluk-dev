@@ -140,6 +140,11 @@
   --text-label: 12px;
   --text-label--line-height: 1.4;
   --text-label--font-weight: 500;
+  /* Mono uppercase captions: the profile card's top line, CV skill groups. */
+  --text-caption: 11px;
+  --text-caption--line-height: 1.4;
+  --text-caption--font-weight: 500;
+  --text-caption--letter-spacing: 0.12em;
 }
 
 /*

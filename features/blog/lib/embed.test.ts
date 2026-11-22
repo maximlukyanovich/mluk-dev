@@ -2,7 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import { frameOrigins } from "@/shared/lib/security-headers";
 
-import { videoUrls, vimeoPoster, youtubePoster } from "./embed";
+import {
+  type VideoService,
+  videoUrls,
+  vimeoPoster,
+  youtubePoster,
+} from "./embed";
 
 describe("videoUrls", () => {
   it("plays YouTube from the no-cookie domain", () => {
@@ -30,15 +35,21 @@ describe("videoUrls", () => {
 });
 
 // The CSP lets a page frame only these origins: a player elsewhere would be
-// blocked in every post without failing the build.
+// blocked in every post without failing the build. One sample id per
+// service — a new VideoService fails the type-check until it has one.
+const sampleIds = {
+  youtube: "aqz-KE-bpKQ",
+  vimeo: "1084537",
+} satisfies Record<VideoService, string>;
+
 describe("the CSP frame-src", () => {
-  it.each([
-    ["youtube", "aqz-KE-bpKQ"],
-    ["vimeo", "1084537"],
-  ] as const)("allows the %s player", (service, id) => {
-    const { origin } = new URL(videoUrls(service, id).player);
-    expect(frameOrigins).toContain(origin);
-  });
+  it.each(Object.entries(sampleIds) as [VideoService, string][])(
+    "allows the %s player",
+    (service, id) => {
+      const { origin } = new URL(videoUrls(service, id).player);
+      expect(frameOrigins).toContain(origin);
+    },
+  );
 });
 
 describe("youtubePoster", () => {

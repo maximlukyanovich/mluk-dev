@@ -6,6 +6,7 @@ import { alternates } from "@/shared/i18n/alternates";
 import { getDictionary, getLocale } from "@/shared/i18n/get-dictionary";
 import { localePath } from "@/shared/i18n/locales";
 import { siteUrl } from "@/shared/lib/site";
+import { JsonLd } from "@/shared/ui/json-ld";
 
 export async function generateMetadata(): Promise<Metadata> {
   return { alternates: alternates("/", await getLocale()) };
@@ -20,9 +21,8 @@ export default async function Home() {
   const url = siteUrl + localePath(locale, "/");
   const name = `${profile.name.first} ${profile.name.last}`;
 
-  // Person and WebSite for search engines; `<` is escaped so the JSON can
-  // never close the script element.
-  const jsonLd = JSON.stringify([
+  // Person and WebSite for search engines.
+  const jsonLd = [
     {
       "@context": "https://schema.org",
       "@type": "Person",
@@ -37,14 +37,11 @@ export default async function Home() {
       url,
       inLanguage: locale,
     },
-  ]).replace(/</g, "\\u003c");
+  ];
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLd }}
-      />
+      <JsonLd data={jsonLd} />
       <section className="flex flex-wrap items-center gap-8 pt-16 pb-10">
         <div className="min-w-0 flex-[3_1_520px]">
           <Intro locale={locale} profile={profile} copy={dictionary.home} />

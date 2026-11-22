@@ -6,6 +6,7 @@ import { dictionaryFor } from "@/shared/i18n/dictionaries";
 
 import { cvContent } from "../lib/content";
 import type { CvContent, Experience } from "../lib/types";
+import { About } from "./about";
 import { CvIntro } from "./cv-intro";
 import { EducationLanguages } from "./education-languages";
 import { ExperienceTimeline } from "./experience-timeline";
@@ -48,6 +49,28 @@ const timeline = (experience: Experience[]) =>
       copy={{ title: ru.cv.experience, now: ru.cv.now }}
     />,
   );
+
+describe("About", () => {
+  it("renders nothing without paragraphs", () => {
+    expect(
+      renderToStaticMarkup(<About paragraphs={[]} title={ru.cv.about} />),
+    ).toBe("");
+  });
+
+  it("renders the paragraphs in order under the title", () => {
+    const html = renderToStaticMarkup(
+      <About paragraphs={["First", "Second", "First"]} title={ru.cv.about} />,
+    );
+    expect(html).toContain(
+      '<h2 class="mb-6 font-display text-display-section" id="about-h">Обо мне</h2>',
+    );
+    expect(html.match(/<p>(.*?)<\/p>/g)).toEqual([
+      "<p>First</p>",
+      "<p>Second</p>",
+      "<p>First</p>",
+    ]);
+  });
+});
 
 describe("ExperienceTimeline", () => {
   it("renders nothing without jobs", () => {

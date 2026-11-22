@@ -27,6 +27,11 @@
   },
   "headline": "[Role] — [one line on what you do and for whom].",
   "summary": "[Two sentences: what you build, for whom, and what you are looking for next.]",
+  "about": [
+    "[Who you are and what you build — the work you are best at, in two or three sentences.]",
+    "[How you work: what you care about in a project, how you talk to the people you build for.]",
+    "[What you are looking for next, and what to write to you about.]"
+  ],
   "experience": [
     {
       "start": 2023,

@@ -5,6 +5,8 @@ export type CvContent = {
   headline: string;
   /** The paragraph under the header of the PDF. */
   summary: string;
+  /** The paragraphs of the About section on the CV page; empty, no section. */
+  about: string[];
   /** Newest first. */
   experience: Experience[];
   skills: { group: string; items: string[] }[];

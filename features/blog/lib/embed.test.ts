@@ -52,6 +52,10 @@ describe("vimeoPoster", () => {
     ["no answer", null],
     ["no picture", { title: "x" }],
     ["another host", { thumbnail_url: "https://example.com/x.jpg" }],
+    ["not a URL", { thumbnail_url: "i.vimeocdn.com/video/1" }],
+    ["plain http", { thumbnail_url: "http://i.vimeocdn.com/video/1" }],
+    ["another port", { thumbnail_url: "https://i.vimeocdn.com:8443/video/1" }],
+    ["another path", { thumbnail_url: "https://i.vimeocdn.com/filter/1" }],
   ])("has none for %s", (_, answer) => {
     expect(vimeoPoster(answer)).toBeNull();
   });

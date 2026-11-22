@@ -2,7 +2,7 @@
 
 import { Maximize2, X } from "lucide-react";
 import type { StaticImageData } from "next/image";
-import { useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 import { FadeImage } from "./fade-image";
 
@@ -21,7 +21,10 @@ const inlineSizes = "(min-width: 790px) 740px, 100vw";
  * `<dialog>`, which follows the figure as in the kit — inside it,
  * `.mk-figure img` would frame the full-size picture too. Escape, a click on the backdrop or ✕ closes it and
  * focus returns to the button; the kit blocks the page's scroll while it is
- * open. Without scripts the button does nothing and the kit hides its icon.
+ * open. A page Next hides after a navigation (`<Activity>`) closes it first:
+ * a modal left open there would keep the new page from scrolling and from
+ * taking a click. Without scripts the button does nothing and the kit hides
+ * its icon.
  */
 export function ZoomableFigure({
   src,
@@ -31,6 +34,14 @@ export function ZoomableFigure({
 }: ZoomableFigureProps) {
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLButtonElement>(null);
+  // A press that starts or ends on the picture (a drag either way) is no
+  // click on the backdrop, though the click lands on the dialog.
+  const pressedBackdrop = useRef(false);
+
+  useLayoutEffect(() => {
+    const lightbox = dialog.current;
+    return () => lightbox?.close();
+  }, []);
 
   return (
     <>
@@ -56,8 +67,18 @@ export function ZoomableFigure({
         onClose={() => opener.current?.focus()}
         // The dialog fills the viewport; a click outside the picture lands
         // on the dialog itself, which stands for the backdrop.
+        onPointerDown={(event) => {
+          pressedBackdrop.current = event.target === event.currentTarget;
+        }}
+        onPointerUp={(event) => {
+          if (event.target !== event.currentTarget) {
+            pressedBackdrop.current = false;
+          }
+        }}
         onClick={(event) => {
-          if (event.target === event.currentTarget) dialog.current?.close();
+          if (pressedBackdrop.current && event.target === event.currentTarget) {
+            dialog.current?.close();
+          }
         }}
       >
         {/* The original file, not the optimiser's srcset: that lists widths

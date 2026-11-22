@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 type EmbedPlayerProps = {
   /** The player's address, with autoplay: the click already asked to play. */
@@ -12,7 +12,10 @@ type EmbedPlayerProps = {
 /**
  * The kit's Embed facade: a button over the frame and nothing from the video
  * service until it is pressed; then the player replaces the button and takes
- * its focus.
+ * its focus. A page Next hides after a navigation (`<Activity>`) keeps its
+ * DOM, and a hidden iframe plays on: hiding it puts the facade back. That
+ * state update waits for an idle render of the hidden tree, so the player
+ * is stopped through the DOM first.
  */
 export function EmbedPlayer({ src, title, label }: EmbedPlayerProps) {
   const [playing, setPlaying] = useState(false);
@@ -20,6 +23,15 @@ export function EmbedPlayer({ src, title, label }: EmbedPlayerProps) {
 
   useEffect(() => {
     if (playing) frame.current?.focus();
+  }, [playing]);
+
+  useLayoutEffect(() => {
+    if (!playing) return;
+    const player = frame.current;
+    return () => {
+      player?.setAttribute("src", "about:blank");
+      setPlaying(false);
+    };
   }, [playing]);
 
   if (playing) {

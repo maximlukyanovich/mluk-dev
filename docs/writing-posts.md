@@ -31,12 +31,14 @@ title: "i18n in Next.js 16 without a library"
 description: "One sentence: the lead under the title, the card text, RSS, Open Graph."
 date: 2026-11-18
 updated: 2026-11-19 # optional, not earlier than date
-tags: [nextjs, i18n] # lowercase Latin slugs, the same in both locales
+tags: [nextjs, i18n] # lowercase Latin slugs
 ---
 ```
 
-A missing field, a date that is not `YYYY-MM-DD` or a tag with a capital
-letter fails the build with the file's path. The excerpt, reading time and
+A missing or unknown field (`draft:` is not one), a date that is not
+`YYYY-MM-DD` or does not exist, or a tag with a capital letter fails the
+build with the file's path. Give a translation the same tags: nothing checks
+it, and a tag one locale lacks sends the language switch to the list. The excerpt, reading time and
 table of contents are computed from the text.
 
 ## Text

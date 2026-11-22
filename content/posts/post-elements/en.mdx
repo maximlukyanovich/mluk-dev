@@ -28,7 +28,7 @@ A paragraph is plain text. **Bold**, _italic_, `inline code` and [a link](https:
 
 A block starts with three backticks and the language. The file name goes into `title`, highlighted lines into braces, highlighted words between slashes:
 
-```tsx title="app/[lang]/(site)/writing/page.tsx" {4} /getPosts/
+```tsx title="example.tsx" {4} /getPosts/
 import { getPosts, PostList } from "@/features/blog";
 
 export default async function Writing() {
@@ -59,7 +59,7 @@ const theme = "dark"; // [!code ++]
 
 A block longer than 20 lines opens collapsed, with a button under it. The word `nocollapse` after the language keeps it open.
 
-```json title="shared/i18n/dictionaries/en.json"
+```json title="example.json"
 {
   "article": {
     "breadcrumbs": "Breadcrumb",

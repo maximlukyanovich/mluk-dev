@@ -22,34 +22,39 @@ function requiredText(
 }
 
 /**
- * A `YYYY-MM-DD` date. YAML reads an unquoted `2026-11-18` as a Date at UTC
- * midnight and a quoted one as a string; both are accepted, a time of day or
- * an impossible day (`2026-02-30`) is not.
+ * A `YYYY-MM-DD` date. The YAML is read without timestamps (posts.ts), so a
+ * date arrives as text, quoted or not; a time of day or an impossible day
+ * (`2026-02-30`) fails.
  */
 function date(value: unknown, key: string, file: string): string {
-  let text: string | undefined;
-  if (value instanceof Date && !Number.isNaN(value.getTime())) {
-    const iso = value.toISOString();
-    if (iso.endsWith("T00:00:00.000Z")) text = iso.slice(0, 10);
-  } else if (typeof value === "string" && isoDate.test(value)) {
+  if (typeof value === "string" && isoDate.test(value)) {
     const parsed = new Date(`${value}T00:00:00Z`);
     if (
       !Number.isNaN(parsed.getTime()) &&
       parsed.toISOString().startsWith(value)
     ) {
-      text = value;
+      return value;
     }
   }
-  return (
-    text ?? fail(file, `frontmatter \`${key}\` must be a date as YYYY-MM-DD`)
-  );
+  return fail(file, `frontmatter \`${key}\` must be a date as YYYY-MM-DD`);
 }
+
+/** The keys a post's frontmatter may hold; any other fails (`draft`, a typo). */
+const knownKeys = new Set(["title", "description", "date", "updated", "tags"]);
 
 /** Checks a post's frontmatter; a bad field throws with the file's path. */
 export function parseFrontmatter(
   data: Record<string, unknown>,
   file: string,
 ): PostMeta {
+  for (const key of Object.keys(data)) {
+    if (!knownKeys.has(key)) {
+      fail(
+        file,
+        `frontmatter \`${key}\` is not a field (${[...knownKeys].join(", ")})`,
+      );
+    }
+  }
   const title = requiredText(data, "title", file);
   const description = requiredText(data, "description", file);
   const published = date(data.date, "date", file);

@@ -36,7 +36,7 @@ export function LatestCard({ post, locale, copy }: LatestCardProps) {
         alt=""
         width={ogSize.width}
         height={ogSize.height}
-        sizes="(min-width: 1200px) 600px, (min-width: 640px) 50vw, 100vw"
+        sizes="(min-width: 1200px) 600px, (min-width: 641px) 50vw, 100vw"
         loading="eager"
         fetchPriority="high"
         className="box-border block h-auto w-full min-w-0 rounded-media border border-line sm:flex-[1_1_460px] sm:self-center"

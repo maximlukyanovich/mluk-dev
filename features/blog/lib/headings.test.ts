@@ -10,9 +10,12 @@ const fixture = [
   "## Setup",
   "## Что дальше",
   "## Why `use cache`?",
+  "## Sources[^src]",
+  "## ![Logo](logo.png) Brand",
   "Text.[^1]",
   "```md\n## Not a heading\n```",
   "[^1]: A note.",
+  "[^src]: The sources.",
 ].join("\n\n");
 
 describe("headings", () => {
@@ -22,6 +25,8 @@ describe("headings", () => {
       "Setup",
       "Что дальше",
       "Why use cache?",
+      "Sources",
+      "Brand",
     ]);
   });
 
@@ -38,6 +43,10 @@ describe("headings", () => {
       "setup-1",
       "что-дальше",
       "why-use-cache-1",
+      // The page's text: the reference's number, numbered before [^1].
+      "sources1",
+      // The picture's alt is no text on the page; its space is.
+      "-brand",
     ]);
   });
 });

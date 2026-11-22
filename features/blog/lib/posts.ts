@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 import matter from "gray-matter";
+import { CORE_SCHEMA, load } from "js-yaml";
 
 import { hasLocale, locales, type Locale } from "@/shared/i18n/locales";
 
@@ -38,13 +39,14 @@ export type PostSource = {
  * Every post file under `dir`. A folder is a slug and must look like a tag
  * (`tagPattern`) and not be reserved; an `.mdx` in it is named after a
  * locale. Anything else in a folder (images) is left alone, and so is a
- * folder whose name starts with `_` (`_template`).
+ * folder whose name starts with `_` (`_template`) or `.` (an editor's own,
+ * `.obsidian`).
  */
 export function readPostSources(dir: string): PostSource[] {
   if (!existsSync(dir)) return [];
   const sources: PostSource[] = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (!entry.isDirectory() || entry.name.startsWith("_")) continue;
+    if (!entry.isDirectory() || /^[_.]/.test(entry.name)) continue;
     const slug = entry.name;
     const folder = path.join(dir, slug);
     if (!tagPattern.test(slug)) {
@@ -72,6 +74,15 @@ export function readPostSources(dir: string): PostSource[] {
   return sources;
 }
 
+/**
+ * YAML without its timestamp type: js-yaml's default schema turns an unquoted
+ * `2026-02-30` into a Date of 2 March, and the impossible day is lost before
+ * `parseFrontmatter` sees it. Every scalar stays a string, a number or a
+ * boolean.
+ */
+const yaml = (text: string): object =>
+  (load(text, { schema: CORE_SCHEMA }) as object | null | undefined) ?? {};
+
 /** Newest first; the same day falls back to the slug, so the order is stable. */
 function byDate(a: Post, b: Post): number {
   return b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug);
@@ -86,7 +97,7 @@ export function buildPosts(sources: readonly PostSource[]): Post[] {
     if (first) throw new Error(`${file}: duplicates ${first}`);
     seen.set(key, file);
 
-    const { data, content } = matter(source);
+    const { data, content } = matter(source, { engines: { yaml } });
     const meta = parseFrontmatter(data, file);
     let tree;
     try {

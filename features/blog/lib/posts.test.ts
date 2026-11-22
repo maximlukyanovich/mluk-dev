@@ -45,13 +45,14 @@ afterEach(() => {
 });
 
 describe("readPostSources", () => {
-  it("reads each locale file of each post folder, leaving images and `_` folders alone", () => {
+  it("reads each locale file of each post folder, leaving images, `_` and `.` folders alone", () => {
     const root = tree({
       "hello/en.mdx": frontmatter("Hello"),
       "hello/ru.mdx": frontmatter("Привет"),
       "hello/shot.png": "png",
       "README.txt": "not a post",
       "_template/en.mdx": frontmatter("Template"),
+      ".obsidian/Notes.mdx": "not a post",
     });
     const sources = readPostSources(root);
     expect(
@@ -131,6 +132,13 @@ describe("buildPosts", () => {
     expect(() =>
       buildPosts([source("hello", "en", frontmatter("Hello", "18.11.2026"))]),
     ).toThrow(/^content\/posts\/hello\/en\.mdx: /);
+  });
+
+  // Unquoted, YAML's timestamp type would read it as 2 March.
+  it("rejects an impossible unquoted date", () => {
+    expect(() =>
+      buildPosts([source("hello", "en", frontmatter("Hello", "2026-02-30"))]),
+    ).toThrow(/YYYY-MM-DD/);
   });
 
   it("names the file of a body that is not valid MDX", () => {

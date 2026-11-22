@@ -145,8 +145,13 @@
 /*
  * The kit's `container-wide` (1440px) as a breakpoint: from it the article
  * puts its table of contents beside the text (Toc README, Article-W).
- * In rem, as Tailwind's own breakpoints are, so they sort together.
+ * `sm` starts right past the kit's phone, `(max-width: 640px)`: Tailwind's
+ * own 640px would make a 640px window both a phone to the kit and `sm` here.
+ * In rem, as Tailwind's own breakpoints are, so they sort together — which
+ * lines `sm` up with the kit's px query only at the default 16px root: a
+ * larger browser font moves `sm`, not the kit's phone.
  */
 @theme {
+  --breakpoint-sm: 40.0625rem; /* 641px at a 16px root */
   --breakpoint-wide: 90rem;
 }

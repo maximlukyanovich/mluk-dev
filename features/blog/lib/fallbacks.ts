@@ -1,8 +1,9 @@
 import { locales, type Locale } from "@/shared/i18n/locales";
 import type { PathFallbacks } from "@/shared/i18n/switch-href";
 
-import { pageCount } from "./paginate";
-import { countTags, getPosts } from "./posts";
+import { getPosts } from "./posts";
+import { listPath } from "./list";
+import { writingRoutes } from "./routes";
 import type { Post } from "./types";
 
 /**
@@ -12,45 +13,26 @@ import type { Post } from "./types";
  */
 export type WritingFallbacks = PathFallbacks;
 
-const list = "/writing";
-
 /** The pure part of `writingFallbacks`, over each locale's posts. */
 export function buildFallbacks(
   postsByLocale: Record<Locale, readonly Post[]>,
   locale: Locale,
 ): WritingFallbacks {
-  const from = postsByLocale[locale];
+  const from = writingRoutes(postsByLocale[locale]);
   const fallbacks: Partial<Record<Locale, Record<string, string>>> = {};
 
   for (const target of locales) {
     if (target === locale) continue;
-    const to = postsByLocale[target];
-    const map: Record<string, string> = {};
-
-    const translated = new Set(to.map((post) => post.slug));
-    for (const post of from) {
-      if (!translated.has(post.slug)) map[`${list}/${post.slug}`] = list;
-    }
-
-    for (let n = pageCount(to.length) + 1; n <= pageCount(from.length); n++) {
-      map[`${list}/page/${n}`] = list;
-    }
-
-    const targetTags = new Map(
-      countTags(to).map(({ tag, count }) => [tag, count]),
+    const exists = new Set(
+      writingRoutes(postsByLocale[target]).map(({ path }) => path),
     );
-    for (const { tag, count } of countTags(from)) {
-      const tagPath = `${list}/tag/${tag}`;
-      const targetCount = targetTags.get(tag) ?? 0;
-      if (!targetCount) map[tagPath] = list;
-      // A tag page past the target's last goes to the tag, or to the list
-      // when the target has no such tag at all.
-      const firstMissing = targetCount ? pageCount(targetCount) + 1 : 2;
-      for (let n = firstMissing; n <= pageCount(count); n++) {
-        map[`${tagPath}/page/${n}`] = targetCount ? tagPath : list;
-      }
+    const map: Record<string, string> = {};
+    // A missing page goes to its parent when the target has it — a tag page
+    // past the target's last to the tag — and to the list otherwise.
+    for (const route of from) {
+      if (route.kind === "list" || exists.has(route.path)) continue;
+      map[route.path] = exists.has(route.parent) ? route.parent : listPath();
     }
-
     if (Object.keys(map).length) fallbacks[target] = map;
   }
   return fallbacks;

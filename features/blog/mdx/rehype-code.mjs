@@ -1,8 +1,9 @@
 // Code blocks for posts: rehype-pretty-code with the kit's syntax tokens.
 //
 // Plain JS on purpose: @next/mdx under Turbopack takes plugins as strings and
-// loads them with Node (`require.resolve` from the project root, then
-// `import()`), so this module must run without a compile step. Its options
+// loads them with Node (`require.resolve` from the directory of the `.mdx`
+// being compiled, then `import()`; options.mjs names it by absolute path), so
+// this module must run without a compile step. Its options
 // stay inside the module — a function cannot cross into Turbopack's config.
 import { transformerNotationDiff } from "@shikijs/transformers";
 import rehypePrettyCode from "rehype-pretty-code";

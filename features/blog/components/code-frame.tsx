@@ -3,7 +3,7 @@
 import { useId, useRef, useState, type ReactNode } from "react";
 import { flushSync } from "react-dom";
 
-import { animateHeight } from "./animate-height";
+import { animateHeight, stopHeight } from "./animate-height";
 import { CopyButton } from "./copy-button";
 
 type CodeFrameProps = {
@@ -59,7 +59,7 @@ export function CodeFrame({
   // first, then the code area travels from its old height to its new one.
   const toggle = () => {
     const pre = figure.current?.querySelector("pre");
-    const from = pre?.getBoundingClientRect().height ?? 0;
+    const from = pre ? stopHeight(pre).height : 0;
     flushSync(() => setCollapsed(!collapsed));
     if (pre) animateHeight(pre, from, pre.getBoundingClientRect().height);
     if (collapsed) return;

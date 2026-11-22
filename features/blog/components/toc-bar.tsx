@@ -3,6 +3,7 @@
 import {
   useEffect,
   useCallback,
+  useLayoutEffect,
   useRef,
   type KeyboardEvent,
   type MouseEvent,
@@ -11,7 +12,7 @@ import {
 import { cn } from "@/shared/lib/cn";
 
 import type { Heading } from "../lib/types";
-import { animateHeight, baseDuration } from "./animate-height";
+import { animateHeight, baseDuration, stopHeight } from "./animate-height";
 import { sectionNumber, TocList } from "./toc-list";
 import { useActiveHeading } from "./use-active-heading";
 
@@ -58,6 +59,10 @@ export function TocBar({ headings, title, className }: TocBarProps) {
   // The latest open or close: a close that finishes after a newer open
   // must not shut the bar.
   const motion = useRef(0);
+  // Where the bar is going. During a close `details.open` is still true
+  // until the list has shrunk: a press then reopens the bar instead of
+  // closing it twice.
+  const opening = useRef(false);
   const index = headings.findIndex((heading) => heading.id === active);
 
   // Reads refs only: stable, so the effect below can hold it.
@@ -66,31 +71,64 @@ export function TocBar({ headings, title, className }: TocBarProps) {
     const list = panel.current;
     if (!bar || !list) return;
     const turn = ++motion.current;
+    opening.current = open;
+    // A move under way starts the next one from where it is.
+    const start = bar.open ? stopHeight(list) : { height: 0, opacity: 0 };
+    const from = start.height;
+    const fade = { from: start.opacity };
     if (open) {
       bar.open = true;
       const height = list.getBoundingClientRect().height;
-      overlay(bar, 0, height);
-      animateHeight(list, 0, height, true);
+      overlay(bar, from, height);
+      animateHeight(list, from, height, fade);
       return;
     }
-    const height = list.getBoundingClientRect().height;
-    overlay(bar, height, 0);
-    animateHeight(list, height, 0, true).then(() => {
+    overlay(bar, from, 0);
+    animateHeight(list, from, 0, fade).then(() => {
       if (turn === motion.current) bar.open = false;
     });
   }, []);
+
+  // The browser may open the bar itself — find-in-page expands a
+  // `<details>` holding a match, before the page's scripts run too: it is
+  // then open as if pressed, lying over the text, so the next press, Escape
+  // or a press outside closes it.
+  const adoptOpen = useCallback(() => {
+    const bar = details.current;
+    const list = panel.current;
+    if (!bar?.open || !list || opening.current) return;
+    opening.current = true;
+    const height = list.getBoundingClientRect().height;
+    overlay(bar, height, height);
+  }, []);
+
+  // A page Next hides after a navigation (`<Activity>`) keeps its DOM: the
+  // bar is closed at once, so coming back finds it closed.
+  useLayoutEffect(() => {
+    const bar = details.current;
+    adoptOpen();
+    return () => {
+      opening.current = false;
+      if (!bar) return;
+      bar.open = false;
+      bar.style.marginBottom = "";
+    };
+  }, [adoptOpen]);
 
   useEffect(() => {
     const wide = window.matchMedia(wideQuery);
     const close = () => {
       if (!wide.matches || !details.current) return;
+      opening.current = false;
       details.current.open = false;
       details.current.style.marginBottom = "";
     };
     // The open bar covers the text: a press anywhere else closes it.
     const outside = (event: PointerEvent) => {
       const bar = details.current;
-      if (bar?.open && !bar.contains(event.target as Node)) setOpen(false);
+      if (opening.current && bar && !bar.contains(event.target as Node)) {
+        setOpen(false);
+      }
     };
     wide.addEventListener("change", close);
     document.addEventListener("pointerdown", outside);
@@ -102,11 +140,11 @@ export function TocBar({ headings, title, className }: TocBarProps) {
 
   const onToggleClick = (event: MouseEvent) => {
     event.preventDefault();
-    setOpen(!details.current?.open);
+    setOpen(!opening.current);
   };
 
   const onKeyDown = (event: KeyboardEvent) => {
-    if (event.key !== "Escape" || !details.current?.open) return;
+    if (event.key !== "Escape" || !opening.current) return;
     setOpen(false);
     summary.current?.focus();
   };
@@ -123,6 +161,7 @@ export function TocBar({ headings, title, className }: TocBarProps) {
       ref={details}
       className={cn("mk-toc-bar mk-glass", className)}
       onKeyDown={onKeyDown}
+      onToggle={adoptOpen}
     >
       <summary ref={summary} onClick={onToggleClick}>
         <span className="mk-toc-current">

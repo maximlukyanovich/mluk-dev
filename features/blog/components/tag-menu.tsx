@@ -28,7 +28,7 @@ type TagMenuProps = {
 /**
  * The kit's Filter on a phone: a button with the current tag and a list of
  * tag pages under it (`.mk-drop`), lying over the posts (owner,
- * 2026-11-21). Choosing a row navigates, which closes the list; Escape
+ * 2026-11-21). Choosing a row closes the list, the current one too; Escape
  * closes it and returns focus to the button, a press outside closes it too.
  * Above 640px the kit hides it and the chips show.
  */
@@ -40,7 +40,7 @@ export function TagMenu({
   className,
 }: TagMenuProps) {
   const nav = useRef<HTMLElement>(null);
-  const { open, buttonRef, toggle } = useDrop({ container: nav });
+  const { open, buttonRef, toggle, close } = useDrop({ container: nav });
   const listId = useId();
 
   return (
@@ -64,6 +64,7 @@ export function TagMenu({
                 <Link
                   href={link.href}
                   aria-current={link.current ? "page" : undefined}
+                  onClick={close}
                 >
                   <span>
                     {link.tag && <span className="mk-hash">#</span>}

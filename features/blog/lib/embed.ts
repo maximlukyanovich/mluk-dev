@@ -41,14 +41,23 @@ export function youtubePoster(id: string, hasMaxres: boolean): string {
 }
 
 /**
- * Vimeo's preview from its oEmbed answer, or null when the answer has none.
- * The query string (`?region=us`) is dropped: the picture does not need it,
- * and the allowed image paths in next.config.ts name no query.
+ * Vimeo's preview from its oEmbed answer, or null when the answer has none
+ * or names something other than an https picture under `/video/` on Vimeo's
+ * CDN, on its default port — the one image path next.config.ts allows. The
+ * query string (`?region=us`) is dropped: the picture does not need it, and
+ * that path names no query.
  */
 export function vimeoPoster(oembed: unknown): string | null {
   if (typeof oembed !== "object" || oembed === null) return null;
   const { thumbnail_url } = oembed as { thumbnail_url?: unknown };
-  if (typeof thumbnail_url !== "string") return null;
+  if (typeof thumbnail_url !== "string" || !URL.canParse(thumbnail_url)) {
+    return null;
+  }
   const url = new URL(thumbnail_url);
-  return url.hostname === "i.vimeocdn.com" ? url.origin + url.pathname : null;
+  return url.protocol === "https:" &&
+    url.hostname === "i.vimeocdn.com" &&
+    url.port === "" &&
+    url.pathname.startsWith("/video/")
+    ? url.origin + url.pathname
+    : null;
 }

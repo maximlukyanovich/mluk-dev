@@ -6,16 +6,13 @@ const file = "content/posts/hello/en.mdx";
 const valid = {
   title: "Hello",
   description: "A first post.",
-  date: new Date("2026-11-18T00:00:00Z"),
+  date: "2026-11-18",
   tags: ["next-js", "mdx"],
 };
 
 describe("parseFrontmatter", () => {
-  it("accepts a valid post, unquoted or quoted dates", () => {
-    expect(parseFrontmatter(valid, file)).toEqual({
-      ...valid,
-      date: "2026-11-18",
-    });
+  it("accepts a valid post", () => {
+    expect(parseFrontmatter(valid, file)).toEqual(valid);
     expect(
       parseFrontmatter(
         { ...valid, date: "2026-11-18", updated: "2026-11-20" },
@@ -47,7 +44,8 @@ describe("parseFrontmatter", () => {
   it.each([
     ["a day that does not exist", "2026-02-30"],
     ["another format", "18.11.2026"],
-    ["a time of day", new Date("2026-11-18T10:00:00Z")],
+    ["a time of day", "2026-11-18T10:00:00Z"],
+    ["a Date", new Date("2026-11-18T00:00:00Z")],
     ["a number", 20261118],
   ])("rejects a date as %s", (_, date) => {
     expect(() => parseFrontmatter({ ...valid, date }, file)).toThrow(
@@ -78,6 +76,15 @@ describe("parseFrontmatter", () => {
       parseFrontmatter({ ...valid, tags: ["mdx", "mdx"] }, file),
     ).toThrow(/duplicate/);
   });
+
+  it.each(["draft", "update"])(
+    "rejects the unknown key %s, naming it",
+    (key) => {
+      expect(() => parseFrontmatter({ ...valid, [key]: true }, file)).toThrow(
+        new RegExp(`^${file}: frontmatter \`${key}\``),
+      );
+    },
+  );
 
   it("accepts a post without tags", () => {
     expect(parseFrontmatter({ ...valid, tags: [] }, file).tags).toEqual([]);

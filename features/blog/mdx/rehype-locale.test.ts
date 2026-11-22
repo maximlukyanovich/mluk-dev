@@ -1,13 +1,18 @@
 import { describe, expect, it } from "vitest";
 
 import { dictionaryFor } from "@/shared/i18n/dictionaries";
+import { locales } from "@/shared/i18n/locales";
 
-import { fileLocale } from "./rehype-locale.mjs";
+import { dictionaries, fileLocale } from "./rehype-locale.mjs";
 import { renderMdx } from "./render-mdx";
 
 const source = "A claim.[^1]\n\n[^1]: The source.";
 
 describe("rehype-locale", () => {
+  it("knows every locale of the site", () => {
+    expect(Object.keys(dictionaries)).toEqual([...locales]);
+  });
+
   it("reads the locale from the file name", () => {
     expect(fileLocale("/x/content/posts/hello/ru.mdx")).toBe("ru");
     expect(fileLocale("C:\\x\\posts\\hello\\en.mdx")).toBe("en");
@@ -29,6 +34,17 @@ describe("rehype-locale", () => {
       );
     },
   );
+
+  it("gives the notes another id when a post's heading holds theirs", async () => {
+    const html = await renderMdx(
+      `## Footnote label\n\n## Footnote label 1\n\n${source}`,
+    );
+    expect(html).toContain('<h2 id="footnote-label">Footnote label</h2>');
+    expect(html).toContain('<h2 id="footnote-label-1">Footnote label 1</h2>');
+    expect(html).toContain('<h2 id="footnote-label-2">Footnotes</h2>');
+    expect(html).toContain('aria-describedby="footnote-label-2"');
+    expect(html).not.toContain('aria-describedby="footnote-label"');
+  });
 
   it("leaves the label visible, as the kit draws it", async () => {
     const html = await renderMdx(source);

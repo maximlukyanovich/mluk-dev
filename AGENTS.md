@@ -108,16 +108,31 @@ conflict between two sources, show it to the owner — never pick one silently.
   `next.config.ts` serves such a path from the default locale instead. Read
   the guide in `node_modules/next/dist/docs/` before using an API, as the
   block above says.
-- **Content routes** (`/writing/**`). They export `instant = false` and read
-  `params` outside Suspense: the post is whole in the prerendered HTML.
-  Suspense around `params` put the text in a `<div hidden>` until the script
-  ran, in production too. Every `generateStaticParams` over content returns
-  a `__none__` placeholder when a locale has nothing, and its page calls
-  `notFound()` — an empty list fails the build. An unknown slug, tag or page
-  gets the localized 404 page with `noindex` under HTTP 200: the shell is
-  sent before the check. After a client navigation Next keeps the previous
-  page hidden in the DOM, so an `id` can appear twice; the visible page comes
-  first.
+- **Content routes** (`/writing/**`). Those that read `params` export
+  `instant = false` and read them outside Suspense: the post is whole in the
+  prerendered HTML. Suspense around `params` put the text in a `<div hidden>`
+  until the script ran, in production too. Which pages a locale has is one
+  rule, `features/blog/lib/routes.ts`, read by the sitemap, the language
+  switch's fallbacks and every `generateStaticParams`. A generator receives
+  only the root layout's `lang` — a sibling page is no parent segment — so it
+  returns every segment below it, and a locale with none of its pages gets a
+  `__none__` placeholder its page turns into `notFound()`: an empty list fails
+  the build. An unknown slug, tag or page gets the localized 404 page with
+  `noindex` under HTTP 200: the shell is sent before the check.
+- **The hidden previous page.** After a client navigation Next keeps the
+  previous page in the DOM inside `<Activity mode="hidden">`, so an `id` can
+  appear twice; the visible page comes first. Its React state and DOM live
+  on, its effects are removed: transient UI — a drop, a modal `<dialog>`, a
+  playing iframe, a "Copied" check — resets in a `useLayoutEffect` cleanup
+  (`node_modules/next/dist/docs/01-app/02-guides/preserving-ui-state.md`).
+  A state update there waits for an idle render of the hidden tree, so what
+  must stop at once — a playing iframe — is stopped through the DOM in that
+  cleanup, before the update. A
+  component in the layout, which stays mounted, resets on a change of path,
+  and a panel's links close it. Keeping such state (an expanded code block)
+  is a decision, not the default. Checked live: open it, leave by a link or
+  Back, return — closed; after Back with a modal open, the new page scrolls
+  and takes clicks.
 - **Route handlers that prerender.** A handler that `await`s a file read is
   dynamic under Cache Components; synchronous I/O (`readFileSync`) is
   prerendered. An Open Graph image under a dynamic segment is a route handler

@@ -19,7 +19,10 @@ type PagerProps = {
 };
 
 type StepProps = {
-  /** None at the end of the list: the button stays, `aria-disabled`. */
+  /**
+   * None at the end of the list: the button stays, a link without `href`,
+   * so its role is set for `aria-disabled` to be announced.
+   */
   href?: string;
   rel: "prev" | "next";
   children: ReactNode;
@@ -36,7 +39,7 @@ function Step({ href, rel, children }: StepProps) {
       <span>{children}</span>
     </Link>
   ) : (
-    <a className={className} aria-disabled="true">
+    <a className={className} role="link" aria-disabled="true">
       <span>{children}</span>
     </a>
   );

@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 /**
@@ -18,28 +18,39 @@ const dark = {
 
 export const ogSize = { width: 1200, height: 630 };
 
-/** Static TTFs with Cyrillic (Satori reads ttf/otf/woff only); OFL in assets/fonts. */
-export async function ogFonts() {
+type OgFont = {
+  name: string;
+  data: Buffer;
+  weight: 500 | 600;
+  style: "normal";
+};
+
+let fonts: OgFont[] | undefined;
+
+/**
+ * Static TTFs with Cyrillic (Satori reads ttf/otf/woff only); OFL in
+ * assets/fonts. Read synchronously and once: with Cache Components an
+ * awaited file read inside a route handler makes it render on every request,
+ * while synchronous I/O is prerendered (docs: caching, "Predictable values").
+ */
+export function ogFonts(): OgFont[] {
   const font = (file: string) =>
-    readFile(join(process.cwd(), "assets/fonts", file));
-  const [unbounded, geistMono] = await Promise.all([
-    font("Unbounded-SemiBold.ttf"),
-    font("GeistMono-Medium.ttf"),
-  ]);
-  return [
+    readFileSync(join(process.cwd(), "assets/fonts", file));
+  fonts ??= [
     {
       name: "Unbounded",
-      data: unbounded,
-      weight: 600 as const,
-      style: "normal" as const,
+      data: font("Unbounded-SemiBold.ttf"),
+      weight: 600,
+      style: "normal",
     },
     {
       name: "Geist Mono",
-      data: geistMono,
-      weight: 500 as const,
-      style: "normal" as const,
+      data: font("GeistMono-Medium.ttf"),
+      weight: 500,
+      style: "normal",
     },
   ];
+  return fonts;
 }
 
 type OgCoverProps = {

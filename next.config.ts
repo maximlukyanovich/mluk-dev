@@ -1,5 +1,7 @@
+import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
 
+import { mdxOptions } from "./features/blog/mdx/options.mjs";
 import { defaultLocale, locales } from "./shared/i18n/locales";
 
 // A path whose last segment has a dot and whose first segment is neither a
@@ -31,6 +33,14 @@ const nextConfig: NextConfig = {
     };
   },
   partialPrefetching: true,
+  // Video previews in posts (features/blog/lib/video-poster.ts), served
+  // through the image optimiser so the reader never calls the service.
+  images: {
+    remotePatterns: [
+      new URL("https://i.ytimg.com/vi/**"),
+      new URL("https://i.vimeocdn.com/video/**"),
+    ],
+  },
   turbopack: {
     rules: {
       "*.css": {
@@ -41,4 +51,7 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// Posts are `.mdx` files imported by the blog's routes (content/posts/).
+const withMDX = createMDX({ options: mdxOptions });
+
+export default withMDX(nextConfig);

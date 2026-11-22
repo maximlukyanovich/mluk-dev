@@ -20,6 +20,10 @@
       "howIWork": "How I work",
       "contact": "Contact"
     },
+    "menu": {
+      "open": "Open menu",
+      "close": "Close menu"
+    },
     "langLabel": "Language",
     "theme": {
       "toLight": "Switch to light theme",
@@ -27,7 +31,6 @@
     },
     "footer": {
       "copyright": "© 2026 Maxim Lukyanovich",
-      "languagesLabel": "Languages",
       "rss": "RSS",
       "sitemap": "Sitemap"
     }
@@ -44,9 +47,73 @@
   },
   "home": {
     "readBlog": "Read the blog",
-    "cvPdf": "CV · PDF",
+    "cvPdf": "CV",
     "profile": "Profile",
     "openToWork": "Open to work",
     "photoPlaceholder": "[Photo 1:1]"
+  },
+  "writing": {
+    "title": "Writing",
+    "lead": "Notes on building for the web — Next.js, CSS, i18n and the decisions behind this site.",
+    "pageTitle": "{title} · page {n}",
+    "tagTitle": "#{tag} · {title}",
+    "latest": "Latest",
+    "readPost": "Read the post",
+    "rssFeed": "RSS feed",
+    "tags": "Tags",
+    "all": "All",
+    "allPosts": "All posts",
+    "tagButton": "Tag",
+    "empty": "No posts yet. Subscribe to the {rss} to get the first one.",
+    "emptyRss": "RSS feed"
+  },
+  "pager": {
+    "label": "Pagination",
+    "info": "Page {page} of {pages}",
+    "total": {
+      "one": "{n} post",
+      "other": "{n} posts"
+    },
+    "newer": "Newer",
+    "older": "Older"
+  },
+  "article": {
+    "breadcrumbs": "Breadcrumb",
+    "home": "Home",
+    "published": "Published",
+    "updated": "Updated",
+    "readingTime": "{n} min",
+    "onThisPage": "On this page",
+    "tags": "Tags",
+    "morePosts": "More posts",
+    "previous": "Previous",
+    "next": "Next",
+    "aboutAuthor": "About the author",
+    "authorLine": "{role} in {city}",
+    "aboutMe": "About me",
+    "rss": "RSS",
+    "footnotes": "Footnotes",
+    "backToReference": "Back to reference {n}"
+  },
+  "code": {
+    "copy": "Copy code",
+    "copied": "Copied",
+    "showAll": {
+      "one": "Show all {n} line",
+      "other": "Show all {n} lines"
+    },
+    "collapse": "Collapse"
+  },
+  "media": {
+    "openFull": "Open full size: {alt}",
+    "close": "Close",
+    "play": "Play: {title}",
+    "watchYouTube": "Watch on YouTube",
+    "watchVimeo": "Watch on Vimeo",
+    "table": "Table"
+  },
+  "feed": {
+    "title": "mluk.dev · Writing",
+    "description": "Posts by Maxim Lukyanovich."
   }
 }

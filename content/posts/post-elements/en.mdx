@@ -1,0 +1,122 @@
+---
+title: "Everything a post can hold"
+description: "A reference post: every element the blog renders, and how to write it."
+date: 2026-11-21
+tags: [writing, mdx]
+---
+
+import home from "./home.png";
+
+This post shows every element a post can use. Each section names an element and how to write it; the source of this post, `content/posts/post-elements/en.mdx`, is the example to copy from.
+
+## Text
+
+A paragraph is plain text. **Bold**, _italic_, `inline code` and [a link](https://nextjs.org/docs) work as in any Markdown. A footnote goes right after the claim it supports.[^footnotes]
+
+- A list item is a line that starts with a dash.
+- A numbered list starts with `1.` instead.
+- Items sit close together; paragraphs get more room.
+
+> A quote starts with `>`. Use it for words that are not yours, and name the source after it.
+
+<Note>
+  A note is for a rule the reader must not miss. One or two in a post, not more:
+  the third one is no longer noticed.
+</Note>
+
+## Code
+
+A block starts with three backticks and the language. The file name goes into `title`, highlighted lines into braces, highlighted words between slashes:
+
+```tsx title="example.tsx" {4} /getPosts/
+import { getPosts, PostList } from "@/features/blog";
+
+export default async function Writing() {
+  const posts = getPosts(await getLocale());
+  return <PostList posts={posts} />;
+}
+```
+
+Other languages work the same way:
+
+```css
+.mk-prose h2 {
+  margin-top: 48px;
+  font-family: var(--font-display);
+}
+```
+
+```bash
+pnpm dev
+```
+
+A comment `// [!code --]` or `// [!code ++]` at the end of a line marks it as removed or added; the copy button takes only the new version:
+
+```ts
+const theme = "light"; // [!code --]
+const theme = "dark"; // [!code ++]
+```
+
+A block longer than 20 lines opens collapsed, with a button under it. The word `nocollapse` after the language keeps it open.
+
+```json title="example.json"
+{
+  "article": {
+    "breadcrumbs": "Breadcrumb",
+    "home": "Home",
+    "published": "Published",
+    "updated": "Updated",
+    "readingTime": "{n} min",
+    "onThisPage": "On this page",
+    "tags": "Tags",
+    "morePosts": "More posts",
+    "previous": "Previous",
+    "next": "Next",
+    "aboutAuthor": "About the author",
+    "aboutMe": "About me",
+    "rss": "RSS"
+  },
+  "code": {
+    "copy": "Copy code",
+    "copied": "Copied",
+    "collapse": "Collapse"
+  },
+  "media": {
+    "close": "Close",
+    "table": "Table"
+  }
+}
+```
+
+## Pictures and tables
+
+A picture lives next to the post, in its folder, and is imported at the top of the file. `<Figure>` takes it with a description for screen readers and an optional caption. A file over 1 MB fails the tests.
+
+<Figure
+  src={home}
+  alt="The home page of mluk.dev in the dark theme"
+  caption="The home page. Click the picture to open it full size."
+/>
+
+A table is written in Markdown. A wide one scrolls inside its frame, the page stays in place.
+
+| Element    | Written as             |   Needs scripts    |
+| :--------- | :--------------------- | :----------------: |
+| Note       | `<Note>`               |         no         |
+| Picture    | `<Figure>`             | to open full size  |
+| Video      | `<YouTube>`, `<Vimeo>` |      to play       |
+| Code block | three backticks        | to copy and expand |
+
+## Video
+
+A video comes from YouTube or Vimeo by its id. Until the reader presses play, the page loads nothing from the service; without scripts the link in the caption leads to the video.
+
+<YouTube
+  id="aqz-KE-bpKQ"
+  title="Big Buck Bunny"
+  caption="Blender Foundation, CC BY 3.0"
+/>
+
+<Vimeo id="1084537" title="Big Buck Bunny" caption="The same film on Vimeo" />
+
+[^footnotes]: Footnotes collect at the end of the post, under a rule, each with a link back to its place in the text.

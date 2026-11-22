@@ -20,6 +20,10 @@
       "howIWork": "Как я работаю",
       "contact": "Контакты"
     },
+    "menu": {
+      "open": "Открыть меню",
+      "close": "Закрыть меню"
+    },
     "langLabel": "Язык",
     "theme": {
       "toLight": "Включить светлую тему",
@@ -27,7 +31,6 @@
     },
     "footer": {
       "copyright": "© 2026 Максим Лукьянович",
-      "languagesLabel": "Языки",
       "rss": "RSS",
       "sitemap": "Карта сайта"
     }
@@ -44,9 +47,77 @@
   },
   "home": {
     "readBlog": "Читать блог",
-    "cvPdf": "Резюме · PDF",
+    "cvPdf": "Резюме",
     "profile": "Профиль",
     "openToWork": "Открыт к предложениям",
     "photoPlaceholder": "[Фото 1:1]"
+  },
+  "writing": {
+    "title": "Блог",
+    "lead": "Заметки о веб-разработке: Next.js, CSS, i18n и решения, на которых построен этот сайт.",
+    "pageTitle": "{title} · страница {n}",
+    "tagTitle": "#{tag} · {title}",
+    "latest": "Последняя публикация",
+    "readPost": "Читать публикацию",
+    "rssFeed": "RSS-лента",
+    "tags": "Теги",
+    "all": "Все",
+    "allPosts": "Все публикации",
+    "tagButton": "Тег",
+    "empty": "Публикаций пока нет. Подпишитесь на {rss}, чтобы не пропустить первую.",
+    "emptyRss": "RSS-ленту"
+  },
+  "pager": {
+    "label": "Навигация по страницам",
+    "info": "Страница {page} из {pages}",
+    "total": {
+      "one": "{n} публикация",
+      "few": "{n} публикации",
+      "many": "{n} публикаций",
+      "other": "{n} публикации"
+    },
+    "newer": "Новые",
+    "older": "Старые"
+  },
+  "article": {
+    "breadcrumbs": "Навигационная цепочка",
+    "home": "Главная",
+    "published": "Опубликовано",
+    "updated": "Обновлено",
+    "readingTime": "{n} мин",
+    "onThisPage": "Содержание",
+    "tags": "Теги",
+    "morePosts": "Другие публикации",
+    "previous": "Предыдущая",
+    "next": "Следующая",
+    "aboutAuthor": "Об авторе",
+    "authorLine": "{role}, {city}",
+    "aboutMe": "Обо мне",
+    "rss": "RSS",
+    "footnotes": "Примечания",
+    "backToReference": "Вернуться к сноске {n}"
+  },
+  "code": {
+    "copy": "Копировать код",
+    "copied": "Скопировано",
+    "showAll": {
+      "one": "Показать все {n} строку",
+      "few": "Показать все {n} строки",
+      "many": "Показать все {n} строк",
+      "other": "Показать все {n} строки"
+    },
+    "collapse": "Свернуть"
+  },
+  "media": {
+    "openFull": "Открыть в полный размер: {alt}",
+    "close": "Закрыть",
+    "play": "Смотреть: {title}",
+    "watchYouTube": "Смотреть на YouTube",
+    "watchVimeo": "Смотреть на Vimeo",
+    "table": "Таблица"
+  },
+  "feed": {
+    "title": "mluk.dev · Блог",
+    "description": "Публикации Максима Лукьяновича."
   }
 }

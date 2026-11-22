@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { RecentPosts } from "@/features/blog";
 import { getProfile, Intro, ProfileCard } from "@/features/cv";
 import { alternates } from "@/shared/i18n/alternates";
 import { getDictionary, getLocale } from "@/shared/i18n/get-dictionary";
@@ -52,6 +53,7 @@ export default async function Home() {
           <ProfileCard profile={profile} copy={dictionary.home} />
         </div>
       </section>
+      <RecentPosts locale={locale} dictionary={dictionary} />
     </>
   );
 }

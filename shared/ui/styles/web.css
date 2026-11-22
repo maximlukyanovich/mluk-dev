@@ -44,3 +44,64 @@
     animation: none !important;
   }
 }
+
+/* web-only: the phone header without JavaScript. The menu button needs a
+   script, so with none the kit's inline nav comes back as a second line,
+   spread across, and the button goes. Proposed to the kit with the phone
+   header (2026-11-21). */
+@media (scripting: none) and (max-width: 640px) {
+  .mk-header .mk-nav {
+    display: flex;
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+  }
+  .mk-header .mk-menu-btn {
+    display: none;
+  }
+}
+
+/* web-only: in-page jumps scroll smoothly — the table of contents, footnotes
+   and their back links, the skip link (owner, 2026-11-21); the kit's Motion
+   has no rule for scrolling yet. Off under reduced motion. A route change
+   still lands at the top at once: `data-scroll-behavior="smooth"` on <html>
+   tells Next to switch this off while it navigates. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* web-only: a picture in a post fades in once it has loaded (owner,
+   2026-11-21) — opacity only, over duration-base. Hydration marks one still
+   loading as pending and its load or error clears the mark (features/blog
+   FadeImage), so without scripts — or with a chunk that failed — and under
+   reduced motion, pictures show as they arrive. */
+@media (prefers-reduced-motion: no-preference) {
+  .mk-fade-in {
+    transition: opacity var(--duration-base) ease;
+  }
+  .mk-fade-in[data-pending] {
+    opacity: 0;
+  }
+}
+
+/* web-only: list markers in article text. Tailwind's preflight sets
+   list-style: none on every ol and ul; the kit, written without it, relies
+   on the browser's bullets and numbers — the post's lists and its numbered
+   footnotes lost them in the port. */
+.mk-prose ul {
+  list-style: disc;
+}
+.mk-prose ol {
+  list-style: decimal;
+}
+
+/* web-only: a larger play triangle in the video facade (owner, 2026-11-21);
+   the kit draws it at 24px in the 64px circle. */
+.mk-embed-icon svg {
+  width: 30px;
+  height: 30px;
+  margin-left: 4px;
+}

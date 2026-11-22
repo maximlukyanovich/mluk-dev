@@ -1,6 +1,6 @@
 /*
  * kit.css — the kit's project/components/bundle.css, verbatim from its line 2
- * on (version 1795289201-f0cf, 2026-11-21). Line 1, the Google Fonts @import,
+ * on (version 1795297080-df66, 2026-11-22). Line 1, the Google Fonts @import,
  * is dropped: next/font serves the same families (shared/ui/fonts.ts).
  * Prettier skips this file so it stays diffable against the kit:
  *   diff <(tail -n +2 bundle.css) <(tail -n +9 kit.css)
@@ -318,7 +318,7 @@ html:has(dialog.mk-lightbox[open]) { overflow: hidden; scrollbar-gutter: stable;
 
 /* ── Card (decision 9 · В) ────────────────────────────── */
 /* A glass card; the precise corner marks of E sit 10px outside it and fade in on hover and keyboard focus only. */
-.mk-card { position: relative; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 18px 14px 22px; border-radius: var(--radius-panel); color: var(--fg); text-decoration: none; transition: border-color var(--duration-fast, 150ms) ease; }
+.mk-card { position: relative; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 18px 14px 22px; border-radius: var(--radius-panel); color: var(--fg); text-decoration: none; transition: border-color var(--duration-fast, 150ms) ease, background-color var(--duration-fast, 150ms) ease; }
 .mk-card::before { content: ""; position: absolute; inset: -10px; pointer-events: none; opacity: 0; transition: opacity var(--duration-base, 200ms) ease;
   background:
     linear-gradient(var(--lime), var(--lime)) top left / 14px 1.5px no-repeat,
@@ -330,6 +330,7 @@ html:has(dialog.mk-lightbox[open]) { overflow: hidden; scrollbar-gutter: stable;
     linear-gradient(var(--lime), var(--lime)) bottom right / 14px 1.5px no-repeat,
     linear-gradient(var(--lime), var(--lime)) bottom right / 1.5px 14px no-repeat; }
 .mk-card:hover::before, .mk-card:focus-visible::before, .mk-card:focus-within::before, .mk-card.is-hover::before { opacity: 1; }
+.mk-card:hover, .mk-card.is-hover { background-color: color-mix(in oklab, var(--ph) 70%, transparent); }
 .mk-card:focus-visible { outline-offset: 4px; }
 .mk-card-meta { display: flex; justify-content: space-between; padding: 0 4px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 .mk-card-no { color: var(--lime); }

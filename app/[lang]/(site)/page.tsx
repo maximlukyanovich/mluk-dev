@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 import { RecentPosts } from "@/features/blog";
-import { getProfile, Intro, ProfileCard } from "@/features/cv";
+import { getProfile, Intro, personJsonLd, ProfileCard } from "@/features/cv";
 import { alternates } from "@/shared/i18n/alternates";
 import { getDictionary, getLocale } from "@/shared/i18n/get-dictionary";
 import { localePath } from "@/shared/i18n/locales";
-import { personId, profileLinks, siteUrl } from "@/shared/lib/site";
+import { siteUrl } from "@/shared/lib/site";
 import { JsonLd } from "@/shared/ui/json-ld";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -19,19 +19,10 @@ export default async function Home() {
   ]);
   const profile = getProfile(locale);
   const url = siteUrl + localePath(locale, "/");
-  const name = `${profile.name.first} ${profile.name.last}`;
 
   // Person and WebSite for search engines.
   const jsonLd = [
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "@id": personId,
-      name,
-      jobTitle: profile.role,
-      url,
-      sameAs: profileLinks,
-    },
+    personJsonLd(profile, locale),
     {
       "@context": "https://schema.org",
       "@type": "WebSite",

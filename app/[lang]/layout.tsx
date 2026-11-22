@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import { getDictionary, getLocale } from "@/shared/i18n/get-dictionary";
 import { locales, ogLocale } from "@/shared/i18n/locales";
 import { siteUrl } from "@/shared/lib/site";
 import { fontVariables } from "@/shared/ui/fonts";
+import { themeColor } from "@/shared/ui/theme-color";
 import { ThemeProvider } from "@/shared/ui/theme-provider";
 
 import "./globals.css";
@@ -11,6 +12,8 @@ import "./globals.css";
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
+
+export const viewport: Viewport = { themeColor };
 
 export async function generateMetadata(): Promise<Metadata> {
   const [locale, { meta }] = await Promise.all([getLocale(), getDictionary()]);
@@ -26,6 +29,9 @@ export async function generateMetadata(): Promise<Metadata> {
         .filter((other) => other !== locale)
         .map((other) => ogLocale[other]),
     },
+    // Next fills the title, description and image from openGraph, on every
+    // page that does not set its own.
+    twitter: { card: "summary_large_image" },
   };
 }
 

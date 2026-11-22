@@ -3,7 +3,8 @@ next-env.d.ts
 
 # Copied from mluk-bootstrap's start template; /mluk-bootstrap:audit compares them with the source
 scripts/agent-plugins.mjs
-scripts/lib/
+scripts/lib/agent-plugins.mjs
+scripts/lib/agent-plugins.test.mjs
 .claude/commands/my-start.md
 
 # The kit stylesheet, kept verbatim so it diffs against the Design System artifact

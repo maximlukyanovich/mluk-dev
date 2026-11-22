@@ -133,6 +133,12 @@ conflict between two sources, show it to the owner — never pick one silently.
   is a decision, not the default. Checked live: open it, leave by a link or
   Back, return — closed; after Back with a modal open, the new page scrolls
   and takes clicks.
+- **Security headers and CSP.** Every path gets them from
+  `shared/lib/security-headers.ts` through `next.config.ts`. The CSP has no
+  nonce — a nonce renders every page per request — so inline scripts are
+  allowed and other origins are not: a new third-party origin (analytics,
+  Giscus, Upstash) is added there, a new video player's in `frameOrigins`
+  (its test in `features/blog/lib/embed.test.ts` fails otherwise).
 - **Route handlers that prerender.** A handler that `await`s a file read is
   dynamic under Cache Components; synchronous I/O (`readFileSync`) is
   prerendered. An Open Graph image under a dynamic segment is a route handler

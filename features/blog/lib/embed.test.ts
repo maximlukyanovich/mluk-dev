@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { frameOrigins } from "@/shared/lib/security-headers";
+
 import { videoUrls, vimeoPoster, youtubePoster } from "./embed";
 
 describe("videoUrls", () => {
@@ -24,6 +26,18 @@ describe("videoUrls", () => {
     ["vimeo", "1084537?h=x"],
   ] as const)("rejects the %s id %j", (service, id) => {
     expect(() => videoUrls(service, id)).toThrow(/video id/);
+  });
+});
+
+// The CSP lets a page frame only these origins: a player elsewhere would be
+// blocked in every post without failing the build.
+describe("the CSP frame-src", () => {
+  it.each([
+    ["youtube", "aqz-KE-bpKQ"],
+    ["vimeo", "1084537"],
+  ] as const)("allows the %s player", (service, id) => {
+    const { origin } = new URL(videoUrls(service, id).player);
+    expect(frameOrigins).toContain(origin);
   });
 });
 

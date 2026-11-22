@@ -105,3 +105,14 @@
   height: 30px;
   margin-left: 4px;
 }
+
+/* web-only: the CV's print sheet (canvas, CV-PDF) is an A4 page edge to
+   edge; the sheet draws its own margins, so the printer adds none. A named
+   page, so printing a post keeps the browser's margins. */
+@page cv {
+  size: A4;
+  margin: 0;
+}
+[data-cv-sheet] {
+  page: cv;
+}

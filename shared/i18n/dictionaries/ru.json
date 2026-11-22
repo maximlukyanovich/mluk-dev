@@ -68,7 +68,8 @@
     "skills": "Навыки",
     "education": "Образование",
     "languages": "Языки",
-    "now": "н. в."
+    "now": "н. в.",
+    "updated": "Обновлено"
   },
   "writing": {
     "title": "Блог",

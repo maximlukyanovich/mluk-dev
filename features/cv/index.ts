@@ -1,4 +1,5 @@
 export { CvPage } from "./components/cv-page";
+export { CvPrint } from "./components/cv-print";
 export { Intro } from "./components/intro";
 export { ProfileCard } from "./components/profile-card";
 export { getCv, getProfile } from "./lib/content";

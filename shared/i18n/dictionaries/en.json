@@ -10,6 +10,13 @@
     "body": "There is no page at this address. It may have moved, or the link has a typo.",
     "home": "Go to the home page"
   },
+  "error": {
+    "eyebrow": "Error",
+    "title": "Something went wrong",
+    "body": "The page failed to load. Try again — if the error repeats, come back a little later.",
+    "retry": "Try again",
+    "home": "Go to the home page"
+  },
   "site": {
     "skipLink": "Skip to content",
     "navLabel": "Main",

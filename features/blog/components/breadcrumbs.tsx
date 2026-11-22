@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 
 import { siteUrl } from "@/shared/lib/site";
+import { JsonLd } from "@/shared/ui/json-ld";
 
 type Crumb = { name: string; href: string };
 
@@ -19,7 +20,7 @@ type BreadcrumbsProps = {
  */
 export function Breadcrumbs({ label, trail, current }: BreadcrumbsProps) {
   const parent = trail.at(-1);
-  const jsonLd = JSON.stringify({
+  const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
@@ -31,15 +32,11 @@ export function Breadcrumbs({ label, trail, current }: BreadcrumbsProps) {
       })),
       { "@type": "ListItem", position: trail.length + 1, name: current },
     ],
-    // `<` escaped so the JSON can never close the script element.
-  }).replace(/</g, "\\u003c");
+  };
 
   return (
     <nav className="mk-crumbs" aria-label={label}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLd }}
-      />
+      <JsonLd data={jsonLd} />
       <ol>
         {trail.map(({ name, href }) => (
           <Fragment key={href}>

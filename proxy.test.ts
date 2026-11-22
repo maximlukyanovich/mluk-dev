@@ -80,3 +80,22 @@ describe("dotted path rewrite", () => {
     expect(await rewrittenTo(path)).toBeNull();
   });
 });
+
+// Every path gets the security headers, a rewritten one too.
+describe("security headers", () => {
+  it.each(["/", "/en", "/ru/writing/some-post", "/feed.xml", "/robots.txt"])(
+    "are sent on %s",
+    async (path) => {
+      const response = await unstable_getResponseFromNextConfig({
+        url: `https://mluk.dev${path}`,
+        nextConfig,
+      });
+      expect(response.headers.get("content-security-policy")).toContain(
+        "frame-ancestors 'none'",
+      );
+      expect(response.headers.get("strict-transport-security")).toContain(
+        "max-age=63072000",
+      );
+    },
+  );
+});

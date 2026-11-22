@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 
 import { mdxOptions } from "./features/blog/mdx/options.mjs";
 import { defaultLocale, locales } from "./shared/i18n/locales";
+import { securityHeaders } from "./shared/lib/security-headers";
 
 // A path whose last segment has a dot and whose first segment is neither a
 // locale nor Next's `_next/`.
@@ -31,6 +32,14 @@ const nextConfig: NextConfig = {
       ],
       fallback: [],
     };
+  },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: securityHeaders(process.env.NODE_ENV === "development"),
+      },
+    ];
   },
   partialPrefetching: true,
   // Video previews in posts (features/blog/lib/video-poster.ts), served

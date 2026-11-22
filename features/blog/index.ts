@@ -17,4 +17,5 @@ export {
 export { buildRss } from "./lib/rss";
 export { getWritingPages } from "./lib/sitemap";
 export { getPost, getPosts, getTags, postLocales } from "./lib/posts";
+export { postJsonLd } from "./lib/structured-data";
 export type { Heading, Post, TagCount } from "./lib/types";

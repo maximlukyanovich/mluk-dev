@@ -5,7 +5,7 @@ import { getProfile, Intro, ProfileCard } from "@/features/cv";
 import { alternates } from "@/shared/i18n/alternates";
 import { getDictionary, getLocale } from "@/shared/i18n/get-dictionary";
 import { localePath } from "@/shared/i18n/locales";
-import { siteUrl } from "@/shared/lib/site";
+import { personId, profileLinks, siteUrl } from "@/shared/lib/site";
 import { JsonLd } from "@/shared/ui/json-ld";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -26,9 +26,11 @@ export default async function Home() {
     {
       "@context": "https://schema.org",
       "@type": "Person",
+      "@id": personId,
       name,
       jobTitle: profile.role,
       url,
+      sameAs: profileLinks,
     },
     {
       "@context": "https://schema.org",

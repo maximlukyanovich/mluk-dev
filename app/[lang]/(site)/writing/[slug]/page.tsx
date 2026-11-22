@@ -6,12 +6,14 @@ import {
   coverPath,
   generatePostParams,
   getPost,
+  postJsonLd,
   postLocales,
 } from "@/features/blog";
 import { getProfile } from "@/features/cv";
 import { alternates } from "@/shared/i18n/alternates";
 import { getDictionary, getLocale } from "@/shared/i18n/get-dictionary";
 import { localePath, ogLocale } from "@/shared/i18n/locales";
+import { JsonLd } from "@/shared/ui/json-ld";
 import { ogSize } from "@/shared/ui/og-cover";
 
 // Every post of the parent locale; none → a placeholder that is a 404.
@@ -79,19 +81,23 @@ export default async function PostPage({ params }: Props) {
     getDictionary(),
   ]);
   const profile = getProfile(locale);
+  const authorName = `${profile.name.first} ${profile.name.last}`;
 
   return (
-    <Article
-      post={post}
-      locale={locale}
-      dictionary={dictionary}
-      author={{
-        name: `${profile.name.first} ${profile.name.last}`,
-        line: dictionary.article.authorLine
-          .replace("{role}", profile.role)
-          .replace("{city}", profile.city),
-        photo: profile.photo,
-      }}
-    />
+    <>
+      <JsonLd data={postJsonLd(post, locale, authorName)} />
+      <Article
+        post={post}
+        locale={locale}
+        dictionary={dictionary}
+        author={{
+          name: authorName,
+          line: dictionary.article.authorLine
+            .replace("{role}", profile.role)
+            .replace("{city}", profile.city),
+          photo: profile.photo,
+        }}
+      />
+    </>
   );
 }

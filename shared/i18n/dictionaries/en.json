@@ -77,6 +77,7 @@
     "pdfLabel": "Download the CV as a PDF"
   },
   "projects": {
+    "allProjects": "All projects",
     "title": "Projects",
     "description": "Maxim Lukyanovich's projects: products, client work and open source, with the role, stack and links.",
     "lead": "Products, client work and open source — what each is, who it is for and what I did.",

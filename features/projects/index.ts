@@ -1,4 +1,5 @@
 export { ProjectsPage } from "./components/projects-page";
+export { ProjectsStrip } from "./components/projects-strip";
 export { getProjects } from "./lib/content";
 export { featuredFirst, filterProjects, homeProjects } from "./lib/filter";
 export { getProjectsPages } from "./lib/sitemap";

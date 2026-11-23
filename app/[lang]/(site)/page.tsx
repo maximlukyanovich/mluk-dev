@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { RecentPosts } from "@/features/blog";
+import { ContactStrip } from "@/features/contact";
 import {
   ExperienceStrip,
   getCv,
@@ -8,6 +9,7 @@ import {
   personJsonLd,
   ProfileCard,
 } from "@/features/cv";
+import { ProjectsStrip } from "@/features/projects";
 import { alternates } from "@/shared/i18n/alternates";
 import { getDictionary, getLocale } from "@/shared/i18n/get-dictionary";
 import { localePath } from "@/shared/i18n/locales";
@@ -51,11 +53,13 @@ export default async function Home() {
         </div>
       </section>
       <RecentPosts locale={locale} dictionary={dictionary} />
+      <ProjectsStrip locale={locale} dictionary={dictionary} />
       <ExperienceStrip
         locale={locale}
         experience={cv.experience}
         copy={dictionary.cv}
       />
+      <ContactStrip locale={locale} dictionary={dictionary} />
     </>
   );
 }

@@ -1,0 +1,13 @@
+{
+  "timeZone": "Asia/Tbilisi",
+  "openTo": "[kind of work]",
+  "replies": "[2 days]",
+  "channels": [
+    { "id": "email", "purpose": "Fastest", "action": "Write" },
+    { "id": "telegram", "purpose": "Quick questions", "action": "Open" },
+    { "id": "whatsapp", "purpose": "Calls and chats", "action": "Open" },
+    { "id": "linkedin", "purpose": "Work history", "action": "Open" },
+    { "id": "github", "purpose": "Code", "action": "Open" },
+    { "id": "instagram", "purpose": "Photos", "action": "Open" }
+  ]
+}

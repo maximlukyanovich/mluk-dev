@@ -2,6 +2,7 @@ import type { StaticImageData } from "next/image";
 import type { ComponentProps, ReactNode } from "react";
 
 import type { Dictionary } from "@/shared/i18n/dictionaries";
+import { ExternalLink } from "@/shared/ui/external-link";
 
 import { videoUrls, type VideoService } from "../lib/embed";
 import { videoPoster } from "../lib/video-poster";
@@ -33,9 +34,9 @@ export type VideoProps = {
 /**
  * The components a post writes by name — `<Figure>`, `<Note>`, `<YouTube>`,
  * `<Vimeo>` — and the GFM table, each the kit's markup with the words of
- * the post's locale.
+ * the post's locale; `newTab` is `site.newTab`.
  */
-export function mediaComponents(copy: Copy) {
+export function mediaComponents(copy: Copy, newTab: string) {
   function Figure({ src, alt, caption }: FigureProps) {
     return (
       <ZoomableFigure
@@ -87,9 +88,9 @@ export function mediaComponents(copy: Copy) {
               2026-11-21: no separating dot). */}
           <figcaption className="flex flex-wrap justify-between gap-x-4">
             {caption && <span>{caption}</span>}
-            <a href={page} className="ml-auto">
-              {watch} <span aria-hidden="true">↗</span>
-            </a>
+            <ExternalLink href={page} className="ml-auto" newTab={newTab}>
+              {watch}
+            </ExternalLink>
           </figcaption>
         </figure>
       );

@@ -13,7 +13,7 @@ import { mediaComponents } from "./post-media";
  */
 function postComponents(locale: Locale, dictionary: Dictionary): MDXComponents {
   return {
-    ...mediaComponents(dictionary.media),
+    ...mediaComponents(dictionary.media, dictionary.site.newTab),
     figure: codeFigure(locale, dictionary.code),
     // A table of contents moves focus to the section it jumps to.
     h2: (props: ComponentProps<"h2">) => <h2 {...props} tabIndex={-1} />,

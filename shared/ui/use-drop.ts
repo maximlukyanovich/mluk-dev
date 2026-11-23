@@ -23,7 +23,8 @@ export const phoneQuery = "(max-width: 640px)";
  * `close`. Escape closes it and returns focus to the button; a window that
  * stops matching `query`, where the panel is hidden, closes it too. A panel
  * that lies over the page passes its `container`: a press outside it closes
- * the panel.
+ * the panel. A row that chooses in place, with no navigation, calls
+ * `closeToButton`, so focus does not stay in the hidden panel.
  */
 export function useDrop({
   query = phoneQuery,
@@ -40,6 +41,10 @@ export function useDrop({
     setOpen(false);
   }
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const closeToButton = () => {
+    setOpen(false);
+    buttonRef.current?.focus();
+  };
 
   // Runs when the page is hidden, before the browser paints it.
   useLayoutEffect(() => () => setOpen(false), []);
@@ -48,9 +53,7 @@ export function useDrop({
     if (!open) return;
     const media = window.matchMedia(query);
     const onKey = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
-      setOpen(false);
-      buttonRef.current?.focus();
+      if (event.key === "Escape") closeToButton();
     };
     const onChange = () => {
       if (!media.matches) setOpen(false);
@@ -74,5 +77,6 @@ export function useDrop({
     buttonRef,
     toggle: () => setOpen(!open),
     close: () => setOpen(false),
+    closeToButton,
   };
 }

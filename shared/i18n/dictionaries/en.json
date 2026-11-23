@@ -19,6 +19,7 @@
   },
   "site": {
     "skipLink": "Skip to content",
+    "newTab": "(opens in a new tab)",
     "navLabel": "Main",
     "nav": {
       "writing": "Writing",

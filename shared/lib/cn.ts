@@ -25,6 +25,7 @@ const twMerge = extendTailwindMerge({
         "wordmark",
         "meta",
         "label",
+        "caption",
       ],
       radius: ["pill", "panel", "card", "media", "inner"],
       blur: ["glass"],

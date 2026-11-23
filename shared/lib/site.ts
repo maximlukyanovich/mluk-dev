@@ -13,3 +13,10 @@ export const profileLinks = [
   "https://www.linkedin.com/in/mlukyanovich",
   "https://t.me/MaximLukyanovich",
 ] as const;
+
+/**
+ * The owner's public address — the CV's PDF header and, later, the contact
+ * page. A placeholder until the address is chosen (a domain alias; the
+ * personal mailbox is not published), so it is shown as text, not a link.
+ */
+export const ownerEmail = "[email]";

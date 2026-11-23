@@ -1,4 +1,10 @@
+export { CvPage } from "./components/cv-page";
+export { CvPrint } from "./components/cv-print";
+export { ExperienceStrip } from "./components/experience-strip";
 export { Intro } from "./components/intro";
 export { ProfileCard } from "./components/profile-card";
-export { getProfile } from "./lib/content";
-export type { Profile } from "./lib/types";
+export { getCv, getProfile } from "./lib/content";
+export { cvPdfPath } from "./lib/pdf";
+export { getCvPages } from "./lib/sitemap";
+export { personJsonLd, profilePageJsonLd } from "./lib/structured-data";
+export type { CvContent, Profile } from "./lib/types";

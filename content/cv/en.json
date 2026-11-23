@@ -24,5 +24,70 @@
         "value": "[kind of work]"
       }
     ]
-  }
+  },
+  "headline": "[Role] — [one line on what you do and for whom].",
+  "summary": "[Two sentences: what you build, for whom, and what you are looking for next.]",
+  "about": [
+    "[Who you are and what you build — the work you are best at, in two or three sentences.]",
+    "[How you work: what you care about in a project, how you talk to the people you build for.]",
+    "[What you are looking for next, and what to write to you about.]"
+  ],
+  "experience": [
+    {
+      "start": 2023,
+      "end": null,
+      "role": "[Role]",
+      "company": "[Company]",
+      "summary": "[What you did there and what changed because of it — two or three lines.]",
+      "stack": ["[stack]", "[stack]", "[stack]"]
+    },
+    {
+      "start": 2020,
+      "end": 2023,
+      "role": "[Role]",
+      "company": "[Company]",
+      "summary": "[What you did there and what changed because of it — two or three lines.]",
+      "stack": ["[stack]", "[stack]", "[stack]"]
+    },
+    {
+      "start": 2017,
+      "end": 2020,
+      "role": "[Role]",
+      "company": "[Company]",
+      "summary": "[What you did there and what changed because of it — two or three lines.]",
+      "stack": ["[stack]", "[stack]", "[stack]"]
+    }
+  ],
+  "skills": [
+    {
+      "group": "Frontend",
+      "items": ["[skill]", "[skill]", "[skill]", "[skill]"]
+    },
+    {
+      "group": "Tooling",
+      "items": ["[skill]", "[skill]", "[skill]"]
+    },
+    {
+      "group": "Practice",
+      "items": ["[skill]", "[skill]", "[skill]"]
+    }
+  ],
+  "education": [
+    {
+      "degree": "[Degree]",
+      "school": "[University]",
+      "years": "[years]"
+    }
+  ],
+  "languages": [
+    {
+      "name": "Russian",
+      "level": "Native"
+    },
+    {
+      "name": "English",
+      "level": "[Level]"
+    }
+  ],
+  "updated": "2026-11-22"
 }

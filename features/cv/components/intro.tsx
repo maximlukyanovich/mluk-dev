@@ -4,6 +4,7 @@ import type { Dictionary } from "@/shared/i18n/dictionaries";
 import { localePath, type Locale } from "@/shared/i18n/locales";
 import { buttonVariants } from "@/shared/ui/button";
 
+import { cvPdfPath } from "../lib/pdf";
 import type { Profile } from "../lib/types";
 
 type IntroProps = {
@@ -35,10 +36,10 @@ export function Intro({ locale, profile, copy }: IntroProps) {
         >
           {copy.readBlog} <span aria-hidden="true">↗</span>
         </Link>
-        {/* The PDF arrives with the CV (PR 3): pnpm cv:pdf writes it. */}
         <a
           className={buttonVariants({ variant: "secondary" })}
-          href={`/cv/mluk-cv-${locale}.pdf`}
+          href={cvPdfPath(locale)}
+          download
         >
           {copy.cvPdf}
         </a>

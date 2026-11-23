@@ -24,6 +24,16 @@ pnpm dev          # http://localhost:3000
 | `pnpm test`                         | Vitest over the app, then Node's test runner over `scripts/` |
 | `pnpm build`                        | Production build                                             |
 | `pnpm validate`                     | All of the above — the gate before a pull request            |
+| `pnpm cv:pdf [baseUrl]`             | Print the CV of a running site into `public/cv/*.pdf`        |
+
+The CV PDFs are committed. After editing `content/cv/`, print them again —
+`pnpm test` fails until you do:
+
+```bash
+pnpm exec playwright install chromium   # once per machine
+pnpm build && pnpm start                # in one terminal
+pnpm cv:pdf                             # in another
+```
 
 A dependency with a build script needs an `allowBuilds` entry in
 `pnpm-workspace.yaml` — see [AGENTS.md](AGENTS.md) §2.

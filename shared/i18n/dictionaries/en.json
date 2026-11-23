@@ -72,7 +72,8 @@
     "now": "NOW",
     "updated": "Updated",
     "fullCv": "Full CV",
-    "pdf": "PDF"
+    "pdf": "PDF",
+    "pdfLabel": "Download the CV as a PDF"
   },
   "writing": {
     "title": "Writing",

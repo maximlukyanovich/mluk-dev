@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import type { Dictionary } from "@/shared/i18n/dictionaries";
 import { ownerEmail, profileLinks, siteUrl } from "@/shared/lib/site";
 
+import { cvSource } from "../lib/source";
 import type { CvContent } from "../lib/types";
 import { yearsLabel } from "../lib/years";
 
@@ -19,6 +20,7 @@ const bare = (url: string) => url.replace(/^https:\/\//, "");
  * whatever the theme: the sheet pins `data-theme="light"`. White paper, the
  * frame's colour; the kit's light ground is grey. Rows are a 118px column
  * beside the text; an empty section is left out, as on the page.
+ * `data-cv-source` names the data it was rendered from (`cvSource`).
  */
 export function CvPrint({ cv, dictionary }: CvPrintProps) {
   const { profile } = cv;
@@ -30,6 +32,7 @@ export function CvPrint({ cv, dictionary }: CvPrintProps) {
       <article
         data-theme="light"
         data-cv-sheet
+        data-cv-source={cvSource(cv)}
         className="mx-auto flex h-[297mm] w-[210mm] flex-none flex-col gap-5 overflow-hidden bg-white px-16 py-15 font-sans text-base/normal text-fg"
       >
         <header className="flex items-end justify-between gap-6">

@@ -14,5 +14,5 @@ export function getProfile(locale: Locale): Profile {
   return content[locale].profile;
 }
 
-/** Both locales' raw content, for the parity test. */
+/** Both locales' raw content, for the tests that read the real data. */
 export const cvContent = content;

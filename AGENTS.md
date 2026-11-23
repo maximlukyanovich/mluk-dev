@@ -140,7 +140,9 @@ conflict between two sources, show it to the owner — never pick one silently.
   missing PDF turns `pnpm test` red. The test sees only the data — after a
   change to the print sheet (`features/cv`'s `CvPrint`, the `cv` keys of the
   dictionaries, the kit's fonts or tokens) print again by hand. The script
-  writes nothing unless every locale fits one A4 page.
+  writes nothing unless every locale fits one A4 page and the sheet's
+  `data-cv-source` matches the data in the tree — a `next start` of an older
+  build is refused, so the hashes in `source.json` are what the PDFs show.
 - **Security headers and CSP.** Every path gets them from
   `shared/lib/security-headers.ts` through `next.config.ts`. The CSP has no
   nonce — a nonce renders every page per request — so inline scripts are

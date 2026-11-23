@@ -4,15 +4,26 @@ import { personId } from "@/shared/lib/site";
 
 import { getCv } from "./content";
 import { personJsonLd, profilePageJsonLd } from "./structured-data";
+import type { CvContent } from "./types";
+
+// The real data gives the shape; the name and role a test asserts are set here.
+const withPerson = (cv: CvContent): CvContent => ({
+  ...cv,
+  profile: {
+    ...cv.profile,
+    name: { first: "Ада", last: "Лавлейс" },
+    role: "Инженер",
+  },
+});
 
 describe("personJsonLd", () => {
   it("is the Person the home page had before", () => {
-    expect(personJsonLd(getCv("ru").profile, "ru")).toEqual({
+    expect(personJsonLd(withPerson(getCv("ru")).profile, "ru")).toEqual({
       "@context": "https://schema.org",
       "@type": "Person",
       "@id": "https://mluk.dev/#person",
-      name: "Максим Лукьянович",
-      jobTitle: "[Роль]",
+      name: "Ада Лавлейс",
+      jobTitle: "Инженер",
       url: "https://mluk.dev/ru",
       sameAs: [
         "https://github.com/maximlukyanovich",
@@ -24,7 +35,7 @@ describe("personJsonLd", () => {
 });
 
 describe("profilePageJsonLd", () => {
-  const cv = { ...getCv("en"), updated: "2026-12-01" };
+  const cv = { ...withPerson(getCv("en")), updated: "2026-12-01" };
   const page = profilePageJsonLd(cv, "en");
 
   it("describes the CV page of the locale", () => {
@@ -41,7 +52,7 @@ describe("profilePageJsonLd", () => {
     expect(page.mainEntity).toMatchObject({
       "@type": "Person",
       "@id": personId,
-      name: "Maxim Lukyanovich",
+      name: "Ада Лавлейс",
     });
     expect(page.mainEntity).not.toHaveProperty("@context");
   });

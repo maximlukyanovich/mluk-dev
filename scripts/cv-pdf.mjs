@@ -7,9 +7,10 @@
 //   pnpm cv:pdf [baseUrl]         in another; baseUrl defaults to localhost:3000
 //
 // Nothing is written unless every locale printed: a sheet that does not fit
-// one page, a page that does not answer 200 or a site that is not running
-// exits 1 and leaves the committed files as they were. Chromium comes from
-// Playwright: `pnpm exec playwright install chromium` once per machine.
+// one page, a page that does not answer 200, a site that is not running or
+// one that renders other data than content/cv (a `next start` of an older
+// build) exits 1 and leaves the committed files as they were. Chromium comes
+// from Playwright: `pnpm exec playwright install chromium` once per machine.
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
@@ -20,6 +21,7 @@ import {
   outputDir,
   pdfPageCount,
   pdfTargets,
+  renderMismatch,
   sourceFile,
   sourceHashes,
 } from "./lib/cv-pdf.mjs";
@@ -63,10 +65,13 @@ try {
         element && {
           content: element.scrollHeight,
           height: element.clientHeight,
+          source: element.getAttribute("data-cv-source"),
         }
       );
     });
     if (!sheet) fail(`${url} has no [data-cv-sheet]`);
+    const mismatch = renderMismatch(root, locale, sheet.source);
+    if (mismatch) fail(`${url}: ${mismatch}`);
     if (sheet.content > sheet.height) {
       fail(
         `the CV in ${locale} does not fit one A4 page ` +

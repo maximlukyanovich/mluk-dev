@@ -65,6 +65,8 @@ describe("ExperienceStrip", () => {
   it("links the locale's CV page and downloads its PDF", () => {
     const html = strip([job(2023, null)]);
     expect(html).toContain(`href="/ru/cv" class="mk-link">${ru.cv.fullCv} `);
-    expect(html).toContain('href="/cv/mluk-cv-ru.pdf" download=""');
+    expect(html).toContain(
+      `href="/cv/mluk-cv-ru.pdf" download="" aria-label="${ru.cv.pdfLabel}">${ru.cv.pdf} `,
+    );
   });
 });

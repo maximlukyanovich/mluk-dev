@@ -20,9 +20,9 @@ type ExperienceStripProps = {
 /**
  * Experience on the home page (canvas, Main and M-Home): the section title
  * with "Full CV →" and "PDF ↓", then the first jobs on a lime line — across
- * the page from `sm` up, down the left edge below it, as on the CV. A dot
- * per job, filled with lime years for the one that goes on. No jobs, no
- * section.
+ * the page from `sm` up, one column per job, down the left edge below it,
+ * as on the CV. A dot per job, filled with lime years for the one that goes
+ * on. No jobs, no section.
  */
 export function ExperienceStrip({
   locale,
@@ -45,12 +45,18 @@ export function ExperienceStrip({
           <Link className="mk-link" href={localePath(locale, "/cv")}>
             {copy.fullCv} <span aria-hidden="true">→</span>
           </Link>
-          <a className="mk-link" href={cvPdfPath(locale)} download>
+          {/* "PDF" alone says nothing out of context; the name says whose. */}
+          <a
+            className="mk-link"
+            href={cvPdfPath(locale)}
+            download
+            aria-label={copy.pdfLabel}
+          >
             {copy.pdf} <span aria-hidden="true">↓</span>
           </a>
         </span>
       </div>
-      <ol className="ml-1.5 grid grid-cols-[minmax(0,1fr)] gap-6 border-l-[1.5px] border-lime sm:ml-0 sm:grid-cols-[repeat(auto-fit,minmax(220px,1fr))] sm:gap-0 sm:border-t-[1.5px] sm:border-l-0">
+      <ol className="ml-1.5 grid grid-cols-[minmax(0,1fr)] gap-6 border-l-[1.5px] border-lime sm:ml-0 sm:auto-cols-fr sm:grid-flow-col sm:grid-cols-none sm:gap-0 sm:border-t-[1.5px] sm:border-l-0">
         {jobs.map((job) => {
           const now = job.end === null;
           return (

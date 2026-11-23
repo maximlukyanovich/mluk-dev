@@ -72,7 +72,8 @@
     "now": "н. в.",
     "updated": "Обновлено",
     "fullCv": "Полное резюме",
-    "pdf": "PDF"
+    "pdf": "PDF",
+    "pdfLabel": "Скачать резюме в PDF"
   },
   "writing": {
     "title": "Блог",

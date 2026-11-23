@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { getWritingPages } from "@/features/blog";
 import { getCvPages } from "@/features/cv";
+import { getProjectsPages } from "@/features/projects";
 import { locales } from "@/shared/i18n/locales";
 import { siteUrl } from "@/shared/lib/site";
 import { sitemapEntries, type SitemapPage } from "@/shared/lib/sitemap";
@@ -13,7 +14,12 @@ const sitePages: SitemapPage[] = [
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return sitemapEntries(
-    [...sitePages, ...getWritingPages(), ...getCvPages()],
+    [
+      ...sitePages,
+      ...getWritingPages(),
+      ...getCvPages(),
+      ...getProjectsPages(),
+    ],
     siteUrl,
   );
 }

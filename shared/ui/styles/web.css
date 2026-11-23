@@ -116,3 +116,30 @@
 [data-cv-sheet] {
   page: cv;
 }
+
+/* web-only: a card that is no link (a project before its case page exists).
+   The kit draws its cards as links, and the corner marks and the hover fill
+   promise a click; on an <article> with no stretched link they stay off.
+   Keyboard focus on a button inside (Live, Code) still shows the marks, as
+   in the kit. Goes when the projects get their case pages. */
+.mk-card:not(a, :has(.mk-stretch)):hover {
+  background-color: var(--glass);
+}
+.mk-card:not(a, :has(.mk-stretch)):hover:not(:focus-within)::before {
+  opacity: 0;
+}
+
+/* web-only: in the rows view the body's lines start at one edge (canvas,
+   Work-D: the meta, title, text and co-author at padding 0, like the facts
+   and buttons). The kit zeroes their 4px inline padding only in the compact
+   row; proposed to the kit with the rows view. */
+.mk-card-body
+  > :is(
+    .mk-card-meta,
+    .mk-card-title,
+    .mk-card-text,
+    .mk-card-stack,
+    .mk-feat
+  ) {
+  padding-inline: 0;
+}

@@ -1,0 +1,114 @@
+{
+  "projects": [
+    {
+      "slug": "my-tale",
+      "name": "My Tale",
+      "featured": true,
+      "own": "personal",
+      "type": "product",
+      "status": "live",
+      "stack": ["[Stack]"],
+      "description": "[What it is, for whom, your part]",
+      "year": "[Year]",
+      "role": "[Your part]",
+      "links": {
+        "live": null,
+        "code": null
+      },
+      "feat": null
+    },
+    {
+      "slug": "mluk-dev",
+      "name": "mluk.dev",
+      "featured": false,
+      "own": "personal",
+      "type": "oss",
+      "status": "building",
+      "stack": ["Next.js 16", "MDX"],
+      "description": "This site: bilingual blog, CV and portfolio.",
+      "year": "2026",
+      "role": "[Your part]",
+      "links": {
+        "live": "https://mluk.dev",
+        "code": "https://github.com/maximlukyanovich/mluk-dev"
+      },
+      "feat": null
+    },
+    {
+      "slug": "project-03",
+      "name": "[Project name]",
+      "featured": true,
+      "own": "commercial",
+      "type": "site",
+      "status": null,
+      "stack": ["[Stack]"],
+      "description": "[What it is, for whom, your part]",
+      "year": "[Year]",
+      "role": "[Your part]",
+      "links": {
+        "live": null,
+        "code": null
+      },
+      "feat": {
+        "name": "[Lukyanovich A.]",
+        "href": null,
+        "avatar": null
+      }
+    },
+    {
+      "slug": "project-04",
+      "name": "[Project name]",
+      "featured": false,
+      "own": "commercial",
+      "type": "product",
+      "status": null,
+      "stack": ["[Stack]"],
+      "description": "[What it is, for whom, your part]",
+      "year": "[Year]",
+      "role": "[Your part]",
+      "links": {
+        "live": null,
+        "code": null
+      },
+      "feat": null
+    },
+    {
+      "slug": "project-05",
+      "name": "[Project name]",
+      "featured": false,
+      "own": "commercial",
+      "type": "site",
+      "status": null,
+      "stack": ["[Stack]"],
+      "description": "[What it is, for whom, your part]",
+      "year": "[Year]",
+      "role": "[Your part]",
+      "links": {
+        "live": null,
+        "code": null
+      },
+      "feat": null
+    },
+    {
+      "slug": "project-06",
+      "name": "[Project name]",
+      "featured": false,
+      "own": "personal",
+      "type": "oss",
+      "status": null,
+      "stack": ["[Stack]"],
+      "description": "[What it is, for whom, your part]",
+      "year": "[Year]",
+      "role": "[Your part]",
+      "links": {
+        "live": null,
+        "code": null
+      },
+      "feat": {
+        "name": "[Name S.]",
+        "href": null,
+        "avatar": null
+      }
+    }
+  ]
+}

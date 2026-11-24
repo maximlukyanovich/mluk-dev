@@ -22,7 +22,7 @@ export type ProjectCardCopy = Pick<
 
 type ProjectCardProps = {
   project: Project;
-  /** `rows`: the kit's rows view, a compact list on a phone. */
+  /** `row`: the kit's rows view, a compact list on a phone. */
   variant: "grid" | "row";
   /** The right side of the meta row: "Personal · Product", or the status. */
   meta: string;
@@ -70,7 +70,7 @@ function Feat({ feat, copy }: { feat: Collaborator; copy: ProjectCardCopy }) {
  * the description, the stack and the co-author. The rows view adds the
  * facts and the Live / Code buttons, and on a phone becomes the kit's
  * compact row. No case page yet, so the card is an `<article>` and its
- * title is text — web.css keeps the hover marks off such a card.
+ * title is text — the kit keeps the hover marks off such a card.
  */
 export function ProjectCard({
   project,

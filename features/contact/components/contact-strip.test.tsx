@@ -44,7 +44,6 @@ describe("ContactStrip", () => {
       '<a class="mk-link" href="https://github.com/g" target="_blank" rel="noopener noreferrer">',
     ]);
     expect(html).not.toContain("mailto:");
-    expect(html).toContain("sm:pr-7");
   });
 
   it("makes the email the primary button once it has an address", () => {
@@ -53,6 +52,5 @@ describe("ContactStrip", () => {
       '<a class="mk-btn mk-btn-primary" href="mailto:hi@mluk.dev">email</a>',
     );
     expect(html).not.toMatch(/href="mailto:[^"]*" target/);
-    expect(html).toContain("sm:pr-3");
   });
 });

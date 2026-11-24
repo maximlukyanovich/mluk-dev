@@ -12,7 +12,8 @@ function contributor({ name, href }: Collaborator) {
  * live site, else the code, and is left out when the project has neither.
  */
 function work(project: Project) {
-  const url = project.links.live ?? project.links.code;
+  // `||`: an empty string is no link, as on the card.
+  const url = project.links.live || project.links.code;
   return {
     "@type": "CreativeWork",
     name: project.name,

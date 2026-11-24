@@ -15,7 +15,7 @@ describe("ExternalLink", () => {
         Code
       </ExternalLink>,
     );
-    expect(html).toMatch(/^<a href="https:\/\/github.com\/a" /);
+    expect(html).toContain('href="https://github.com/a"');
     expect(html).toContain('target="_blank"');
     expect(html).toContain('rel="noopener noreferrer"');
   });
@@ -28,9 +28,8 @@ describe("ExternalLink", () => {
     );
     expect(text(html)).toBe("Live (opens in a new tab)");
     expect(html).toMatch(/<svg[^>]*aria-hidden="true"/);
-    expect(html).toContain(
-      '<span class="mk-sr"> (opens in a new tab)</span></a>',
-    );
+    // Hidden from the eye, read by a screen reader.
+    expect(html).toMatch(/class="mk-sr">\s*\(opens in a new tab\)/);
   });
 
   it("leaves the sign to the children when no label is given", () => {

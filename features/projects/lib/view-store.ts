@@ -31,7 +31,12 @@ function onStorage(event: StorageEvent) {
 }
 
 function subscribe(listener: () => void) {
-  if (!listeners.size) window.addEventListener("storage", onStorage);
+  if (!listeners.size) {
+    // No listener heard other tabs while none was subscribed (the page was
+    // hidden in <Activity>, its effects removed): read the stored view anew.
+    current = read();
+    window.addEventListener("storage", onStorage);
+  }
   listeners.add(listener);
   return () => {
     listeners.delete(listener);

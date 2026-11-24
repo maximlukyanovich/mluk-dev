@@ -19,12 +19,13 @@ export const phoneQuery = "(max-width: 640px)";
  * render — the header lives in the layout, which stays — and so does the
  * page being hidden, which Next does instead of unmounting it (`<Activity>`;
  * node_modules/next/dist/docs/01-app/02-guides/preserving-ui-state.md). A
- * link to the page already shown changes no path: the panel's links call
- * `close`. Escape closes it and returns focus to the button; a window that
+ * link to the page already shown changes no path: the header menu's links
+ * call `close`. Escape closes it and returns focus to the button; a window that
  * stops matching `query`, where the panel is hidden, closes it too. A panel
  * that lies over the page passes its `container`: a press outside it closes
- * the panel. A row that chooses in place, with no navigation, calls
- * `closeToButton`, so focus does not stay in the hidden panel.
+ * the panel. A filter's rows — links or buttons — call `closeToButton`
+ * (FilterMenu), so focus returns to the button instead of staying in the
+ * hidden panel (owner, 2026-11-24).
  */
 export function useDrop({
   query = phoneQuery,

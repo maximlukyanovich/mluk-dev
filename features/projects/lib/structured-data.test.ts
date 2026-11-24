@@ -58,6 +58,18 @@ describe("projectsJsonLd", () => {
     expect(urls).toEqual(["https://a.dev", "https://github.com/b"]);
   });
 
+  it("takes the code when the live site is an empty string", () => {
+    const [{ item }] = projectsJsonLd(
+      [
+        testProject(1, "personal", "oss", {
+          links: { live: "", code: "https://github.com/c" },
+        }),
+      ],
+      "en",
+    ).mainEntity.itemListElement;
+    expect(item.url).toBe("https://github.com/c");
+  });
+
   it("names the collaborator, with their page only when it is given", () => {
     const contributors = projectsJsonLd(
       [

@@ -10,9 +10,19 @@ export const personId = `${siteUrl}/#person`;
 /**
  * The owner's public address — the CV's PDF header and the contact channels.
  * A placeholder until the address is chosen (a domain alias; the personal
- * mailbox is not published), so it is shown as text, not a link.
+ * mailbox is not published): `mailHref` gives it no link, so the email
+ * channel is hidden. The PDF header prints the value as plain text whatever
+ * it holds, so a real address is no link there either. A real address shows
+ * the email channel on its own, but the PDF header prints it too: run
+ * `pnpm cv:pdf` in the same commit — `cv-pdf.test` hashes only
+ * `content/cv/`, so a stale PDF stays green.
  */
 export const ownerEmail = "[email]";
+
+/** A `mailto:` link to `address`, or `null` while it is a `[placeholder]`. */
+export function mailHref(address: string): string | null {
+  return /^\[.*\]$/.test(address) ? null : `mailto:${address}`;
+}
 
 export type ChannelId =
   "email" | "telegram" | "whatsapp" | "linkedin" | "github" | "instagram";
@@ -27,11 +37,11 @@ export type Channel = {
 /**
  * The owner's channels — one source for the contact page, the home page's
  * contact strip, the Person's `sameAs` and the PDF header. A channel without
- * an address is hidden (owner, 2026-11-23). The email becomes
- * `mailto:${ownerEmail}` once the address is chosen.
+ * an address is hidden (owner, 2026-11-23); the email takes its address
+ * from `ownerEmail`.
  */
 export const channels = {
-  email: { name: "Email", handle: ownerEmail, href: null },
+  email: { name: "Email", handle: ownerEmail, href: mailHref(ownerEmail) },
   telegram: {
     name: "Telegram",
     handle: "@MaximLukyanovich",

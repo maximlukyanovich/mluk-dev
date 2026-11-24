@@ -11,7 +11,7 @@ export function NewTabMark({ label }: { label: string }) {
   return (
     <>
       <ExternalLinkIcon
-        className="ml-1 inline-block size-3.5 shrink-0 align-[-0.125em]"
+        className="mk-newtab"
         strokeWidth={1.8}
         aria-hidden="true"
       />

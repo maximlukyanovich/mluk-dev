@@ -203,7 +203,7 @@ export function ProjectsView({
       </div>
 
       {shown.length === 0 ? (
-        <div className="mk-glass mt-8 flex flex-wrap items-center justify-between gap-4 rounded-panel px-7 py-10">
+        <div className="mk-empty mk-glass mt-8">
           <p>{copy.empty}</p>
           <button
             type="button"

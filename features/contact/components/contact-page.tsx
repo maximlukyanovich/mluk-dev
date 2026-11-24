@@ -45,23 +45,20 @@ export async function ContactPage({ locale, dictionary }: ContactPageProps) {
           </li>
         ))}
       </ul>
-      <ul
-        className="mk-glass mt-8 flex flex-wrap items-center gap-x-5 gap-y-2.5 rounded-panel px-6 py-5 font-mono text-[13px]/[1.6] sm:gap-x-7 sm:gap-y-3 sm:rounded-pill sm:px-7 sm:py-4"
-        aria-label={copy.status}
-      >
-        <li className="inline-flex items-center gap-2.5">
+      <ul className="mk-status-row mk-glass mt-8" aria-label={copy.status}>
+        <li className="mk-status-row-lead">
           <span className="mk-dot" />
           {copy.openTo.replace("{work}", contact.openTo)}
         </li>
         <li>
-          <span className="text-muted">{copy.timeZone}</span> {offset}
+          <span className="mk-status-row-label">{copy.timeZone}</span> {offset}
         </li>
         <li>
-          <span className="text-muted">{copy.localTime}</span>{" "}
+          <span className="mk-status-row-label">{copy.localTime}</span>{" "}
           <LocalTime timeZone={contact.timeZone} locale={locale} />
         </li>
         <li>
-          <span className="text-muted">{copy.replies}</span> {within}
+          <span className="mk-status-row-label">{copy.replies}</span> {within}
         </li>
       </ul>
     </>

@@ -87,18 +87,6 @@
   }
 }
 
-/* web-only: a card whose title is the kit's stretched link (a project with
-   a case page) takes the link's focus ring, as the kit's linked card does
-   (.mk-card:focus-visible, offset 4px): the ring round the title alone
-   would not say the whole card is the target. */
-.mk-card:has(.mk-stretch:focus-visible) {
-  outline: 2px solid var(--lime);
-  outline-offset: 4px;
-}
-.mk-stretch:focus-visible {
-  outline: none;
-}
-
 /* web-only: list markers in article text. Tailwind's preflight sets
    list-style: none on every ol and ul; the kit, written without it, relies
    on the browser's bullets and numbers — the post's lists and its numbered

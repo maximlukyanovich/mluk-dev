@@ -127,12 +127,11 @@ export function ProjectCard({
     </span>
   );
   const media = project.cover ? (
-    <span className="mk-card-media relative overflow-hidden">
+    <span className="mk-card-media">
       <Image
         src={project.cover}
         alt=""
         fill
-        className="object-cover"
         sizes={coverSizes[variant]}
         loading={eager ? "eager" : "lazy"}
       />

@@ -27,7 +27,7 @@ describe("PrevNext", () => {
 
   it("prints the meta line only when the item has one", () => {
     const plain = renderToStaticMarkup(<PrevNext {...labels} next={newer} />);
-    expect(plain).not.toContain("font-mono");
+    expect(plain).not.toContain("mk-pn-meta");
 
     const withMeta = renderToStaticMarkup(
       <PrevNext

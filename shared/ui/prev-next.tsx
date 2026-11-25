@@ -64,5 +64,5 @@ export function PrevNext({
 }
 
 function Meta({ text }: { text: string }) {
-  return <span className="font-mono text-xs text-muted">{text}</span>;
+  return <span className="mk-pn-meta">{text}</span>;
 }

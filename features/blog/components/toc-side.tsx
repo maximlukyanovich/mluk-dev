@@ -11,7 +11,7 @@ type TocSideProps = {
   title: string;
 };
 
-/** The kit's Toc as a side panel, from 1440px; its column keeps it sticky. */
+/** The kit's Toc as a side panel, from 1280px; its column keeps it sticky. */
 export function TocSide({ headings, title }: TocSideProps) {
   const active = useActiveHeading(headings.map((heading) => heading.id));
   const titleId = useId();

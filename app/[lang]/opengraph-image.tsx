@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 import { dictionaryFor } from "@/shared/i18n/dictionaries";
 import { hasLocale, locales } from "@/shared/i18n/locales";
-import { OgCover, ogFonts, ogSize } from "@/shared/ui/og-cover";
+import { OgCover, ogFonts, ogSize, siteImageId } from "@/shared/ui/og-cover";
 
 // A route handler: next/root-params throws here, so the locale comes from
 // params, and the file lists its own locales.
@@ -20,7 +20,7 @@ export function generateImageMetadata({
   const locale = hasLocale(params.lang) ? params.lang : locales[0];
   return [
     {
-      id: "site",
+      id: siteImageId,
       alt: dictionaryFor(locale).meta.ogTitle,
       size: ogSize,
       contentType,

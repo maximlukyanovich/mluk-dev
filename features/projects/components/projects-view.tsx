@@ -9,6 +9,7 @@ import { plural } from "@/shared/i18n/plural";
 import { buttonVariants } from "@/shared/ui/button";
 import { FilterMenu } from "@/shared/ui/filter-menu";
 
+import { caseHref } from "../lib/case-path";
 import { featuredFirst, filterProjects } from "../lib/filter";
 import {
   owns,
@@ -229,6 +230,10 @@ export function ProjectsView({
               meta={`${copy.own[project.own]} · ${copy.type[project.type]}`}
               heading="h2"
               index={index}
+              href={caseHref(locale, project)}
+              // The grid's first row from 1004px, where it has three columns;
+              // narrower, the first three cards of the grid or the list.
+              eager={index < 3}
               copy={cardCopy}
             />
           ))}

@@ -17,7 +17,7 @@ import { sectionNumber, TocList } from "./toc-list";
 import { useActiveHeading } from "./use-active-heading";
 
 /** Where the side panel takes over (`wide` in theme.css). */
-const wideQuery = "(min-width: 90rem)";
+const wideQuery = "(min-width: 80rem)";
 
 /**
  * Keeps the text under the bar where it is while the list grows or shrinks
@@ -41,14 +41,14 @@ type TocBarProps = {
 };
 
 /**
- * The kit's Toc as a sticky bar, below 1440px: closed, it shows the current
+ * The kit's Toc as a sticky bar, below 1280px: closed, it shows the current
  * section; open, the list. The list opens and closes smoothly, as the kit's
  * `.mk-drop` — height and opacity over 200ms (owner, 2026-11-21); without
  * scripts the native `<details>` toggles at once. Open, the bar lies over
  * the text instead of pushing it down (owner, 2026-11-21): a negative bottom
  * margin as tall as the list, moving with it. Picking a section closes it
  * and moves focus to the heading; Escape closes it back onto the summary;
- * so does a press outside it, and the window growing past 1440px, where it
+ * so does a press outside it, and the window growing past 1280px, where it
  * is hidden.
  */
 export function TocBar({ headings, title, className }: TocBarProps) {

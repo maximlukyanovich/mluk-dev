@@ -1,0 +1,15 @@
+## Task
+
+A personal site to write in two languages, keep the CV current and show the work — without a CMS or a database, and cheap to keep running.
+
+## Solution
+
+Next.js 16 with Cache Components. All content lives in git: posts in MDX, the CV and the projects in JSON, one file per locale. No i18n library — two dictionaries and `next/root-params`.
+
+- Every page is prerendered in both languages.
+- The design kit's CSS is used as it is, with Tailwind 4 utilities on top.
+- The CV PDF is printed from the same JSON as the page.
+
+## Result
+
+Writing, Projects, CV and Contact in English and Russian. One source for every piece of content: a change to the CV reaches the page, its print sheet and the PDF in one commit.

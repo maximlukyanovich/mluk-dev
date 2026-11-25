@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Dictionary } from "@/shared/i18n/dictionaries";
 import { localePath, type Locale } from "@/shared/i18n/locales";
 
+import { caseHref } from "../lib/case-path";
 import { getProjects } from "../lib/content";
 import { homeProjects } from "../lib/filter";
 import { ProjectCard } from "./project-card";
@@ -42,6 +43,7 @@ export function ProjectsStrip({ locale, dictionary }: ProjectsStripProps) {
             meta={project.status ? copy.status[project.status] : ""}
             heading="h3"
             index={index}
+            href={caseHref(locale, project)}
             copy={cardCopy}
           />
         ))}

@@ -1,5 +1,6 @@
 import { Star } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import type { CSSProperties } from "react";
 
 import type { Dictionary } from "@/shared/i18n/dictionaries";
@@ -30,10 +31,30 @@ type ProjectCardProps = {
   heading: "h2" | "h3";
   /** The card's place in the list, for the reveal's stagger. */
   index: number;
+  /** The case page; null leaves the card without a link. */
+  href: string | null;
+  /**
+   * The card may be in the first screen (one of the projects page's first
+   * three): its cover can be the Largest Contentful Paint, so it is not lazy.
+   */
+  eager?: boolean;
   copy: ProjectCardCopy;
 };
 
-const number = (n: number) => String(n).padStart(2, "0");
+/**
+ * An upper bound of the picture's width, not a measurement: the width of a
+ * grid column, which the card's padding makes some 10–15% wider than the
+ * picture — three from 1004px (370px in the 1200px container), two from
+ * 680px, one below; in the rows view the kit's 440px slot, a 104px thumbnail
+ * in the phone's compact row.
+ */
+const coverSizes = {
+  grid: "(min-width: 1256px) 370px, (min-width: 1004px) 30vw, (min-width: 680px) 46vw, 100vw",
+  row: "(max-width: 640px) 104px, 440px",
+};
+
+/** A project's position as the card shows it: "01". */
+export const projectNumber = (n: number) => String(n).padStart(2, "0");
 
 function Feat({ feat, copy }: { feat: Collaborator; copy: ProjectCardCopy }) {
   const person = (
@@ -69,8 +90,11 @@ function Feat({ feat, copy }: { feat: Collaborator; copy: ProjectCardCopy }) {
  * with the featured star, the meta, the screenshot placeholder, the title,
  * the description, the stack and the co-author. The rows view adds the
  * facts and the Live / Code buttons, and on a phone becomes the kit's
- * compact row. No case page yet, so the card is an `<article>` and its
- * title is text — the kit keeps the hover marks off such a card.
+ * compact row. With a case page the title is the kit's stretched link over
+ * the whole card — the co-author and the buttons stay links of their own
+ * above it; without one the title is text and the kit keeps the hover marks
+ * off the card. The cover replaces the placeholder; its `alt` is empty, as
+ * the title beside it names the project.
  */
 export function ProjectCard({
   project,
@@ -78,6 +102,8 @@ export function ProjectCard({
   meta,
   heading: Heading,
   index,
+  href,
+  eager = false,
   copy,
 }: ProjectCardProps) {
   const row = variant === "row";
@@ -90,7 +116,7 @@ export function ProjectCard({
   const metaRow = (
     <span className="mk-card-meta">
       <span className="inline-flex items-center gap-2">
-        <span className="mk-card-no">{number(project.number)}</span>
+        <span className="mk-card-no">{projectNumber(project.number)}</span>
         {project.featured && (
           <span className="mk-star">
             <Star fill="currentColor" strokeWidth={1.5} aria-hidden="true" />
@@ -101,12 +127,32 @@ export function ProjectCard({
       <span>{meta}</span>
     </span>
   );
-  const media = (
+  const media = project.cover ? (
+    <span className="mk-card-media">
+      <Image
+        src={project.cover}
+        alt=""
+        fill
+        sizes={coverSizes[variant]}
+        loading={eager ? "eager" : "lazy"}
+      />
+    </span>
+  ) : (
     <span className="mk-card-media text-center" aria-hidden="true">
       {copy.screenshot}
     </span>
   );
-  const title = <Heading className="mk-card-title">{project.name}</Heading>;
+  const title = (
+    <Heading className="mk-card-title">
+      {href ? (
+        <Link className="mk-stretch" href={href}>
+          {project.name}
+        </Link>
+      ) : (
+        project.name
+      )}
+    </Heading>
+  );
   const text = <p className="mk-card-text">{project.description}</p>;
   // The stagger index is per card: no utility can carry it.
   const style = { "--i": index } as CSSProperties;

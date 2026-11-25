@@ -11,6 +11,8 @@
       "description": "[What it is, for whom, your part]",
       "year": "[Year]",
       "role": "[Your part]",
+      "team": "[Team size]",
+      "cover": null,
       "links": {
         "live": null,
         "code": null
@@ -28,6 +30,8 @@
       "description": "This site: bilingual blog, CV and portfolio.",
       "year": "2026",
       "role": "[Your part]",
+      "team": "[Team size]",
+      "cover": "/projects/mluk-dev/cover.jpg",
       "links": {
         "live": "https://mluk.dev",
         "code": "https://github.com/maximlukyanovich/mluk-dev"
@@ -45,6 +49,8 @@
       "description": "[What it is, for whom, your part]",
       "year": "[Year]",
       "role": "[Your part]",
+      "team": "[Team size]",
+      "cover": null,
       "links": {
         "live": null,
         "code": null
@@ -66,6 +72,8 @@
       "description": "[What it is, for whom, your part]",
       "year": "[Year]",
       "role": "[Your part]",
+      "team": "[Team size]",
+      "cover": null,
       "links": {
         "live": null,
         "code": null
@@ -83,6 +91,8 @@
       "description": "[What it is, for whom, your part]",
       "year": "[Year]",
       "role": "[Your part]",
+      "team": "[Team size]",
+      "cover": null,
       "links": {
         "live": null,
         "code": null
@@ -100,6 +110,8 @@
       "description": "[What it is, for whom, your part]",
       "year": "[Year]",
       "role": "[Your part]",
+      "team": "[Team size]",
+      "cover": null,
       "links": {
         "live": null,
         "code": null

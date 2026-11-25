@@ -9,9 +9,13 @@ import { mediaComponents } from "./post-media";
 
 /**
  * What a post's elements render as. Handed to the MDX content as a prop, so
- * the root mdx-components.tsx stays empty and never imports a feature.
+ * the root mdx-components.tsx stays empty and never imports a feature; a
+ * route hands the same set to another section's MDX.
  */
-function postComponents(locale: Locale, dictionary: Dictionary): MDXComponents {
+export function mdxComponents(
+  locale: Locale,
+  dictionary: Dictionary,
+): MDXComponents {
   return {
     ...mediaComponents(dictionary.media, dictionary.site.newTab),
     figure: codeFigure(locale, dictionary.code),
@@ -31,5 +35,5 @@ export async function PostBody({ slug, locale, dictionary }: PostBodyProps) {
   const { default: Content }: { default: MDXContent } = await import(
     `@/content/posts/${slug}/${locale}.mdx`
   );
-  return <Content components={postComponents(locale, dictionary)} />;
+  return <Content components={mdxComponents(locale, dictionary)} />;
 }

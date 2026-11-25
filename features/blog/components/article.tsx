@@ -29,7 +29,7 @@ type ArticleProps = {
 
 /**
  * A post page, both chosen layouts in one markup and switched by CSS at
- * 1440px (`wide`): Article-W puts the table of contents and the tags in a
+ * 1280px (`wide`): Article-W puts the table of contents and the tags in a
  * sticky 300px column beside the 740px text, 72px apart, with the title
  * above the text; Article-B keeps one 740px column with the contents as a
  * sticky bar and the tags after the text.

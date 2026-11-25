@@ -33,7 +33,8 @@ type ProjectCardProps = {
   copy: ProjectCardCopy;
 };
 
-const number = (n: number) => String(n).padStart(2, "0");
+/** A project's position as the card shows it: "01". */
+export const projectNumber = (n: number) => String(n).padStart(2, "0");
 
 function Feat({ feat, copy }: { feat: Collaborator; copy: ProjectCardCopy }) {
   const person = (
@@ -90,7 +91,7 @@ export function ProjectCard({
   const metaRow = (
     <span className="mk-card-meta">
       <span className="inline-flex items-center gap-2">
-        <span className="mk-card-no">{number(project.number)}</span>
+        <span className="mk-card-no">{projectNumber(project.number)}</span>
         {project.featured && (
           <span className="mk-star">
             <Star fill="currentColor" strokeWidth={1.5} aria-hidden="true" />

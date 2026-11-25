@@ -1,3 +1,4 @@
+export { CasePage } from "./components/case-page";
 export { ProjectsPage } from "./components/projects-page";
 export { ProjectsStrip } from "./components/projects-strip";
 export {

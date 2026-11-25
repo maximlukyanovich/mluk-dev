@@ -124,7 +124,16 @@
     "when": "When",
     "live": "Live",
     "code": "Code",
-    "feat": "feat."
+    "feat": "feat.",
+    "case": {
+      "aboutProject": "About the project",
+      "status": "Status",
+      "team": "Team",
+      "moreProjects": "More projects",
+      "previous": "Previous project",
+      "next": "Next project",
+      "coverAlt": "Screenshot of {name}"
+    }
   },
   "contact": {
     "title": "Contact",

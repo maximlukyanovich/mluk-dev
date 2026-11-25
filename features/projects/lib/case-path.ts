@@ -3,8 +3,8 @@ import { localePath, type Locale } from "@/shared/i18n/locales";
 import type { Project } from "./types";
 
 /**
- * A case page's locale-less path. Apart from `cases.ts`, which reads the
- * content from disk, so the client's project list can link a card too.
+ * A case page's locale-less path. Apart from `content.ts`, which reads the
+ * case files from disk, so the client's project list can link a card too.
  */
 export const casePath = (slug: string) => `/projects/${slug}`;
 

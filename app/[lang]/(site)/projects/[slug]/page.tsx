@@ -12,6 +12,7 @@ import {
 import { alternates } from "@/shared/i18n/alternates";
 import { getDictionary, getLocale } from "@/shared/i18n/get-dictionary";
 import { localePath, ogLocale } from "@/shared/i18n/locales";
+import { ogSize, siteImagePath } from "@/shared/ui/og-cover";
 
 // Every case of the parent locale; none → a placeholder that is a 404.
 export const generateStaticParams = generateCaseParams;
@@ -43,23 +44,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: project.name,
     description: project.description,
     alternates: alternates(path, locale, available),
-    // Without a cover the layout's openGraph stays, with the site's picture.
-    // With one it is replaced whole — which drops that picture — so the
-    // site's fields come again and the cover takes the picture's place.
-    ...(project.cover && {
-      openGraph: {
-        type: "website",
-        siteName: meta.siteName,
-        title: project.name,
-        description: project.description,
-        url: localePath(locale, path),
-        locale: ogLocale[locale],
-        alternateLocale: available
-          .filter((other) => other !== locale)
-          .map((other) => ogLocale[other]),
-        images: [{ url: project.cover, alt: project.name }],
-      },
-    }),
+    // Replaces the layout's openGraph whole, as a post does, so the site's
+    // fields come again. That drops the site's picture: the cover takes its
+    // place, and a case without one links the site's picture again.
+    openGraph: {
+      type: "website",
+      siteName: meta.siteName,
+      title: project.name,
+      description: project.description,
+      url: localePath(locale, path),
+      locale: ogLocale[locale],
+      alternateLocale: available
+        .filter((other) => other !== locale)
+        .map((other) => ogLocale[other]),
+      images: [
+        project.cover
+          ? { url: project.cover, alt: project.name }
+          : { url: siteImagePath(locale), ...ogSize, alt: meta.ogTitle },
+      ],
+    },
   };
 }
 

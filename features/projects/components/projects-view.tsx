@@ -231,7 +231,8 @@ export function ProjectsView({
               heading="h2"
               index={index}
               href={caseHref(locale, project)}
-              // The grid's first row, or the first rows of the list.
+              // The grid's first row from 1004px, where it has three columns;
+              // narrower, the first three cards of the grid or the list.
               eager={index < 3}
               copy={cardCopy}
             />

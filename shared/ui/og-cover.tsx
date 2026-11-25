@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
+import { localePath, type Locale } from "@/shared/i18n/locales";
+
 /**
  * The kit's OgCover drawn for `next/og` at 1200×630. Satori takes no CSS
  * variables or classes, so the dark theme's values from tokens.json are
@@ -17,6 +19,16 @@ const dark = {
 };
 
 export const ogSize = { width: 1200, height: 630 };
+
+/**
+ * The id of the site's picture in `app/[lang]/opengraph-image.tsx`, which
+ * serves it at `siteImagePath`. A page that replaces the layout's openGraph
+ * drops that picture, and links it again by this path.
+ */
+export const siteImageId = "site";
+
+export const siteImagePath = (locale: Locale) =>
+  localePath(locale, `/opengraph-image/${siteImageId}`);
 
 type OgFont = {
   name: string;

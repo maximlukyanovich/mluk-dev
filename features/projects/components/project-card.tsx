@@ -34,18 +34,19 @@ type ProjectCardProps = {
   /** The case page; null leaves the card without a link. */
   href: string | null;
   /**
-   * The card is in the first screen (the projects page's first row): its
-   * cover can be the Largest Contentful Paint, so it is not lazy.
+   * The card may be in the first screen (one of the projects page's first
+   * three): its cover can be the Largest Contentful Paint, so it is not lazy.
    */
   eager?: boolean;
   copy: ProjectCardCopy;
 };
 
 /**
- * The picture's rendered width, measured: a column of the grid — three from
- * 1004px (370px in the 1200px container), two from 680px, one below; in the
- * rows view the kit's 440px slot, a 104px thumbnail in the phone's compact
- * row.
+ * An upper bound of the picture's width, not a measurement: the width of a
+ * grid column, which the card's padding makes some 10–15% wider than the
+ * picture — three from 1004px (370px in the 1200px container), two from
+ * 680px, one below; in the rows view the kit's 440px slot, a 104px thumbnail
+ * in the phone's compact row.
  */
 const coverSizes = {
   grid: "(min-width: 1256px) 370px, (min-width: 1004px) 30vw, (min-width: 680px) 46vw, 100vw",

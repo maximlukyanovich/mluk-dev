@@ -120,7 +120,7 @@ conflict between two sources, show it to the owner — never pick one silently.
   until the script ran, in production too. Which pages a locale has is one
   rule, `features/blog/lib/routes.ts`, read by the sitemap, the language
   switch's fallbacks and every `generateStaticParams`; which cases, one flag —
-  the loader's `hasCase` (`features/projects/lib/cases.ts`) builds the card's
+  the loader's `hasCase` (`features/projects/lib/content.ts`) builds the card's
   link, the params, the sitemap and the neighbours. A generator receives
   only the root layout's `lang` — a sibling page is no parent segment — so it
   returns every segment below it, and a locale with none of its pages gets a

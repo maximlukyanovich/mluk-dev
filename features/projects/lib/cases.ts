@@ -4,9 +4,6 @@ import { getProject, getProjects } from "./content";
 import { featuredFirst } from "./filter";
 import type { Project } from "./types";
 
-/** A case page's locale-less path. */
-export const casePath = (slug: string) => `/projects/${slug}`;
-
 /**
  * With Cache Components an empty `generateStaticParams` fails the build, so
  * a locale with no case returns this slug, which its page turns into

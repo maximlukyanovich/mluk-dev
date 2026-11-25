@@ -1,5 +1,6 @@
 import { Star } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import type { CSSProperties } from "react";
 
 import type { Dictionary } from "@/shared/i18n/dictionaries";
@@ -30,7 +31,25 @@ type ProjectCardProps = {
   heading: "h2" | "h3";
   /** The card's place in the list, for the reveal's stagger. */
   index: number;
+  /** The case page; null leaves the card without a link. */
+  href: string | null;
+  /**
+   * The card is in the first screen (the projects page's first row): its
+   * cover can be the Largest Contentful Paint, so it is not lazy.
+   */
+  eager?: boolean;
   copy: ProjectCardCopy;
+};
+
+/**
+ * The picture's rendered width, measured: a column of the grid — three from
+ * 1004px (370px in the 1200px container), two from 680px, one below; in the
+ * rows view the kit's 440px slot, a 104px thumbnail in the phone's compact
+ * row.
+ */
+const coverSizes = {
+  grid: "(min-width: 1256px) 370px, (min-width: 1004px) 30vw, (min-width: 680px) 46vw, 100vw",
+  row: "(max-width: 640px) 104px, 440px",
 };
 
 /** A project's position as the card shows it: "01". */
@@ -70,8 +89,11 @@ function Feat({ feat, copy }: { feat: Collaborator; copy: ProjectCardCopy }) {
  * with the featured star, the meta, the screenshot placeholder, the title,
  * the description, the stack and the co-author. The rows view adds the
  * facts and the Live / Code buttons, and on a phone becomes the kit's
- * compact row. No case page yet, so the card is an `<article>` and its
- * title is text — the kit keeps the hover marks off such a card.
+ * compact row. With a case page the title is the kit's stretched link over
+ * the whole card — the co-author and the buttons stay links of their own
+ * above it; without one the title is text and the kit keeps the hover marks
+ * off the card. The cover replaces the placeholder; its `alt` is empty, as
+ * the title beside it names the project.
  */
 export function ProjectCard({
   project,
@@ -79,6 +101,8 @@ export function ProjectCard({
   meta,
   heading: Heading,
   index,
+  href,
+  eager = false,
   copy,
 }: ProjectCardProps) {
   const row = variant === "row";
@@ -102,12 +126,33 @@ export function ProjectCard({
       <span>{meta}</span>
     </span>
   );
-  const media = (
+  const media = project.cover ? (
+    <span className="mk-card-media relative overflow-hidden">
+      <Image
+        src={project.cover}
+        alt=""
+        fill
+        className="object-cover"
+        sizes={coverSizes[variant]}
+        loading={eager ? "eager" : "lazy"}
+      />
+    </span>
+  ) : (
     <span className="mk-card-media text-center" aria-hidden="true">
       {copy.screenshot}
     </span>
   );
-  const title = <Heading className="mk-card-title">{project.name}</Heading>;
+  const title = (
+    <Heading className="mk-card-title">
+      {href ? (
+        <Link className="mk-stretch" href={href}>
+          {project.name}
+        </Link>
+      ) : (
+        project.name
+      )}
+    </Heading>
+  );
   const text = <p className="mk-card-text">{project.description}</p>;
   // The stagger index is per card: no utility can carry it.
   const style = { "--i": index } as CSSProperties;

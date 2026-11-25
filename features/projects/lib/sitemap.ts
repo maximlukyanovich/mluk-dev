@@ -1,7 +1,7 @@
 import { locales, type Locale } from "@/shared/i18n/locales";
 import type { SitemapPage } from "@/shared/lib/sitemap";
 
-import { casePath } from "./cases";
+import { casePath } from "./case-path";
 import { getProjects } from "./content";
 import type { Project } from "./types";
 

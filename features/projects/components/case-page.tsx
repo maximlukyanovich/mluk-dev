@@ -9,7 +9,8 @@ import { Breadcrumbs } from "@/shared/ui/breadcrumbs";
 import { JsonLd } from "@/shared/ui/json-ld";
 import { PrevNext, type PrevNextItem } from "@/shared/ui/prev-next";
 
-import { caseNeighbours, casePath } from "../lib/cases";
+import { casePath } from "../lib/case-path";
+import { caseNeighbours } from "../lib/cases";
 import { getProjects } from "../lib/content";
 import { caseJsonLd } from "../lib/structured-data";
 import type { Project } from "../lib/types";

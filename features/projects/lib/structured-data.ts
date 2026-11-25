@@ -1,7 +1,7 @@
 import { localePath, type Locale } from "@/shared/i18n/locales";
 import { personId, siteUrl } from "@/shared/lib/site";
 
-import { casePath } from "./cases";
+import { casePath } from "./case-path";
 import type { Collaborator, Project } from "./types";
 
 function contributor({ name, href }: Collaborator) {

@@ -23,7 +23,7 @@ export type Collaborator = {
 export type Project = {
   /** Its 1-based position in the content file — the card's "01". */
   number: number;
-  /** The future case page's URL segment; the same in every locale. */
+  /** The case page's URL segment and folder; the same in every locale. */
   slug: string;
   name: string;
   /** Starred and listed first, wherever the list is filtered. */
@@ -37,18 +37,31 @@ export type Project = {
   /** As written: a year or a span ("2024 — 2025"). */
   year: string;
   role: string;
+  /** As written ("Solo", "3 people"); null hides it on the case page. */
+  team: string | null;
+  /**
+   * A 16:10 image under `public/projects/<slug>/`, as a site path: the top of
+   * the case page, its Open Graph image and the card's picture. null shows
+   * none, and the card keeps its placeholder.
+   */
+  cover: string | null;
   /** Each null hides its button. */
   links: { live: string | null; code: string | null };
   feat: Collaborator | null;
+  /**
+   * It has a case page: `content/projects/<slug>/<locale>.mdx` exists. Found
+   * by the loader, not written in the JSON.
+   */
+  hasCase: boolean;
 };
 
 /**
  * A project as JSON gives it: the closed sets are plain strings until the
- * loader checks them, and the number is the position, not a field.
+ * loader checks them, and the number and the case are found, not fields.
  */
 export type ProjectSource = Omit<
   Project,
-  "number" | "own" | "type" | "status"
+  "number" | "own" | "type" | "status" | "hasCase"
 > & { own: string; type: string; status: string | null };
 
 /** A filter's value: one of the set, or every project. */

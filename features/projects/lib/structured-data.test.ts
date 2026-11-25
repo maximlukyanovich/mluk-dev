@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { featuredFirst } from "./filter";
-import { projectsJsonLd } from "./structured-data";
+import { caseJsonLd, projectsJsonLd } from "./structured-data";
 import { demoProjects, testProject } from "./test-projects";
 
 describe("projectsJsonLd", () => {
@@ -86,5 +86,47 @@ describe("projectsJsonLd", () => {
       { "@type": "Person", name: "Ann", url: "https://ann.dev" },
       { "@type": "Person", name: "Bob" },
     ]);
+  });
+});
+
+describe("caseJsonLd", () => {
+  it("is the project's work, on its case page in the locale", () => {
+    expect(
+      caseJsonLd(
+        testProject(2, "personal", "oss", {
+          links: { live: "https://a.dev", code: null },
+        }),
+        "ru",
+      ),
+    ).toEqual({
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      name: "Project 2",
+      description: "About project 2.",
+      url: "https://a.dev",
+      author: { "@id": "https://mluk.dev/#person" },
+      inLanguage: "ru",
+      mainEntityOfPage: "https://mluk.dev/ru/projects/project-2",
+    });
+  });
+
+  it("takes the cover as its image, by an absolute URL", () => {
+    const { image } = caseJsonLd(
+      testProject(1, "personal", "oss", {
+        cover: "/projects/project-1/cover.jpg",
+      }),
+      "en",
+    );
+    expect(image).toBe("https://mluk.dev/projects/project-1/cover.jpg");
+  });
+
+  it("names the collaborator, as on the projects page", () => {
+    const { contributor } = caseJsonLd(
+      testProject(1, "commercial", "site", {
+        feat: { name: "Ann", href: null, avatar: null },
+      }),
+      "en",
+    );
+    expect(contributor).toEqual({ "@type": "Person", name: "Ann" });
   });
 });

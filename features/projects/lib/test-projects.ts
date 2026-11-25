@@ -19,8 +19,11 @@ export function testProject(
     description: `About project ${number}.`,
     year: "2026",
     role: "Developer",
+    team: null,
+    cover: null,
     links: { live: null, code: null },
     feat: null,
+    hasCase: false,
     ...overrides,
   };
 }

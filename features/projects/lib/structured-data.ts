@@ -1,6 +1,7 @@
 import { localePath, type Locale } from "@/shared/i18n/locales";
 import { personId, siteUrl } from "@/shared/lib/site";
 
+import { casePath } from "./cases";
 import type { Collaborator, Project } from "./types";
 
 function contributor({ name, href }: Collaborator) {
@@ -42,5 +43,20 @@ export function projectsJsonLd(projects: readonly Project[], locale: Locale) {
         item: work(project),
       })),
     },
+  };
+}
+
+/**
+ * A case page's project as a schema.org CreativeWork: the work of the
+ * projects page, the case page as the page about it, and the cover as its
+ * image when it has one. The page's BreadcrumbList comes from `Breadcrumbs`.
+ */
+export function caseJsonLd(project: Project, locale: Locale) {
+  return {
+    "@context": "https://schema.org",
+    ...work(project),
+    inLanguage: locale,
+    mainEntityOfPage: siteUrl + localePath(locale, casePath(project.slug)),
+    ...(project.cover && { image: siteUrl + project.cover }),
   };
 }

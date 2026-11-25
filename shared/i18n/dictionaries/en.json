@@ -19,6 +19,7 @@
   },
   "site": {
     "skipLink": "Skip to content",
+    "newTab": "(opens in a new tab)",
     "navLabel": "Main",
     "nav": {
       "writing": "Writing",
@@ -74,6 +75,69 @@
     "fullCv": "Full CV",
     "pdf": "PDF",
     "pdfLabel": "Download the CV as a PDF"
+  },
+  "projects": {
+    "allProjects": "All projects",
+    "title": "Projects",
+    "description": "Maxim Lukyanovich's projects: products, client work and open source, with the role, stack and links.",
+    "lead": "Products, client work and open source — what each is, who it is for and what I did.",
+    "ownLabel": "Commercial or personal",
+    "typeLabel": "Type",
+    "typeButton": "Type",
+    "all": "All",
+    "allTypes": "All types",
+    "filterOwn": {
+      "commercial": "Commercial",
+      "personal": "Personal"
+    },
+    "filterType": {
+      "product": "Product",
+      "site": "Website",
+      "oss": "Open source"
+    },
+    "viewLabel": "View",
+    "grid": "Grid",
+    "rows": "Rows",
+    "count": {
+      "one": "{n} project",
+      "other": "{n} projects"
+    },
+    "empty": "No projects of this kind yet.",
+    "showAll": "Show all",
+    "own": {
+      "commercial": "Commercial",
+      "personal": "Personal"
+    },
+    "type": {
+      "product": "Product",
+      "site": "Website",
+      "oss": "Open source"
+    },
+    "status": {
+      "live": "Live",
+      "building": "Building"
+    },
+    "featured": "Featured",
+    "screenshot": "[Screenshot 16:10]",
+    "role": "Role",
+    "stack": "Stack",
+    "when": "When",
+    "live": "Live",
+    "code": "Code",
+    "feat": "feat."
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "How to reach Maxim Lukyanovich: the channels, the time zone and how soon a reply comes.",
+    "eyebrow": "Open to work · replies within {replies}",
+    "lead": "Write about work, a post or anything on the site.",
+    "channels": "Channels",
+    "status": "Status",
+    "openTo": "Open to {work}",
+    "timeZone": "Time zone",
+    "localTime": "Local time",
+    "replies": "Replies",
+    "repliesWithin": "within {replies}"
   },
   "writing": {
     "title": "Writing",

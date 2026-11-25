@@ -1,6 +1,6 @@
 /*
  * kit.css — the kit's project/components/bundle.css, verbatim from its line 2
- * on (version 1795297080-df66, 2026-11-22). Line 1, the Google Fonts @import,
+ * on (version 1795532776-71d1, 2026-11-24). Line 1, the Google Fonts @import,
  * is dropped: next/font serves the same families (shared/ui/fonts.ts).
  * Prettier skips this file so it stays diffable against the kit:
  *   diff <(tail -n +2 bundle.css) <(tail -n +9 kit.css)
@@ -370,6 +370,30 @@ html:has(dialog.mk-lightbox[open]) { overflow: hidden; scrollbar-gutter: stable;
 .mk-feat a { display: inline-flex; align-items: center; gap: 6px; color: var(--peri); text-decoration: none; transition: color var(--duration-fast, 150ms) ease; }
 .mk-feat a:hover { color: var(--fg); }
 .mk-feat .mk-avatar { width: 20px; height: 20px; }
+/* Rows view: the body's lines start at one edge, like the facts and buttons (owner, 2026-11-23 · Work-D). */
+.mk-card-body > :is(.mk-card-meta, .mk-card-title, .mk-card-text, .mk-card-stack, .mk-feat) { padding-inline: 0; }
+/* A card that is no link (a project before its case page): no marks or fill on hover — they promise a click. Keyboard focus on a button inside still shows the marks (owner, 2026-11-23). */
+.mk-card:not(a, :has(.mk-stretch)):hover { background-color: var(--glass); }
+.mk-card:not(a, :has(.mk-stretch)):hover:not(:focus-within)::before { opacity: 0; }
+/* An empty list: a glass panel with what happened and a way back (Work, "Show all"). */
+.mk-empty { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 40px 28px; border-radius: var(--radius-panel); }
+
+/* ── Contact: channel tiles and the status row (Contact-C, M-Contact; owner, 2026-11-23) ── */
+.mk-tile { gap: 10px; padding: 22px 20px 24px; }
+.mk-tile > :is(.mk-card-meta, .mk-card-title) { padding: 0; }
+.mk-tile > .mk-card-title { margin-top: 18px; }
+.mk-tile-handle { color: var(--muted); }
+.mk-tile-action { margin-top: 12px; font-weight: 700; color: var(--peri); }
+.mk-status-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin: 0; padding: 16px 28px; list-style: none; border-radius: var(--radius-pill); font-family: var(--font-mono); font-size: 13px; line-height: 1.6; }
+.mk-status-row-lead { display: inline-flex; align-items: center; gap: 10px; }
+.mk-status-row-label { color: var(--muted); }
+.mk-status-row.is-compact { gap: 10px 20px; padding: 20px 24px; border-radius: var(--radius-panel); }
+@media (max-width: 640px) {
+  .mk-status-row { gap: 10px 20px; padding: 20px 24px; border-radius: var(--radius-panel); }
+}
+
+/* ── External link: opens a new tab; the sign is an icon, not ↗ (owner, 2026-11-23) ── */
+.mk-newtab { display: inline-block; flex-shrink: 0; width: 14px; height: 14px; margin-left: 4px; vertical-align: -0.125em; }
 
 /* ── Reveal: list entrance (owner, 2026-11-21 — as in My Tale) ── */
 /* Items rise 16px and fade in, 320ms, 40ms apart; the container alternates .is-a / .is-b on every filter or view change so the animation restarts. */

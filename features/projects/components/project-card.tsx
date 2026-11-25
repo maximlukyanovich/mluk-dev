@@ -1,0 +1,169 @@
+import { Star } from "lucide-react";
+import Image from "next/image";
+import type { CSSProperties } from "react";
+
+import type { Dictionary } from "@/shared/i18n/dictionaries";
+import { buttonVariants } from "@/shared/ui/button";
+import { ExternalLink } from "@/shared/ui/external-link";
+
+import type { Collaborator, Project } from "../lib/types";
+
+export type ProjectCardCopy = Pick<
+  Dictionary["projects"],
+  | "featured"
+  | "screenshot"
+  | "role"
+  | "stack"
+  | "when"
+  | "live"
+  | "code"
+  | "feat"
+> & { newTab: string };
+
+type ProjectCardProps = {
+  project: Project;
+  /** `row`: the kit's rows view, a compact list on a phone. */
+  variant: "grid" | "row";
+  /** The right side of the meta row: "Personal · Product", or the status. */
+  meta: string;
+  /** `h2` on the projects page, `h3` under the home page's section title. */
+  heading: "h2" | "h3";
+  /** The card's place in the list, for the reveal's stagger. */
+  index: number;
+  copy: ProjectCardCopy;
+};
+
+const number = (n: number) => String(n).padStart(2, "0");
+
+function Feat({ feat, copy }: { feat: Collaborator; copy: ProjectCardCopy }) {
+  const person = (
+    <>
+      {feat.avatar && (
+        <Image
+          className="mk-avatar"
+          src={feat.avatar}
+          alt=""
+          width={20}
+          height={20}
+        />
+      )}
+      {feat.name}
+    </>
+  );
+  return (
+    <span className="mk-feat">
+      {copy.feat}{" "}
+      {feat.href ? (
+        <ExternalLink href={feat.href} newTab={copy.newTab}>
+          {person}
+        </ExternalLink>
+      ) : (
+        <span className="inline-flex items-center gap-1.5">{person}</span>
+      )}
+    </span>
+  );
+}
+
+/**
+ * A project in the kit's Card (canvas, Work-D, M-Work and Main): the number
+ * with the featured star, the meta, the screenshot placeholder, the title,
+ * the description, the stack and the co-author. The rows view adds the
+ * facts and the Live / Code buttons, and on a phone becomes the kit's
+ * compact row. No case page yet, so the card is an `<article>` and its
+ * title is text — the kit keeps the hover marks off such a card.
+ */
+export function ProjectCard({
+  project,
+  variant,
+  meta,
+  heading: Heading,
+  index,
+  copy,
+}: ProjectCardProps) {
+  const row = variant === "row";
+  const stack = project.stack.join(" · ");
+  const links = [
+    { href: project.links.live, label: copy.live },
+    { href: project.links.code, label: copy.code },
+  ].filter((link): link is { href: string; label: string } => !!link.href);
+
+  const metaRow = (
+    <span className="mk-card-meta">
+      <span className="inline-flex items-center gap-2">
+        <span className="mk-card-no">{number(project.number)}</span>
+        {project.featured && (
+          <span className="mk-star">
+            <Star fill="currentColor" strokeWidth={1.5} aria-hidden="true" />
+            <span className="mk-sr">{copy.featured}</span>
+          </span>
+        )}
+      </span>
+      <span>{meta}</span>
+    </span>
+  );
+  const media = (
+    <span className="mk-card-media text-center" aria-hidden="true">
+      {copy.screenshot}
+    </span>
+  );
+  const title = <Heading className="mk-card-title">{project.name}</Heading>;
+  const text = <p className="mk-card-text">{project.description}</p>;
+  // The stagger index is per card: no utility can carry it.
+  const style = { "--i": index } as CSSProperties;
+
+  if (!row) {
+    return (
+      <article className="mk-card mk-glass" style={style}>
+        {metaRow}
+        {media}
+        {title}
+        {text}
+        <span className="mk-card-stack">{stack}</span>
+        {project.feat && <Feat feat={project.feat} copy={copy} />}
+      </article>
+    );
+  }
+
+  return (
+    <article className="mk-card mk-glass mk-card-row" style={style}>
+      {media}
+      <div className="mk-card-body">
+        {metaRow}
+        {title}
+        {text}
+        <dl className="mk-facts">
+          <dt>{copy.role}</dt>
+          <dd>{project.role}</dd>
+          <dt>{copy.stack}</dt>
+          <dd className="text-peri">{stack}</dd>
+          <dt>{copy.when}</dt>
+          <dd>{project.year}</dd>
+        </dl>
+        {/* The compact row on a phone shows the stack instead of the facts. */}
+        <span className="mk-card-stack sm:hidden">{stack}</span>
+        {project.feat && <Feat feat={project.feat} copy={copy} />}
+        {links.length > 0 && (
+          // The kit hides `.mk-card-above` in the compact row: a display
+          // utility on it would bring the buttons back, so the row is inside.
+          <div className="mk-card-above">
+            <div className="flex flex-wrap gap-2.5">
+              {links.map((link) => (
+                <ExternalLink
+                  key={link.label}
+                  className={buttonVariants({
+                    variant: "secondary",
+                    size: "sm",
+                  })}
+                  href={link.href}
+                  newTab={copy.newTab}
+                >
+                  {link.label}
+                </ExternalLink>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </article>
+  );
+}

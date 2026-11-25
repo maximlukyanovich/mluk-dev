@@ -1,0 +1,114 @@
+{
+  "projects": [
+    {
+      "slug": "my-tale",
+      "name": "My Tale",
+      "featured": true,
+      "own": "personal",
+      "type": "product",
+      "status": "live",
+      "stack": ["[Стек]"],
+      "description": "[Что это, для кого, ваша часть работы]",
+      "year": "[Год]",
+      "role": "[Ваша часть работы]",
+      "links": {
+        "live": null,
+        "code": null
+      },
+      "feat": null
+    },
+    {
+      "slug": "mluk-dev",
+      "name": "mluk.dev",
+      "featured": false,
+      "own": "personal",
+      "type": "oss",
+      "status": "building",
+      "stack": ["Next.js 16", "MDX"],
+      "description": "Этот сайт: двуязычный блог, резюме и портфолио.",
+      "year": "2026",
+      "role": "[Ваша часть работы]",
+      "links": {
+        "live": "https://mluk.dev",
+        "code": "https://github.com/maximlukyanovich/mluk-dev"
+      },
+      "feat": null
+    },
+    {
+      "slug": "project-03",
+      "name": "[Название проекта]",
+      "featured": true,
+      "own": "commercial",
+      "type": "site",
+      "status": null,
+      "stack": ["[Стек]"],
+      "description": "[Что это, для кого, ваша часть работы]",
+      "year": "[Год]",
+      "role": "[Ваша часть работы]",
+      "links": {
+        "live": null,
+        "code": null
+      },
+      "feat": {
+        "name": "[Лукьянович А.]",
+        "href": null,
+        "avatar": null
+      }
+    },
+    {
+      "slug": "project-04",
+      "name": "[Название проекта]",
+      "featured": false,
+      "own": "commercial",
+      "type": "product",
+      "status": null,
+      "stack": ["[Стек]"],
+      "description": "[Что это, для кого, ваша часть работы]",
+      "year": "[Год]",
+      "role": "[Ваша часть работы]",
+      "links": {
+        "live": null,
+        "code": null
+      },
+      "feat": null
+    },
+    {
+      "slug": "project-05",
+      "name": "[Название проекта]",
+      "featured": false,
+      "own": "commercial",
+      "type": "site",
+      "status": null,
+      "stack": ["[Стек]"],
+      "description": "[Что это, для кого, ваша часть работы]",
+      "year": "[Год]",
+      "role": "[Ваша часть работы]",
+      "links": {
+        "live": null,
+        "code": null
+      },
+      "feat": null
+    },
+    {
+      "slug": "project-06",
+      "name": "[Название проекта]",
+      "featured": false,
+      "own": "personal",
+      "type": "oss",
+      "status": null,
+      "stack": ["[Стек]"],
+      "description": "[Что это, для кого, ваша часть работы]",
+      "year": "[Год]",
+      "role": "[Ваша часть работы]",
+      "links": {
+        "live": null,
+        "code": null
+      },
+      "feat": {
+        "name": "[Имя Ф.]",
+        "href": null,
+        "avatar": null
+      }
+    }
+  ]
+}

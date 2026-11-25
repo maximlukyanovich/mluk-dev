@@ -19,11 +19,13 @@ export const phoneQuery = "(max-width: 640px)";
  * render — the header lives in the layout, which stays — and so does the
  * page being hidden, which Next does instead of unmounting it (`<Activity>`;
  * node_modules/next/dist/docs/01-app/02-guides/preserving-ui-state.md). A
- * link to the page already shown changes no path: the panel's links call
- * `close`. Escape closes it and returns focus to the button; a window that
+ * link to the page already shown changes no path: the header menu's links
+ * call `close`. Escape closes it and returns focus to the button; a window that
  * stops matching `query`, where the panel is hidden, closes it too. A panel
  * that lies over the page passes its `container`: a press outside it closes
- * the panel.
+ * the panel. A filter's rows — links or buttons — call `closeToButton`
+ * (FilterMenu), so focus returns to the button instead of staying in the
+ * hidden panel (owner, 2026-11-24).
  */
 export function useDrop({
   query = phoneQuery,
@@ -40,6 +42,10 @@ export function useDrop({
     setOpen(false);
   }
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const closeToButton = () => {
+    setOpen(false);
+    buttonRef.current?.focus();
+  };
 
   // Runs when the page is hidden, before the browser paints it.
   useLayoutEffect(() => () => setOpen(false), []);
@@ -48,9 +54,7 @@ export function useDrop({
     if (!open) return;
     const media = window.matchMedia(query);
     const onKey = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
-      setOpen(false);
-      buttonRef.current?.focus();
+      if (event.key === "Escape") closeToButton();
     };
     const onChange = () => {
       if (!media.matches) setOpen(false);
@@ -74,5 +78,6 @@ export function useDrop({
     buttonRef,
     toggle: () => setOpen(!open),
     close: () => setOpen(false),
+    closeToButton,
   };
 }

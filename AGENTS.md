@@ -141,6 +141,16 @@ conflict between two sources, show it to the owner — never pick one silently.
   is a decision, not the default. Checked live: open it, leave by a link or
   Back, return — closed; after Back with a modal open, the new page scrolls
   and takes clicks.
+- **Sticky under the header.** The header's dock (`shared/ui/site/header-dock.tsx`,
+  the kit's `.mk-header-dock`) hides on a scroll down and sets
+  `--header-offset` on `<html>` — its height and 8px while shown, `0px`
+  while hidden, unset without scripts. A new sticky element adds it to its
+  own top and moves with it, as the Toc bar, the side Toc and a case's
+  facts do:
+  `top: calc(<its top> + var(--header-offset, 0px))` with a `top`
+  transition over `--duration-base`; a scroller inside one takes it off
+  its `max-height` too (`toc-bar.tsx`). Only keyboard focus pins the
+  header (`:focus-visible`): a click does not.
 - **The CV PDF.** A change to `content/cv/` is followed by `pnpm cv:pdf` in
   the same commit: `scripts/lib/cv-pdf.test.mjs` compares the sha256 of each
   `content/cv/<locale>.json` with `public/cv/source.json`, so a stale or

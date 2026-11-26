@@ -45,11 +45,37 @@
   }
 }
 
-/* web-only: the phone header without JavaScript. The menu button needs a
-   script, so with none the kit's inline nav comes back as a second line,
-   spread across, and the button goes. Proposed to the kit with the phone
-   header (2026-11-21). */
-@media (scripting: none) and (max-width: 640px) {
+/* web-only: the header keeps the phone's menu button up to 799px (owner,
+   2026-11-26). The sections fill the header's line with the switches only
+   from 769px in Russian (709px in English); between 641px and 768px the
+   switches dropped to a second line. The kit's phone rules, repeated for
+   641–799px; the phone itself (filters, cards) still ends at 640px. Same
+   width as `headerMenuQuery` (shared/ui/use-drop.ts). */
+@media (min-width: 641px) and (max-width: 799px) {
+  .mk-header {
+    row-gap: 0;
+    padding-left: 16px;
+    border-radius: var(--radius-panel);
+  }
+  .mk-header .mk-nav {
+    display: none;
+  }
+  .mk-header .mk-header-tools {
+    margin-left: auto;
+  }
+  .mk-menu-btn {
+    display: inline-flex;
+  }
+  .mk-header:not(.is-compact) > .mk-drop {
+    display: grid;
+  }
+}
+
+/* web-only: the header without JavaScript, up to 799px. The menu button
+   needs a script, so with none the kit's inline nav comes back as a second
+   line, spread across, and the button goes. Proposed to the kit with the
+   phone header (2026-11-21). */
+@media (scripting: none) and (max-width: 799px) {
   .mk-header .mk-nav {
     display: flex;
     order: 3;

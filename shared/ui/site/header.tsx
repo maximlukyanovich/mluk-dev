@@ -17,9 +17,10 @@ type HeaderProps = {
 };
 
 /**
- * The kit's Header: wordmark, navigation, language switch, theme toggle. On a
- * phone the navigation gives way to a menu button and a panel that opens
- * inside the header (kit.css switches them at 640px). The dock keeps it at
+ * The kit's Header: wordmark, navigation, language switch, theme toggle. Up
+ * to 799px the navigation gives way to a menu button and a panel that opens
+ * inside the header (kit.css at 640px, web.css up to 799px —
+ * `headerMenuQuery`). The dock keeps it at
  * the top of the window, out of the way while the page scrolls down.
  */
 export function Header({ locale, dictionary, fallbacks }: HeaderProps) {

@@ -14,7 +14,7 @@ import {
 import { cn } from "@/shared/lib/cn";
 import type { Locale } from "@/shared/i18n/locales";
 import { localePath } from "@/shared/i18n/locales";
-import { useDrop } from "@/shared/ui/use-drop";
+import { headerMenuQuery, useDrop } from "@/shared/ui/use-drop";
 
 import { isInSection, sections } from "./sections";
 
@@ -40,11 +40,12 @@ export function useMenuOpen(): boolean {
 }
 
 /**
- * The phone menu's state (`useDrop`), shared by its button (in the header
- * tools) and its panel (the header's last row).
+ * The header menu's state (`useDrop`), shared by its button (in the header
+ * tools) and its panel (the header's last row). A window that grows past
+ * `headerMenuQuery`, where both are hidden, closes it.
  */
 export function HeaderMenu({ children }: { children: ReactNode }) {
-  const drop = useDrop();
+  const drop = useDrop({ query: headerMenuQuery });
   const panelId = useId();
 
   return <MenuContext value={{ ...drop, panelId }}>{children}</MenuContext>;

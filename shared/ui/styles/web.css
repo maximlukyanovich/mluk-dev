@@ -56,6 +56,17 @@
   }
 }
 
+/* web-only: what keyboard focus scrolls into view on the way up lands below
+   the header's dock, as a sticky part does: the dock's own top (12px, the
+   kit's .mk-header-dock) plus --header-reach (set by the app: its height
+   and 8px, hidden or not — a scroll up brings it back; unset without
+   scripts). A margin on the focused element, not the page's scroll-padding:
+   in-page jumps keep their own scroll-margin, which already clears the
+   header. */
+:focus-visible {
+  scroll-margin-top: calc(12px + var(--header-reach, 0px));
+}
+
 /* web-only: a picture in a post fades in once it has loaded (owner,
    2026-11-21) — opacity only, over duration-base. Hydration marks one still
    loading as pending and its load or error clears the mark (features/blog

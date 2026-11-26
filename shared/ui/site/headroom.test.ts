@@ -5,6 +5,8 @@ import {
   headroomStart,
   type HeadroomInput,
   type HeadroomState,
+  type JumpClick,
+  startsJump,
 } from "./headroom";
 
 const page = { max: 5000, zone: 80, pinned: false, jumping: false };
@@ -76,5 +78,34 @@ describe("headroom", () => {
   it("returns the same object when nothing changed", () => {
     const state = shownAt(1000);
     expect(headroom(state, { ...page, y: 1003 })).toBe(state);
+  });
+});
+
+describe("startsJump", () => {
+  const plain: JumpClick = {
+    button: 0,
+    defaultPrevented: false,
+    altKey: false,
+    ctrlKey: false,
+    metaKey: false,
+    shiftKey: false,
+  };
+
+  it("takes a plain primary click", () => {
+    expect(startsJump(plain)).toBe(true);
+  });
+
+  it("leaves a click the page has cancelled", () => {
+    expect(startsJump({ ...plain, defaultPrevented: true })).toBe(false);
+  });
+
+  it("leaves a click with a modifier: a new tab, a window, a selection", () => {
+    for (const key of ["altKey", "ctrlKey", "metaKey", "shiftKey"] as const) {
+      expect(startsJump({ ...plain, [key]: true })).toBe(false);
+    }
+  });
+
+  it("leaves a click with another button", () => {
+    expect(startsJump({ ...plain, button: 1 })).toBe(false);
   });
 });

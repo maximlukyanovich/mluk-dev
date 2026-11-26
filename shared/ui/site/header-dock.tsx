@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useEffectEvent, useRef, type ReactNode } from "react";
 
 import { useMenuOpen } from "./header-menu";
-import { headroom, headroomStart } from "./headroom";
+import { headroom, headroomStart, startsJump } from "./headroom";
 
 /**
  * A scroll the page makes itself — an in-page jump, or the scroll a new page
@@ -27,13 +27,17 @@ const jumpLinks = 'a[href^="#"]';
  * Tells the sticky parts of a page (the table of contents, a case's facts)
  * how far down the header reaches: `--header-offset` on <html>, the dock's
  * height and the gap while it is shown, 0 while hidden. Unset — no script —
- * they keep their own top.
+ * they keep their own top. `--header-reach` is the same height and gap
+ * whether shown or not: the room keyboard focus keeps above itself on the
+ * way up, where the header comes back (web.css).
  */
 function writeOffset(hidden: boolean, height: number) {
-  document.documentElement.style.setProperty(
+  const style = document.documentElement.style;
+  style.setProperty(
     "--header-offset",
     hidden ? "0px" : `${height + offsetGap}px`,
   );
+  style.setProperty("--header-reach", `${height + offsetGap}px`);
 }
 
 /**
@@ -142,14 +146,22 @@ export function HeaderDock({ children }: { children: ReactNode }) {
     };
     const onClick = (event: MouseEvent) => {
       const target = event.target;
-      if (target instanceof Element && target.closest(jumpLinks)) {
+      if (
+        startsJump(event) &&
+        target instanceof Element &&
+        target.closest(jumpLinks)
+      ) {
         startMove("jump");
       }
     };
     const onScrollEnd = () => endMove();
     // Back and Forward restore the scroll before Next renders the page, so
     // the new path comes too late: the history step itself starts the move.
-    const onPopState = () => startMove("arrive");
+    // A `#` link's own navigation fires one too, right after its click
+    // (Chromium): that is the jump already under way, not a new page.
+    const onPopState = () => {
+      if (now.moving !== "jump") startMove("arrive");
+    };
     // A click focuses a button without `:focus-visible`; only the keyboard
     // pins the header, so the theme toggle does not keep it on screen.
     const onFocusIn = (event: FocusEvent) => {
@@ -183,6 +195,7 @@ export function HeaderDock({ children }: { children: ReactNode }) {
       el.removeEventListener("focusin", onFocusIn);
       el.removeEventListener("focusout", onFocusOut);
       document.documentElement.style.removeProperty("--header-offset");
+      document.documentElement.style.removeProperty("--header-reach");
     };
   }, []);
 

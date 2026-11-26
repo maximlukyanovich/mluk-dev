@@ -19,7 +19,10 @@ export type HeadroomInput = {
   max: number;
   /** The header's bottom in the page flow: above it the header is always shown. */
   zone: number;
-  /** The menu is open or the focus is inside the header. */
+  /**
+   * The menu is open, the keyboard focus is inside the header, or a new page
+   * is restoring its scroll.
+   */
   pinned: boolean;
   /** An in-page jump (a table of contents or footnote link) is under way. */
   jumping: boolean;
@@ -50,7 +53,7 @@ export function headroom(
   return y - state.anchorY >= headroomStep ? next(state, true, y) : state;
 }
 
-/** The same object when nothing changed, so a state setter skips the render. */
+/** The same object when nothing changed, so the dock leaves the DOM alone. */
 function next(
   state: HeadroomState,
   hidden: boolean,
@@ -59,4 +62,23 @@ function next(
   return state.hidden === hidden && state.anchorY === anchorY
     ? state
     : { hidden, anchorY };
+}
+
+/** What of a click on an in-page link decides whether it is a jump. */
+export type JumpClick = Pick<
+  MouseEvent,
+  "button" | "defaultPrevented" | "altKey" | "ctrlKey" | "metaKey" | "shiftKey"
+>;
+
+/**
+ * Whether a click on an in-page link scrolls the page: a plain primary click
+ * the page has not cancelled. With a modifier the browser opens a tab or a
+ * window, or selects, and the page stays where it is.
+ */
+export function startsJump(click: JumpClick): boolean {
+  return (
+    click.button === 0 &&
+    !click.defaultPrevented &&
+    !(click.altKey || click.ctrlKey || click.metaKey || click.shiftKey)
+  );
 }

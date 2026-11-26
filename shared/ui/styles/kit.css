@@ -1,6 +1,6 @@
 /*
  * kit.css — the kit's project/components/bundle.css, verbatim from its line 2
- * on (version 1795631299-ccdb, 2026-11-25). Line 1, the Google Fonts @import,
+ * on (version 1795694701-291e, 2026-11-26). Line 1, the Google Fonts @import,
  * is dropped: next/font serves the same families (shared/ui/fonts.ts).
  * Prettier skips this file so it stays diffable against the kit:
  *   diff <(tail -n +2 bundle.css) <(tail -n +9 kit.css)
@@ -95,7 +95,7 @@ body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--fo
 .mk-header-tools { display: flex; align-items: center; gap: 8px; }
 .mk-search { flex: 1 1 200px; max-width: 360px; box-sizing: border-box; min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 8px 0 16px; background: transparent; border: 1px solid var(--line); border-radius: var(--radius-pill); color: var(--muted); font-family: var(--font-mono); font-size: 13px; cursor: pointer; }
 .mk-search kbd { padding: 4px 10px; border-radius: var(--radius-pill); background: var(--ph); font-family: var(--font-mono); font-size: 11px; }
-/* Phone (≤640px, owner 2026-11-21 · decision 1 В): one line — the wordmark, the language, the theme and a menu button; the sections open in a panel inside the header (.mk-drop). */
+/* Phone header (≤799px, owner 2026-11-26; was ≤640px, 2026-11-21 · decision 1 В): one line — the wordmark, the language, the theme and a menu button; the sections open in a panel inside the header (.mk-drop). The Russian sections fill the header's line with the switches only from 769px, so the header keeps the button past the phone; the rest of the phone ends at 640px. */
 .mk-menu-btn { display: none; }
 .mk-menu-icon { position: relative; display: inline-flex; width: 20px; height: 20px; }
 .mk-menu-icon > svg { position: absolute; inset: 0; width: 20px; height: 20px; transition: opacity var(--duration-fast, 150ms) ease; }
@@ -113,13 +113,23 @@ body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--fo
 .mk-header.is-compact .mk-nav { display: none; }
 .mk-header.is-compact .mk-header-tools { margin-left: auto; }
 .mk-header.is-compact .mk-menu-btn { display: inline-flex; }
-@media (max-width: 640px) {
+@media (max-width: 799px) {
   .mk-header { row-gap: 0; padding-left: 16px; border-radius: var(--radius-panel); }
   .mk-header .mk-nav { display: none; }
   .mk-header .mk-header-tools { margin-left: auto; }
   .mk-menu-btn { display: inline-flex; }
 }
-@media (min-width: 641px) { .mk-header:not(.is-compact) > .mk-drop { display: none; } }
+@media (min-width: 800px) { .mk-header:not(.is-compact) > .mk-drop { display: none; } }
+/* Without scripts the menu button cannot open: up to 799px the nav comes back as a second line, spread across, and the button goes (owner, 2026-11-21). */
+@media (scripting: none) and (max-width: 799px) {
+  .mk-header .mk-nav { display: flex; order: 3; width: 100%; margin-left: 0; justify-content: space-between; }
+  .mk-header .mk-menu-btn { display: none; }
+}
+/* Dock (owner, 2026-11-25): the header sticks 12px from the top (20px at rest), hides upward while the page scrolls down and comes back on a scroll up, over duration-base — the app sets data-hidden. Keyboard focus inside shows it at once, without the slide (owner, 2026-11-26): a header still sliding in when Tab reaches it makes the browser scroll the page to it. A click does not pin it. Without scripts it stays in the flow. While it is shown the app sets --header-offset on <html> — its height and an 8px gap, 0 while hidden — and what sticks under it adds that to its top. */
+.mk-header-dock { position: sticky; top: 12px; z-index: 20; transition: transform var(--duration-base, 200ms) ease; }
+.mk-header-dock[data-hidden]:not(:has(:focus-visible)) { transform: translateY(calc(-100% - 12px)); }
+.mk-header-dock:has(:focus-visible) { transition: none; }
+@media (scripting: none) { .mk-header-dock { position: static; } }
 
 /* ── Breadcrumbs ──────────────────────────────────────── */
 .mk-crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; line-height: 1.4; }
@@ -456,8 +466,9 @@ html:has(dialog.mk-lightbox[open]) { overflow: hidden; scrollbar-gutter: stable;
 .mk-toc ol a:hover, .mk-toc ol a[aria-current] { background: var(--ph); }
 .mk-toc ol a span { font-family: var(--font-mono); color: var(--peri); }
 .mk-toc ol a[aria-current] span { color: var(--lime); }
-.mk-toc-side { position: sticky; top: 24px; }
-details.mk-toc-bar { position: sticky; top: 12px; z-index: 5; padding: 6px; border-radius: var(--radius-card); }
+/* Both shapes stick under the header's dock and move with it (--header-offset, set by the app; 0 without scripts). */
+.mk-toc-side { position: sticky; top: calc(24px + var(--header-offset, 0px)); transition: top var(--duration-base, 200ms) ease; }
+details.mk-toc-bar { position: sticky; top: calc(12px + var(--header-offset, 0px)); z-index: 5; padding: 6px; border-radius: var(--radius-card); transition: top var(--duration-base, 200ms) ease; }
 details.mk-toc-bar > summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; padding: 0 12px; border-radius: var(--radius-inner); font-size: 14px; font-weight: 700; transition: background-color var(--duration-fast, 150ms) ease; }
 details.mk-toc-bar > summary::-webkit-details-marker { display: none; }
 details.mk-toc-bar > summary:hover { background: var(--ph); }

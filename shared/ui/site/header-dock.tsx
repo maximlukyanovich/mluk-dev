@@ -44,7 +44,8 @@ function writeOffset(hidden: boolean, height: number) {
  * heading is not under it; shown on a change of page until the scroll it
  * restores is over, so a Back to the middle of a page does not hide it. The dock lives in the
  * layout, which Next keeps across navigations, so its listeners do too.
- * Without scripts web.css makes it static, as the header was before.
+ * Without scripts the kit's `.mk-header-dock` is static, as the header was
+ * before.
  */
 export function HeaderDock({ children }: { children: ReactNode }) {
   const open = useMenuOpen();

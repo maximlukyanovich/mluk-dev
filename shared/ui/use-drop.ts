@@ -15,7 +15,7 @@ export const phoneQuery = "(max-width: 640px)";
 /**
  * Where the header keeps its menu button: the Russian sections fill one
  * line only from 769px, so the menu holds them up to 799px, past the phone
- * (owner, 2026-11-26). web.css has the same width.
+ * (owner, 2026-11-26). kit.css has the same width.
  */
 export const headerMenuQuery = "(max-width: 799px)";
 

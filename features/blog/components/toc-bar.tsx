@@ -182,8 +182,8 @@ export function TocBar({ headings, title, className }: TocBarProps) {
       {/* The kit's preview takes the panel's 20px padding down to 0 6px here;
           flow-root keeps the list's margins inside, so the measured height
           is the one that moves. A list taller than the window scrolls inside
-          the sticky bar, whose top sits 12px down (kit) and below the header
-          while it is shown (web.css). */}
+          the sticky bar, whose top sits 12px below the header while it is
+          shown (kit, --header-offset). */}
       <nav
         ref={panel}
         className="mk-toc flow-root max-h-[calc(100svh-6rem-var(--header-offset,0px))] overflow-y-auto px-1.5 py-0"

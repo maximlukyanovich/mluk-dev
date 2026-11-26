@@ -34,6 +34,11 @@ function useMenu(): MenuState {
   return menu;
 }
 
+/** Whether the menu is open: the header dock stays shown while it is. */
+export function useMenuOpen(): boolean {
+  return useMenu().open;
+}
+
 /**
  * The phone menu's state (`useDrop`), shared by its button (in the header
  * tools) and its panel (the header's last row).

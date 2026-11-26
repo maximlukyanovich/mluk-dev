@@ -62,6 +62,41 @@
   }
 }
 
+/* web-only: the header dock (owner, 2026-11-25). The header sticks 12px
+   from the top — 20px at rest, the layout's padding — hides upward while
+   the page scrolls down and comes back on a scroll up, over duration-base
+   (HeaderDock sets data-hidden). The keyboard focus inside shows it at once,
+   without the transition: a header still sliding in when Tab reaches it
+   would make the browser scroll the page to it. A click does not, so the
+   theme toggle does not pin it. Without scripts it stays in the flow, as before. Under reduced
+   motion kit.css drops the transition: it hides and shows at once. */
+.mk-header-dock {
+  position: sticky;
+  top: 12px;
+  z-index: 20;
+  transition: transform var(--duration-base) ease;
+}
+.mk-header-dock[data-hidden]:not(:has(:focus-visible)) {
+  transform: translateY(calc(-100% - 12px));
+}
+.mk-header-dock:has(:focus-visible) {
+  transition: none;
+}
+@media (scripting: none) {
+  .mk-header-dock {
+    position: static;
+  }
+}
+
+/* web-only: what sticks under the header moves down while it is shown —
+   --header-offset is its height and an 8px gap, 0 while hidden, unset
+   without scripts — and back up with it. The kit's Toc bar here; the side
+   Toc and a case's facts take it in their utilities. */
+details.mk-toc-bar {
+  top: calc(12px + var(--header-offset, 0px));
+  transition: top var(--duration-base) ease;
+}
+
 /* web-only: in-page jumps scroll smoothly — the table of contents, footnotes
    and their back links, the skip link (owner, 2026-11-21); the kit's Motion
    has no rule for scrolling yet. Off under reduced motion. A route change

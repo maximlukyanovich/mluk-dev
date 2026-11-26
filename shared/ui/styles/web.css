@@ -45,23 +45,6 @@
   }
 }
 
-/* web-only: the phone header without JavaScript. The menu button needs a
-   script, so with none the kit's inline nav comes back as a second line,
-   spread across, and the button goes. Proposed to the kit with the phone
-   header (2026-11-21). */
-@media (scripting: none) and (max-width: 640px) {
-  .mk-header .mk-nav {
-    display: flex;
-    order: 3;
-    width: 100%;
-    margin-left: 0;
-    justify-content: space-between;
-  }
-  .mk-header .mk-menu-btn {
-    display: none;
-  }
-}
-
 /* web-only: in-page jumps scroll smoothly — the table of contents, footnotes
    and their back links, the skip link (owner, 2026-11-21); the kit's Motion
    has no rule for scrolling yet. Off under reduced motion. A route change
@@ -71,6 +54,17 @@
   html {
     scroll-behavior: smooth;
   }
+}
+
+/* web-only: what keyboard focus scrolls into view on the way up lands below
+   the header's dock, as a sticky part does: the dock's own top (12px, the
+   kit's .mk-header-dock) plus --header-reach (set by the app: its height
+   and 8px, hidden or not — a scroll up brings it back; unset without
+   scripts). A margin on the focused element, not the page's scroll-padding:
+   in-page jumps keep their own scroll-margin, which already clears the
+   header. */
+:focus-visible {
+  scroll-margin-top: calc(12px + var(--header-reach, 0px));
 }
 
 /* web-only: a picture in a post fades in once it has loaded (owner,

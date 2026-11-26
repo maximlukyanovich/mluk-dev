@@ -101,7 +101,7 @@ export function CasePanel({ project, copy }: CaseFactsProps) {
   return (
     <aside
       aria-label={copy.case.aboutProject}
-      className="mk-glass sticky top-3 hidden w-85 shrink-0 flex-col gap-5.5 self-start rounded-panel p-6 wide:flex"
+      className="mk-glass sticky top-[calc(--spacing(3)+var(--header-offset,0px))] hidden w-85 shrink-0 flex-col gap-5.5 self-start rounded-panel p-6 transition-[top] duration-(--duration-base) ease-[ease] wide:flex"
     >
       <dl className="mk-facts gap-x-5 gap-y-3">
         {project.status && (

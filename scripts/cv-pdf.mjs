@@ -4,14 +4,15 @@
 // `content/cv` changes without a new print. The PDFs are committed.
 //
 //   pnpm build && pnpm start      in one terminal (the dev server works too)
-//   pnpm cv:pdf [baseUrl]         in another; baseUrl defaults to localhost:3000
+//   pnpm cv:pdf [baseUrl]         in another; baseUrl defaults to localhost on
+//                                 the port those take (PORT, else .env.local)
 //
 // Nothing is written unless every locale printed: a sheet that does not fit
 // one page, a page that does not answer 200, a site that is not running or
 // one that renders other data than content/cv (a `next start` of an older
 // build) exits 1 and leaves the committed files as they were. Chromium comes
 // from Playwright: `pnpm exec playwright install chromium` once per machine.
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 import { chromium } from "playwright";
@@ -25,9 +26,23 @@ import {
   sourceFile,
   sourceHashes,
 } from "./lib/cv-pdf.mjs";
+import { localSite } from "./lib/port.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
-const baseUrl = process.argv[2] ?? "http://localhost:3000";
+const baseUrl = process.argv[2] ?? defaultBaseUrl();
+
+/** The site `pnpm dev` or `pnpm start` serves, by the port rule of scripts/next.mjs. */
+function defaultBaseUrl() {
+  let envLocal = "";
+  try {
+    envLocal = readFileSync(path.join(root, ".env.local"), "utf8");
+  } catch {
+    // no .env.local — the default port
+  }
+  const { url, warning } = localSite(process.env.PORT || undefined, envLocal);
+  if (warning) console.warn(`cv:pdf: ${warning}`);
+  return url;
+}
 
 function fail(message) {
   console.error(`cv:pdf: ${message}`);

@@ -2,6 +2,7 @@ import type { Dictionary } from "@/shared/i18n/dictionaries";
 import { localePath, type Locale } from "@/shared/i18n/locales";
 import type { PathFallbacks } from "@/shared/i18n/switch-href";
 
+import { HeaderDock } from "./header-dock";
 import { HeaderMenu, MenuButton, MenuPanel } from "./header-menu";
 import { LangSwitch } from "./lang-switch";
 import { Nav } from "./nav";
@@ -16,33 +17,40 @@ type HeaderProps = {
 };
 
 /**
- * The kit's Header: wordmark, navigation, language switch, theme toggle. On a
- * phone the navigation gives way to a menu button and a panel that opens
- * inside the header (kit.css switches them at 640px).
+ * The kit's Header: wordmark, navigation, language switch, theme toggle. Up
+ * to 799px the navigation gives way to a menu button and a panel that opens
+ * inside the header (kit.css, the same width as `headerMenuQuery`). The dock
+ * keeps it at the top of the window, out of the way while the page scrolls
+ * down.
  */
 export function Header({ locale, dictionary, fallbacks }: HeaderProps) {
   const { site, locales } = dictionary;
 
   return (
     <HeaderMenu>
-      <header className="mk-header mk-glass">
-        <Wordmark href={localePath(locale, "/")} />
-        <Nav locale={locale} label={site.navLabel} names={site.nav} />
-        <div className="mk-header-tools">
-          <LangSwitch
-            locale={locale}
-            label={site.langLabel}
-            names={{ en: locales.en.short, ru: locales.ru.short }}
-            fallbacks={fallbacks}
-          />
-          <ThemeToggle
-            toLight={site.theme.toLight}
-            toDark={site.theme.toDark}
-          />
-          <MenuButton openLabel={site.menu.open} closeLabel={site.menu.close} />
-        </div>
-        <MenuPanel locale={locale} label={site.navLabel} names={site.nav} />
-      </header>
+      <HeaderDock>
+        <header className="mk-header mk-glass">
+          <Wordmark href={localePath(locale, "/")} />
+          <Nav locale={locale} label={site.navLabel} names={site.nav} />
+          <div className="mk-header-tools">
+            <LangSwitch
+              locale={locale}
+              label={site.langLabel}
+              names={{ en: locales.en.short, ru: locales.ru.short }}
+              fallbacks={fallbacks}
+            />
+            <ThemeToggle
+              toLight={site.theme.toLight}
+              toDark={site.theme.toDark}
+            />
+            <MenuButton
+              openLabel={site.menu.open}
+              closeLabel={site.menu.close}
+            />
+          </div>
+          <MenuPanel locale={locale} label={site.navLabel} names={site.nav} />
+        </header>
+      </HeaderDock>
     </HeaderMenu>
   );
 }

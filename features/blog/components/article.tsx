@@ -92,7 +92,7 @@ export async function Article({
           </div>
         </header>
 
-        <aside className="sticky top-6 mt-10 hidden flex-col gap-3 self-start wide:col-start-1 wide:row-start-2 wide:flex">
+        <aside className="sticky top-[calc(--spacing(6)+var(--header-offset,0px))] mt-10 hidden flex-col gap-3 self-start transition-[top] duration-(--duration-base) ease-[ease] wide:col-start-1 wide:row-start-2 wide:flex">
           {toc && <TocSide headings={toc} title={copy.onThisPage} />}
           <PostTags tags={post.tags} locale={locale} label={copy.tags} />
         </aside>

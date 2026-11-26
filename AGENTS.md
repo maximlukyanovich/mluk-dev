@@ -28,17 +28,17 @@ written now.
 Run from the repository root. Node 24 (`.nvmrc`), pnpm 11 through Corepack
 (`packageManager`).
 
-| What       | Command                                                                                                                                         |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| Install    | `pnpm install`                                                                                                                                  |
-| Dev server | `pnpm dev` — http://localhost:3000                                                                                                              |
-| Lint       | `pnpm lint` (ESLint, `eslint-config-next`)                                                                                                      |
-| Format     | `pnpm format` / `pnpm format:check` (Prettier)                                                                                                  |
-| Type-check | `pnpm typecheck` — `next typegen && tsc --noEmit`; a bare `tsc` on a clean clone fails on the generated `LayoutProps`                           |
-| Tests      | `pnpm test` — Vitest over `{app,features,shared}/**/*.test.ts(x)` and `proxy.test.ts`, then `pnpm test:scripts` (`node --test` over `scripts/`) |
-| Build      | `pnpm build`                                                                                                                                    |
-| Full gate  | `pnpm validate` — format check, lint, type-check, tests, build                                                                                  |
-| CV PDF     | `pnpm cv:pdf [baseUrl]` — the CV's PDFs from a running site (`pnpm build && pnpm start`); once: `pnpm exec playwright install chromium`         |
+| What       | Command                                                                                                                                                                                     |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Install    | `pnpm install`                                                                                                                                                                              |
+| Dev server | `pnpm dev` — http://localhost:3000, or the port `PORT` in `.env.local` sets (`.env.example`); `scripts/next.mjs` passes it to `next dev` and `next start`, a `PORT` in the environment wins |
+| Lint       | `pnpm lint` (ESLint, `eslint-config-next`)                                                                                                                                                  |
+| Format     | `pnpm format` / `pnpm format:check` (Prettier)                                                                                                                                              |
+| Type-check | `pnpm typecheck` — `next typegen && tsc --noEmit`; a bare `tsc` on a clean clone fails on the generated `LayoutProps`                                                                       |
+| Tests      | `pnpm test` — Vitest over `{app,features,shared}/**/*.test.ts(x)` and `proxy.test.ts`, then `pnpm test:scripts` (`node --test` over `scripts/`)                                             |
+| Build      | `pnpm build`                                                                                                                                                                                |
+| Full gate  | `pnpm validate` — format check, lint, type-check, tests, build                                                                                                                              |
+| CV PDF     | `pnpm cv:pdf [baseUrl]` — the CV's PDFs from a running site (`pnpm build && pnpm start`), by default on the same port; once: `pnpm exec playwright install chromium`                        |
 
 **Adding a dependency.** pnpm 11 refuses a dependency with a build script —
 direct or transitive — that has no `allowBuilds` entry in
@@ -63,7 +63,7 @@ marked _planned_ are decided and not yet in the code.
 | `mdx-components.tsx`                                                                 | Required by `@next/mdx`; a pass-through — a post's and a case's components come from `features/blog` as a prop                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | —                                                                 |
 | `assets/fonts/`                                                                      | Static TTFs for `next/og` (Satori takes no woff2) with their OFL licences                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | —                                                                 |
 | `public/`                                                                            | Static assets, served before the `afterFiles` rewrite: `cv/` — the CV PDFs and `source.json`, written by `pnpm cv:pdf` and committed; `projects/<slug>/` — a project's cover; images go through `next/image`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | —                                                                 |
-| `scripts/`                                                                           | Repository tooling (the agent-plugin report, the CV PDF)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Node built-ins; `playwright` for the CV PDF                       |
+| `scripts/`                                                                           | Repository tooling (the agent-plugin report, the CV PDF, `next.mjs` — `next` on the clone's port)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Node built-ins; `playwright` for the CV PDF                       |
 
 Stack: Tailwind 4 with the design kit's CSS and shadcn/ui conventions,
 `next-themes` (light/dark, `data-theme`); i18n by `app/[lang]`, dictionaries
@@ -141,6 +141,16 @@ conflict between two sources, show it to the owner — never pick one silently.
   is a decision, not the default. Checked live: open it, leave by a link or
   Back, return — closed; after Back with a modal open, the new page scrolls
   and takes clicks.
+- **Sticky under the header.** The header's dock (`shared/ui/site/header-dock.tsx`,
+  the kit's `.mk-header-dock`) hides on a scroll down and sets
+  `--header-offset` on `<html>` — its height and 8px while shown, `0px`
+  while hidden, unset without scripts. A new sticky element adds it to its
+  own top and moves with it, as the Toc bar, the side Toc and a case's
+  facts do:
+  `top: calc(<its top> + var(--header-offset, 0px))` with a `top`
+  transition over `--duration-base`; a scroller inside one takes it off
+  its `max-height` too (`toc-bar.tsx`). Only keyboard focus pins the
+  header (`:focus-visible`): a click does not.
 - **The CV PDF.** A change to `content/cv/` is followed by `pnpm cv:pdf` in
   the same commit: `scripts/lib/cv-pdf.test.mjs` compares the sha256 of each
   `content/cv/<locale>.json` with `public/cv/source.json`, so a stale or
@@ -211,5 +221,5 @@ conflict between two sources, show it to the owner — never pick one silently.
   - _Gate fingerprinting and the heavy-run lock_ — each part of the gate reads
     nearly the whole tree, and Vitest runs the app's suite in under a second.
     Revisit when the suite takes longer than the build.
-  - _MCP example and `.env.example`_ — no server or secret yet; they come with
-    Upstash and Giscus.
+  - _MCP example and secrets in `.env.example`_ — no server or secret yet;
+    they come with Upstash and Giscus. `.env.example` holds only `PORT`.

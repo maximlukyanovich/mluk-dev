@@ -9,8 +9,15 @@ import {
   type RefObject,
 } from "react";
 
-/** The kit's phone breakpoint: the header menu and the filter list live below it. */
+/** The kit's phone breakpoint: the filter list lives below it. */
 export const phoneQuery = "(max-width: 640px)";
+
+/**
+ * Where the header keeps its menu button: the Russian sections fill one
+ * line only from 769px, so the menu holds them up to 799px, past the phone
+ * (owner, 2026-11-26). kit.css has the same width.
+ */
+export const headerMenuQuery = "(max-width: 799px)";
 
 /**
  * The open state of a panel that opens in place under its button (the

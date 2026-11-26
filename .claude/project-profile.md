@@ -62,7 +62,7 @@ Shared configuration (`package.json`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`,
 - node 24 — `node --version` — `nvm use` (reads `.nvmrc`)
 - pnpm 11 — `pnpm --version` — `corepack enable`
 - dependencies — `pnpm install --frozen-lockfile --offline` — `pnpm install`
-- dev server — `curl -sf -o /dev/null http://localhost:3000` — `pnpm dev`
+- dev server — `curl -sf -o /dev/null http://localhost:3000` (the port is `PORT` in `.env.local`) — `pnpm dev`
 - gh auth — `gh auth status --active` — `gh auth login` with the personal account; `--active` because another account on the machine may be logged out
 - working tree — `git status --porcelain` — commit or stash
 

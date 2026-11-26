@@ -16,6 +16,9 @@ pnpm install
 pnpm dev          # http://localhost:3000
 ```
 
+The port of `pnpm dev` and `pnpm start` is `PORT` in `.env.local` (see
+`.env.example`); a `PORT` in the environment wins.
+
 | Script                              | What it does                                                 |
 | ----------------------------------- | ------------------------------------------------------------ |
 | `pnpm lint`                         | ESLint                                                       |

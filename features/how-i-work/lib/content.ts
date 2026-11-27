@@ -11,6 +11,7 @@ import {
   type FlowLane,
   type HowIWorkContent,
   type HowIWorkSource,
+  type IllustrationKind,
   type Phase,
 } from "./types";
 
@@ -26,6 +27,27 @@ function oneOf<T extends string | number>(
   throw new Error(
     `Unknown ${what} "${value}"; expected one of ${set.join(", ")}`,
   );
+}
+
+/**
+ * The captions each drawing shows (`phase-illustration.tsx`): the notes one
+ * or more, the variants none, the preview its window's title, the handover
+ * the window's title and the note.
+ */
+const captions: Record<IllustrationKind, { min: number; max: number }> = {
+  notes: { min: 1, max: Infinity },
+  variants: { min: 0, max: 0 },
+  preview: { min: 1, max: 1 },
+  handover: { min: 2, max: 2 },
+};
+
+/** A list the page keys by its values: a repeat would draw an item twice. */
+function noRepeats(values: readonly string[], what: string): void {
+  const seen = new Set<string>();
+  for (const value of values) {
+    if (seen.has(value)) throw new Error(`${what} repeat: "${value}"`);
+    seen.add(value);
+  }
 }
 
 function placeholderOnce(text: string, name: string, what: string): void {
@@ -58,21 +80,34 @@ function loadPhase(
   phase: HowIWorkSource["phases"][number],
   index: number,
 ): Phase {
+  const of = `of phase "${phase.id}"`;
   if (phase.post) {
-    const what = `The post line of phase "${phase.id}"`;
-    placeholderOnce(phase.post.text, "post", what);
+    placeholderOnce(phase.post.text, "post", `The post line ${of}`);
   }
+  const kind = oneOf(
+    illustrationKinds,
+    phase.illustration.kind,
+    `illustration ${of}`,
+  );
+  const { items } = phase.illustration;
+  const { min, max } = captions[kind];
+  if (items.length < min || items.length > max) {
+    const takes = max === Infinity ? `${min} or more` : String(min);
+    throw new Error(
+      `The ${kind} drawing ${of} takes ${takes} captions, the content has ${items.length}`,
+    );
+  }
+  noRepeats(items, `Captions ${of}`);
+  noRepeats(
+    phase.steps.map((step) => step.title),
+    `Step titles ${of}`,
+  );
+  noRepeats(phase.lanes, `Lanes ${of}`);
+  noRepeats(phase.examples ?? [], `Examples ${of}`);
   return {
     ...phase,
     number: index + 1,
-    illustration: {
-      ...phase.illustration,
-      kind: oneOf(
-        illustrationKinds,
-        phase.illustration.kind,
-        `illustration of phase "${phase.id}"`,
-      ),
-    },
+    illustration: { ...phase.illustration, kind },
     steps: phase.steps.map((step) => ({
       ...step,
       icon: oneOf(stepIcons, step.icon, `icon of step "${step.title}"`),
@@ -81,8 +116,8 @@ function loadPhase(
 }
 
 /**
- * Checks the closed sets and the shape the page draws, and numbers the
- * phases by their position. A wrong value throws, so the build fails instead
+ * Checks the closed sets, the shape the page draws and the lists it keys by
+ * their values, and numbers the phases by their position. A wrong value throws, so the build fails instead
  * of drawing a missing icon or a lane outside the flow.
  */
 export function loadHowIWork(source: HowIWorkSource): HowIWorkContent {
@@ -91,10 +126,30 @@ export function loadHowIWork(source: HowIWorkSource): HowIWorkContent {
       `The page draws ${phaseCount} phases, the content has ${source.phases.length}`,
     );
   }
-  const ids = source.phases.map((phase) => phase.id);
-  if (new Set(ids).size !== ids.length) {
-    throw new Error(`Phase ids repeat: ${ids.join(", ")}`);
+  noRepeats(
+    source.phases.map((phase) => phase.id),
+    "Phase ids",
+  );
+  noRepeats(
+    source.flow.lanes.map((lane) => lane.label),
+    "Flow lane labels",
+  );
+  noRepeats(
+    source.tools.groups.map((group) => group.label),
+    "Tool groups",
+  );
+  for (const group of source.tools.groups) {
+    noRepeats(group.items, `Tools of group "${group.label}"`);
   }
+  noRepeats(
+    source.registered.facts.map((fact) => fact.term),
+    "Registered facts",
+  );
+  noRepeats(
+    source.offer.kinds.map((kind) => kind.title),
+    "Offer kinds",
+  );
+  noRepeats(source.offer.channels, "Offer channels");
   placeholderOnce(source.offer.reply, "replies", "The offer's reply line");
   return {
     ...source,

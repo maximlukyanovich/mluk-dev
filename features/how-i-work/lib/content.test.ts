@@ -4,7 +4,7 @@ import { locales, type Locale } from "@/shared/i18n/locales";
 import { jsonShape } from "@/shared/lib/json-shape";
 
 import { getHowIWork, howIWorkContent, loadHowIWork } from "./content";
-import type { HowIWorkSource } from "./types";
+import type { HowIWorkSource, PhaseSource } from "./types";
 
 /** A fresh copy of the English content, for a test to break. */
 const source = (): HowIWorkSource => structuredClone(howIWorkContent.en);
@@ -89,18 +89,90 @@ describe("loadHowIWork", () => {
     ]);
   });
 
-  it("refuses a flow of other than four phases", () => {
+  it.each([
+    ["three", (phases: PhaseSource[]) => phases.pop(), 3],
+    ["five", (phases: PhaseSource[]) => phases.push(phases[0]), 5],
+  ])("refuses a flow of %s phases", (_, change, count) => {
     const broken = source();
-    broken.phases.pop();
+    change(broken.phases);
     expect(() => loadHowIWork(broken)).toThrow(
-      "The page draws 4 phases, the content has 3",
+      `The page draws 4 phases, the content has ${count}`,
     );
   });
 
   it("refuses repeated phase ids", () => {
     const broken = source();
     broken.phases[3].id = "discover";
-    expect(() => loadHowIWork(broken)).toThrow("Phase ids repeat");
+    expect(() => loadHowIWork(broken)).toThrow('Phase ids repeat: "discover"');
+  });
+
+  it.each([
+    [
+      0,
+      [],
+      'The notes drawing of phase "discover" takes 1 or more captions, the content has 0',
+    ],
+    [
+      1,
+      ["a"],
+      'The variants drawing of phase "design" takes 0 captions, the content has 1',
+    ],
+    [
+      2,
+      ["a", "b"],
+      'The preview drawing of phase "build" takes 1 captions, the content has 2',
+    ],
+    [
+      3,
+      ["a"],
+      'The handover drawing of phase "launch" takes 2 captions, the content has 1',
+    ],
+  ])(
+    "refuses a drawing with the wrong captions: phase %s, %j",
+    (index, items, message) => {
+      const broken = source();
+      broken.phases[index].illustration.items = items;
+      expect(() => loadHowIWork(broken)).toThrow(message);
+    },
+  );
+
+  it.each<[string, (broken: HowIWorkSource) => void]>([
+    [
+      'Captions of phase "discover" repeat',
+      (b) =>
+        b.phases[0].illustration.items.push(b.phases[0].illustration.items[0]),
+    ],
+    [
+      'Step titles of phase "discover" repeat',
+      (b) => b.phases[0].steps.push(b.phases[0].steps[0]),
+    ],
+    [
+      'Lanes of phase "build" repeat',
+      (b) => b.phases[2].lanes.push(b.phases[2].lanes[0]),
+    ],
+    [
+      'Examples of phase "build" repeat',
+      (b) => b.phases[2].examples?.push(b.phases[2].examples[0]),
+    ],
+    ["Flow lane labels repeat", (b) => b.flow.lanes.push(b.flow.lanes[0])],
+    ["Tool groups repeat", (b) => b.tools.groups.push(b.tools.groups[0])],
+    [
+      `Tools of group "${howIWorkContent.en.tools.groups[0].label}" repeat`,
+      (b) => b.tools.groups[0].items.push(b.tools.groups[0].items[0]),
+    ],
+    [
+      "Registered facts repeat",
+      (b) => b.registered.facts.push(b.registered.facts[0]),
+    ],
+    ["Offer kinds repeat", (b) => b.offer.kinds.push(b.offer.kinds[0])],
+    [
+      'Offer channels repeat: "telegram"',
+      (b) => (b.offer.channels = ["telegram", "telegram"]),
+    ],
+  ])("refuses a repeat in a keyed list: %s", (message, change) => {
+    const broken = source();
+    change(broken);
+    expect(() => loadHowIWork(broken)).toThrow(message);
   });
 
   it("refuses an unknown channel", () => {

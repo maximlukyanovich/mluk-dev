@@ -13,7 +13,9 @@ type ContactTilesProps = {
 
 /**
  * The channel tiles in the kit's card grid — the contact page's and How I
- * work's. A page with no channel to show leaves the list out.
+ * work's. It draws the list it is given, even an empty one: the caller
+ * decides whether to show it — How I work leaves it out with no channel to
+ * show, the contact page always draws it.
  */
 export function ContactTiles({
   channels,

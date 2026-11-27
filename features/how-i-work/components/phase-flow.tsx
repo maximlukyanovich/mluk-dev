@@ -2,6 +2,7 @@ import { Check, RefreshCw } from "lucide-react";
 
 import type { Dictionary } from "@/shared/i18n/dictionaries";
 
+import { twoDigits } from "../lib/number";
 import type { Column, FlowLane, Phase } from "../lib/types";
 import { Lane } from "./lane";
 
@@ -23,8 +24,6 @@ const end: Record<Column, string> = {
   4: "split:col-end-5",
 };
 
-const number = (n: number) => String(n).padStart(2, "0");
-
 type PhaseFlowProps = {
   phases: Phase[];
   lanes: FlowLane[];
@@ -45,10 +44,10 @@ export function PhaseFlow({ phases, lanes, copy }: PhaseFlowProps) {
         {phases.map((phase) => (
           <li
             key={phase.id}
-            className="mk-glass relative flex flex-col gap-2.5 rounded-card px-4.5 pt-4.5 pb-4 not-first:before:absolute not-first:before:-top-3.5 not-first:before:left-1/2 not-first:before:font-mono not-first:before:text-muted not-first:before:content-['↓'_/_''] split:not-first:before:top-6.5 split:not-first:before:-left-3 split:not-first:before:-translate-x-1/2 split:not-first:before:content-['→'_/_'']"
+            className="mk-glass relative flex flex-col gap-2.5 rounded-card px-4.5 pt-4.5 pb-4 not-first:before:absolute not-first:before:-top-3.5 not-first:before:left-1/2 not-first:before:-translate-x-1/2 not-first:before:font-mono not-first:before:text-muted not-first:before:content-['↓'_/_''] split:not-first:before:top-6.5 split:not-first:before:-left-3 split:not-first:before:content-['→'_/_'']"
           >
             <span className="mk-card-meta p-0">
-              <span className="mk-card-no">{number(phase.number)}</span>
+              <span className="mk-card-no">{twoDigits(phase.number)}</span>
               {phase.loop && (
                 <span className="mk-loop">
                   <RefreshCw aria-hidden="true" strokeWidth={1.8} />

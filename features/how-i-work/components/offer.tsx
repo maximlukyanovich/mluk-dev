@@ -5,9 +5,8 @@ import type { Dictionary } from "@/shared/i18n/dictionaries";
 import { localePath, type Locale } from "@/shared/i18n/locales";
 import type { ChannelId } from "@/shared/lib/site";
 
+import { twoDigits } from "../lib/number";
 import type { HowIWorkContent } from "../lib/types";
-
-const number = (n: number) => String(n).padStart(2, "0");
 
 /** The kinds of site: How-K2's three cards, 240px at the least. */
 const kindsGrid = "grid-cols-[repeat(auto-fit,minmax(240px,1fr))]";
@@ -57,7 +56,7 @@ export function Offer({ locale, offer, copy, tiles, replies }: OfferProps) {
             className="mk-card gap-2 border border-line bg-bg p-4.5"
           >
             <span className="mk-card-meta p-0">
-              <span className="mk-card-no">{number(index + 1)}</span>
+              <span className="mk-card-no">{twoDigits(index + 1)}</span>
               <span>{kind.meta}</span>
             </span>
             <h3 className="mt-1.5 font-display text-display-card">
@@ -70,7 +69,10 @@ export function Offer({ locale, offer, copy, tiles, replies }: OfferProps) {
       {tiles(offer.channels, tilesGrid)}
       <p className="m-0 font-mono text-meta text-muted">
         {offer.reply.replace("{replies}", replies)}{" "}
-        <Link className="mk-link" href={localePath(locale, "/contact")}>
+        <Link
+          className="text-peri transition-[color] duration-(--duration-fast) ease-[ease] hover:text-fg"
+          href={localePath(locale, "/contact")}
+        >
           {copy.allContacts} <span aria-hidden="true">→</span>
         </Link>
       </p>

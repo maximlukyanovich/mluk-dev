@@ -3,12 +3,11 @@ import type { ReactNode } from "react";
 
 import type { Dictionary } from "@/shared/i18n/dictionaries";
 
+import { twoDigits } from "../lib/number";
 import type { Phase } from "../lib/types";
 import { Lane } from "./lane";
 import { PhaseIllustration } from "./phase-illustration";
 import { StepIcon } from "./step-icon";
-
-const number = (n: number) => String(n).padStart(2, "0");
 
 type PhaseSectionProps = {
   phase: Phase;
@@ -52,7 +51,7 @@ export function PhaseSection({ phase, copy, ribbon, post }: PhaseSectionProps) {
           className="inline-flex size-10 items-center justify-center rounded-full bg-lime font-mono text-meta font-semibold text-on-lime"
           aria-hidden="true"
         >
-          {number(phase.number)}
+          {twoDigits(phase.number)}
         </span>
         <h2
           id={`${phase.id}-title`}

@@ -11,5 +11,10 @@ export function getContact(locale: Locale): ContactContent {
   return content[locale];
 }
 
+/** How soon a reply comes in `locale`: the value of "within {replies}". */
+export function replyTime(locale: Locale): string {
+  return content[locale].replies;
+}
+
 /** Both locales' raw content, for the tests that read the real data. */
 export const contactContent = { en, ru };

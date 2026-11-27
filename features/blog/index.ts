@@ -4,6 +4,7 @@ export {
   writingListMetadata,
   type WritingQuery,
 } from "./components/blog-index";
+export { PostBadge } from "./components/post-badge";
 export { mdxComponents } from "./components/post-body";
 export { RecentPosts } from "./components/recent-posts";
 export { coverMeta, coverPath } from "./lib/cover";

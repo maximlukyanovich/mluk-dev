@@ -3,6 +3,7 @@ export { CvPrint } from "./components/cv-print";
 export { ExperienceStrip } from "./components/experience-strip";
 export { Intro } from "./components/intro";
 export { ProfileCard } from "./components/profile-card";
+export { availability } from "./lib/availability";
 export { getCv, getProfile } from "./lib/content";
 export { cvPdfPath } from "./lib/pdf";
 export { getCvPages } from "./lib/sitemap";

@@ -6,7 +6,7 @@ import { visibleChannels } from "../lib/channels";
 import { getContact } from "../lib/content";
 import { utcOffsetNow } from "../lib/offset-now";
 import { contactPageJsonLd } from "../lib/structured-data";
-import { ChannelTile } from "./channel-tile";
+import { ContactTiles } from "./contact-tiles";
 import { LocalTime } from "./local-time";
 
 type ContactPageProps = {
@@ -38,13 +38,12 @@ export async function ContactPage({ locale, dictionary }: ContactPageProps) {
         </h1>
         <p className="mt-4 text-lead text-muted">{copy.lead}</p>
       </header>
-      <ul className="mk-cards mt-7 sm:mt-10" aria-label={copy.channels}>
-        {visibleChannels(locale).map((channel) => (
-          <li key={channel.id}>
-            <ChannelTile channel={channel} newTab={dictionary.site.newTab} />
-          </li>
-        ))}
-      </ul>
+      <ContactTiles
+        className="mt-7 sm:mt-10"
+        channels={visibleChannels(locale)}
+        label={copy.channels}
+        newTab={dictionary.site.newTab}
+      />
       <ul className="mk-status-row mk-glass mt-8" aria-label={copy.status}>
         <li className="mk-status-row-lead">
           <span className="mk-dot" />

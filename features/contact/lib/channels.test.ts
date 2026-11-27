@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { Channel, ChannelId } from "@/shared/lib/site";
 import { jsonShape } from "@/shared/lib/json-shape";
 
-import { joinChannels, visibleChannels } from "./channels";
+import { joinChannels, pickChannels, visibleChannels } from "./channels";
 import { contactContent } from "./content";
 
 const known: Record<ChannelId, Channel> = {
@@ -53,6 +53,46 @@ describe("joinChannels", () => {
 
   it.each(["fax", "toString"])("refuses an unknown channel: %s", (id) => {
     expect(() => joinChannels([tile(id)], known)).toThrow(
+      `Unknown contact channel "${id}"`,
+    );
+  });
+});
+
+describe("pickChannels", () => {
+  const visible = joinChannels(
+    ["telegram", "linkedin", "github"].map(tile),
+    known,
+  );
+
+  it("keeps the order of the ids and numbers the tiles again", () => {
+    expect(
+      pickChannels(visible, ["github", "telegram"]).map(({ id, number }) => [
+        id,
+        number,
+      ]),
+    ).toEqual([
+      ["github", 1],
+      ["telegram", 2],
+    ]);
+  });
+
+  it("leaves out a channel the contact page hides for want of an address", () => {
+    expect(
+      pickChannels(visible, ["email", "telegram", "whatsapp"]).map(
+        ({ id, number }) => [id, number],
+      ),
+    ).toEqual([["telegram", 1]]);
+  });
+
+  it("keeps the tile's labels from the contact page", () => {
+    expect(pickChannels(visible, ["linkedin"])[0]).toEqual({
+      ...visible[1],
+      number: 1,
+    });
+  });
+
+  it.each(["fax", "toString"])("refuses an unknown channel: %s", (id) => {
+    expect(() => pickChannels(visible, [id])).toThrow(
       `Unknown contact channel "${id}"`,
     );
   });

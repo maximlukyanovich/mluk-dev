@@ -36,6 +36,28 @@ export function joinChannels(
   return shown;
 }
 
+/**
+ * The tiles another page shows: those of `ids`, in that order, that the
+ * contact page shows — a channel without an address stays hidden — numbered
+ * again among them. An id with no channel throws, so the build fails.
+ */
+export function pickChannels(
+  visible: readonly VisibleChannel[],
+  ids: readonly string[],
+): VisibleChannel[] {
+  const picked: VisibleChannel[] = [];
+  for (const id of ids) {
+    if (!Object.hasOwn(channels, id)) {
+      throw new Error(
+        `Unknown contact channel "${id}"; expected one of ${Object.keys(channels).join(", ")}`,
+      );
+    }
+    const channel = visible.find((shown) => shown.id === id);
+    if (channel) picked.push({ ...channel, number: picked.length + 1 });
+  }
+  return picked;
+}
+
 /** The channel tiles of `locale` that have an address. */
 export function visibleChannels(locale: Locale): VisibleChannel[] {
   return joinChannels(getContact(locale).channels, channels);

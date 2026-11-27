@@ -5,6 +5,7 @@ import type { Dictionary } from "@/shared/i18n/dictionaries";
 import { localePath, type Locale } from "@/shared/i18n/locales";
 import { buttonVariants } from "@/shared/ui/button";
 
+import { availability } from "../lib/availability";
 import { cvPdfPath } from "../lib/pdf";
 import type { CvContent } from "../lib/types";
 import { Photo } from "./photo";
@@ -40,9 +41,7 @@ export function CvIntro({ locale, cv, dictionary }: CvIntroProps) {
         <div className="min-w-0 flex-[1_1_320px]">
           <p className="mk-eyebrow">
             <span className="mk-dot" aria-hidden="true" />
-            {profile.openToWork
-              ? `${dictionary.home.openToWork} · ${profile.city}`
-              : profile.city}
+            {availability(profile, dictionary.home)}
           </p>
           <h1 className="mt-3.5 max-w-[980px] font-display text-display-title text-balance">
             {name}

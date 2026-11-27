@@ -44,8 +44,8 @@ body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--fo
 .mk-wordmark { font-family: var(--font-mono); font-size: 14px; font-weight: 500; line-height: 1; letter-spacing: -0.01em; color: var(--fg); text-decoration: none; white-space: nowrap; }
 .mk-wordmark .mk-wordmark-dot { color: var(--lime); }
 .mk-wordmark-lg { font-size: 40px; }
-.mk-favicon { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 12px; background: var(--fg); color: var(--bg); font-family: var(--font-mono); font-size: 24px; font-weight: 600; line-height: 1; }
-.mk-favicon .mk-wordmark-dot { color: var(--lime); }
+.mk-favicon { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 12px; background: var(--bg); color: var(--fg); font-family: var(--font-mono); font-size: 34px; font-weight: 600; line-height: 1; }
+.mk-favicon .mk-wordmark-dot { color: var(--lime); margin-left: -0.24em; }
 .mk-favicon-sm { width: 16px; height: 16px; border-radius: 4px; font-size: 11px; }
 
 /* ── Buttons ──────────────────────────────────────────── */

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 
 import { getDictionary, getLocale } from "@/shared/i18n/get-dictionary";
 import { locales, ogLocale } from "@/shared/i18n/locales";
+import { manifestPath } from "@/shared/lib/manifest";
 import { siteUrl } from "@/shared/lib/site";
 import { fontVariables } from "@/shared/ui/fonts";
 import { themeColor } from "@/shared/ui/theme-color";
@@ -21,6 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(siteUrl),
     title: { default: meta.siteName, template: `%s · ${meta.siteName}` },
     description: meta.description,
+    manifest: manifestPath(locale),
     openGraph: {
       siteName: meta.siteName,
       type: "website",

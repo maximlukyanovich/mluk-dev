@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 import { getWritingPages } from "@/features/blog";
 import { getContactPages } from "@/features/contact";
 import { getCvPages } from "@/features/cv";
+import { getHowIWorkPages } from "@/features/how-i-work";
 import { getProjectsPages } from "@/features/projects";
 import { locales } from "@/shared/i18n/locales";
 import { siteUrl } from "@/shared/lib/site";
@@ -20,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ...getWritingPages(),
       ...getCvPages(),
       ...getProjectsPages(),
+      ...getHowIWorkPages(),
       ...getContactPages(),
     ],
     siteUrl,

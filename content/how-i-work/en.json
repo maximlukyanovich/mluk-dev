@@ -4,6 +4,7 @@
   },
   "flow": {
     "lanes": [
+      { "label": "content — texts and photos (you)", "from": 2, "to": 3 },
       { "label": "technical plan", "from": 2, "to": 2 },
       { "label": "integrations", "from": 3, "to": 3 }
     ]

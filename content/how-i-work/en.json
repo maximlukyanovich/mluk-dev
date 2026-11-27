@@ -1,0 +1,219 @@
+{
+  "hero": {
+    "lead": "From an idea to a site that is live and handed over to you. Design is one part of it: the idea, the logic, the code, the launch and the handover get the same care."
+  },
+  "flow": {
+    "lanes": [
+      { "label": "technical plan", "from": 2, "to": 2 },
+      { "label": "integrations", "from": 3, "to": 3 }
+    ]
+  },
+  "phases": [
+    {
+      "id": "discover",
+      "title": "Discover",
+      "summary": "The idea, the business logic and, when the project needs it, a spec.",
+      "loop": "questions ↔ answers",
+      "outcome": "scenarios and the spec",
+      "illustration": {
+        "kind": "notes",
+        "label": "Notes turning into scenarios",
+        "items": ["goal", "audience", "scenario →", "limits"]
+      },
+      "steps": [
+        {
+          "icon": "lightbulb",
+          "title": "Idea review",
+          "text": "Goals, audience, what the site must and must not do."
+        },
+        {
+          "icon": "workflow",
+          "title": "Business logic",
+          "text": "Scenarios step by step: who comes, what they do, what happens next."
+        },
+        {
+          "icon": "file-text",
+          "title": "Spec, if needed",
+          "text": "Pages, features, integrations and limits in writing."
+        }
+      ],
+      "lanes": []
+    },
+    {
+      "id": "design",
+      "title": "Design",
+      "summary": "From the whole to the details — each level approved before the next.",
+      "loop": "variants → comments → revise",
+      "outcome": "concept, components, pages",
+      "illustration": {
+        "kind": "variants",
+        "label": "Variants with one chosen",
+        "items": []
+      },
+      "steps": [
+        {
+          "icon": "layers-2",
+          "title": "Overall concept",
+          "text": "Several directions for the whole site; one is chosen."
+        },
+        {
+          "icon": "panels-top-left",
+          "title": "Page concepts",
+          "text": "Key pages in variants on one canvas."
+        },
+        {
+          "icon": "grid-2x2-plus",
+          "title": "Components and the kit",
+          "text": "Each element in variants, decided one by one; the design system is built from them."
+        },
+        {
+          "icon": "panels-top-left",
+          "title": "All pages",
+          "text": "Every page from the kit, in both themes and languages."
+        }
+      ],
+      "lanes": [
+        "Content — texts and photos (you)",
+        "Technical plan — stack, hosting, integrations (me)"
+      ],
+      "examples": ["my-tale", "mluk-dev", "project-03"],
+      "post": {
+        "slug": "how-this-site-was-designed",
+        "text": "The whole path of this site's design is in {post}."
+      }
+    },
+    {
+      "id": "build",
+      "title": "Build",
+      "summary": "Short slices, each one on its own preview link.",
+      "loop": "build → preview → feedback → fix",
+      "outcome": "each slice on its preview",
+      "illustration": {
+        "kind": "preview",
+        "label": "A preview link per change",
+        "items": ["preview · slice 7"]
+      },
+      "steps": [
+        {
+          "icon": "terminal",
+          "title": "Start in one command",
+          "text": "The repository, its rules, checks and workflow set up from a short brief with my own Claude Code plugin libraries."
+        },
+        {
+          "icon": "git-pull-request",
+          "title": "Short slices",
+          "text": "Each change gets a preview link; you review the work as it goes."
+        },
+        {
+          "icon": "circle-check",
+          "title": "Checks",
+          "text": "Tests, accessibility, both themes and languages before a slice is done."
+        }
+      ],
+      "lanes": ["Content filling", "Integrations — forms, analytics, payments"],
+      "examples": ["my-tale", "mluk-dev", "project-03"]
+    },
+    {
+      "id": "launch",
+      "title": "Launch & handover",
+      "summary": "The site goes live and everything moves into your name.",
+      "outcome": "the live site",
+      "illustration": {
+        "kind": "handover",
+        "label": "Domain and handover",
+        "items": ["your-domain.com", "repo · accesses · docs"]
+      },
+      "steps": [
+        {
+          "icon": "globe",
+          "title": "Launch",
+          "text": "Domain, hosting, HTTPS, analytics, search basics."
+        },
+        {
+          "icon": "key-round",
+          "title": "Handover",
+          "text": "Repository, accesses and short docs; a walkthrough of updating content."
+        },
+        {
+          "icon": "life-buoy",
+          "title": "Support",
+          "text": "[support terms]"
+        }
+      ],
+      "lanes": []
+    }
+  ],
+  "canvas": {
+    "title": "You choose on a canvas",
+    "text": "Concepts, components and pages come as variants side by side, with a recommendation on each. You compare them, comment right on the design and pick one; the choice is marked and the next step builds on it. Nothing is coded before it is approved.",
+    "label": "Three design variants, one chosen"
+  },
+  "command": {
+    "title": "A project starts in one command",
+    "text": "I keep my own plugin libraries for Claude Code. From a short brief they set up the repository, its rules, checks and the commit and review flow — this site was started that way. Less setup, the same quality bar on every project.",
+    "project": "mluk-dev"
+  },
+  "tools": {
+    "title": "Tools",
+    "groups": [
+      {
+        "label": "Design",
+        "items": [
+          "Claude design canvas",
+          "Design system kit",
+          "Figma — if you use it"
+        ]
+      },
+      {
+        "label": "Code",
+        "items": ["Next.js", "React", "TypeScript", "Tailwind CSS", "MDX"]
+      },
+      {
+        "label": "AI workflow",
+        "items": ["Claude Code", "Own plugin libraries"]
+      },
+      {
+        "label": "Hosting",
+        "items": ["Vercel", "Cloudflare DNS", "[your hosting]"]
+      },
+      {
+        "label": "Quality",
+        "items": ["Playwright", "ESLint", "Prettier", "Accessibility checks"]
+      }
+    ]
+  },
+  "registered": {
+    "title": "How I am registered",
+    "text": "Work goes under a contract with invoices and closing documents; prices are fixed per step or per project before the work starts.",
+    "facts": [
+      { "term": "Status", "value": "[self-employed / sole proprietor]" },
+      { "term": "Country", "value": "[Country]" },
+      { "term": "Tax ID", "value": "[number]" },
+      { "term": "Contract", "value": "[contract or offer]" },
+      { "term": "Payment", "value": "[bank transfer · card · in parts]" }
+    ]
+  },
+  "offer": {
+    "title": "Want a site like this one?",
+    "text": "A few days of development and agreeing the requirements — or longer, for something bigger.",
+    "kinds": [
+      {
+        "meta": "[a few days]",
+        "title": "Personal or business card site",
+        "text": "Like this one, or a few pages about you and what you offer."
+      },
+      {
+        "meta": "[from N days]",
+        "title": "Shop or service site",
+        "text": "A catalogue or price list, a request or booking form."
+      },
+      {
+        "meta": "[by estimate]",
+        "title": "Something bigger",
+        "text": "Every requirement taken into account, with support and room to grow."
+      }
+    ],
+    "channels": ["email", "telegram", "whatsapp"],
+    "reply": "Tell me about the idea in a few lines — I reply within {replies}."
+  }
+}

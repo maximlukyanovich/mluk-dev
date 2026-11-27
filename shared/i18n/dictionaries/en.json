@@ -148,6 +148,18 @@
     "replies": "Replies",
     "repliesWithin": "within {replies}"
   },
+  "howIWork": {
+    "title": "How I work",
+    "description": "How Maxim Lukyanovich works on a site: from the idea and the design to the launch and the handover.",
+    "startProject": "Start a project",
+    "seeProjects": "See projects",
+    "repeats": "repeats",
+    "inParallel": "in parallel",
+    "outcome": "Result",
+    "doneThisWay": "Done this way",
+    "allContacts": "All contacts",
+    "blog": "More on how I work — in the blog"
+  },
   "writing": {
     "title": "Writing",
     "lead": "Notes on building for the web — Next.js, CSS, i18n and the decisions behind this site.",

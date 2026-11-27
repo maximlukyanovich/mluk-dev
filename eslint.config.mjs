@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The developer's gitignored notes and scratch tooling; a clone has none.
+    "docs/local/**",
   ]),
 ]);
 
